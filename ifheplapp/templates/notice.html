@@ -1,0 +1,63 @@
+{% extends 'extends/base.html' %}
+{% block title %}Notice{% endblock title %}
+
+
+{% block ogtitle %}Notice{% endblock ogtitle %}
+
+{% block style %}
+<style>
+    @media screen and (max-width: 768px) {
+        .notice_board {
+            max-width: 95% !important;
+        }
+    }
+
+    .notice_board {
+        background-color: transparent !important;
+        padding: 10px !important;
+    }
+
+    th {
+        background: none !important;
+    }
+
+    table {
+        /* background-color: transparent !important; */
+
+        border-color: transparent !important;
+    }
+</style>
+{% endblock style %}
+{% block body %}
+<div class="row1" style="background-color: rgb(255, 255, 240);">
+    
+    <div class="container notice_board" style="max-width: 60%;">
+    {% if notices %}
+        <div class="my-4 text-center">
+            {% for notice in notices|slice:":1" %}
+            <h4>Notice : {{notice.notice_type}}</h4>
+            {% endfor %}
+        </div>
+        <div style="border: 1px solid grey; overflow-wrap: break-word; padding: 10px !important;">
+            {% for notice in notices %}
+            <table>
+                <th style="width: 45px !important;">
+                    <img src="/static/images/pdf_icon.jpg" style="height: 30px !important;" alt="">
+                </th>
+                <th>
+                    <a href="/media/{{notice.doc}}" target="__blank" style="text-decoration: none; color: darkslategray;">{{notice.title}} <img src="/static/images/icon_new.gif" style="height: 15px;"> </a>
+                </th>
+            </table>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="my-2 text-center">
+      <img src="/static/images/unnamed.png" style="width: 768px;" alt="">
+    </div>
+    {% endif %}
+    </div>
+</div>
+{% block script %}
+
+{% endblock script %}
+{% endblock body %}

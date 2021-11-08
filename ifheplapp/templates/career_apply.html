@@ -1,0 +1,554 @@
+{% extends 'extends/base.html' %}
+{% for job in jobs %}
+{% block title %}{{job.title}}{% endblock title %}
+{% block ogtitle %}{{job.title}}{% endblock ogtitle %}
+{% endfor %}
+
+
+
+{% block ogurl %}{% endblock ogurl %}
+{% block style %}
+
+{% endblock style %}
+{% block body %}
+<div class="row1" style="background-color: rgb(255, 255, 240);">
+  <div class="container" style="max-width: 60%;">
+    <div class="my-4 text-center">
+      {% for job in jobs %}
+      <h3>Applying for: <strong style="color: red;"> {{job.title}}</strong></h3>
+      {% endfor %}
+    </div>
+    <form id="msform" method="POST" action="/job_submit" enctype="multipart/form-data"> {% csrf_token %}
+      {% for job in jobs %}
+      <input type="hidden" name="applied_for" value="{{job.title}}">
+      {% endfor %}
+      <h4 class="my-3">Personal Details </h4>
+      <div class="mb-3 row">
+        <div class="col-md-3">
+          <label for="name" class="form-label">Name <span style="color: red;">*</span></label>
+        </div>
+        <div class="col-md-9">
+          <input type="text" name="name" class="form-control" id="name" aria-describedby="name" required>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-md-3">
+          <label for="dob" class="form-label">Date of Birth <span style="color: red;">*</span></label>
+        </div>
+        <div class="col-md-9">
+          <input type="date" name="dob" class="form-control" id="dob" aria-describedby="dob" required>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-md-3">
+          <label for="idp" class="form-label">Identity Proof <span style="color: red;">*</span></label>
+        </div>
+        <!-- <div class="col-md-3"></div> -->
+        <div class="col-md-9 row">
+          <div class="col-md">
+            <div class="mb-3 row">
+              <div class="col-md">
+                <select class="form-select" name="idtype" id="idtype" onchange="changeFunc();" aria-label="District">
+                  <option selected>Select Document Proof</option>
+                  <option value="Aadhar Card">Aadhar Card</option>
+                  <option value="PAN Card">PAN Card</option>
+                  <option value="Driving License">Driving License</option>
+                  <option value="Voter ID">Voter ID</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="mb-3 row">
+              <div class="col-md">
+                <input type="text" class="form-control" minlength="12" maxlength="12" name="id_proof1" id="acid"
+                  aria-describedby="id">
+                <input type="text" class="form-control" minlength="10" maxlength="10" name="id_proof2" id="pcid"
+                  aria-describedby="id">
+                <input type="text" class="form-control" minlength="10" maxlength="10" name="id_proof3" id="dlid"
+                  aria-describedby="id">
+                <input type="text" class="form-control" minlength="10" maxlength="10" name="id_proof4" id="viid"
+                  aria-describedby="id">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-md-3">
+          <label for="fname" class="form-label">Father's Name <span style="color: red;">*</span></label>
+        </div>
+        <div class="col-md-9">
+          <input type="text" class="form-control" name="father_name" id="fname" aria-describedby="name" required>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-md-3">
+          <label for="mname" class="form-label">Mother's Name <span style="color: red;">*</span></label>
+        </div>
+        <div class="col-md-9">
+          <input type="text" class="form-control" name="mother_name" id="mname" aria-describedby="name" required>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-md-3">
+          <label for="category" class="form-label">Category <span style="color: red;">*</span></label>
+        </div>
+        <div class="col-md-9 row">
+          <div class="form-check col-md-2">
+            <input class="form-check-input" type="radio" name="category" value="General" id="category">
+            <label class="form-check-label" for="category"> General </label>
+          </div>
+          <div class="form-check col-md-2">
+            <input class="form-check-input" type="radio" name="category" value="OBC" id="category">
+            <label class="form-check-label" for="category"> OBC </label>
+          </div>
+          <div class="form-check col-md-2">
+            <input class="form-check-input" type="radio" name="category" value="SC/ST" id="category">
+            <label class="form-check-label" for="category"> SC/ST </label>
+          </div>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-md-3">
+          <label for="disability" class="form-label">Disability <span style="color: red;">*</span></label>
+        </div>
+        <div class="row col-md-9">
+          <div class="form-check col-md-2">
+            <input class="form-check-input" type="radio" name="disability" value="General" id="disability">
+            <label class="form-check-label" for="disability"> Yes </label>
+          </div>
+          <div class="form-check col-md-2">
+            <input class="form-check-input" type="radio" name="disability" value="OBC" id="disability">
+            <label class="form-check-label" for="disability"> No </label>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="row"> -->
+      <div class="mb-3 row">
+        <div class="col-md-3">
+          <label for="mob" class="form-label">Mobile No. <span style="color: red;">*</span></label>
+        </div>
+        <div class="col-md-9">
+          <input type="tel" maxlength="10" minlength="10" name="mobile_number" class="form-control" id="mob"
+            aria-describedby="mob">
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-md-3">
+          <label for="amob" class="form-label">Alternate Mobile No.</label>
+        </div>
+        <div class="col-md-9">
+          <input type="tel" maxlength="10" minlength="10" name="alt_mobile_no" class="form-control" id="amob"
+            aria-describedby="amob">
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-md-3">
+          <label for="email" class="form-label">Email ID <span style="color: red;">*</span></label>
+        </div>
+        <div class="col-md-9">
+          <input type="email" class="form-control" name="email" id="email" aria-describedby="email" required>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-md-3">
+          <label for="address" class="form-label">Address <span style="color: red;">*</span></label>
+        </div>
+        <div class="col-md-9 row">
+          <div class="col-md">
+            <div class="mb-3 row">
+              <div class="col-md-3">
+                <label for="village" class="form-label">Village</label>
+              </div>
+              <div class="col-md-9">
+                <input type="text" class="form-control" name="village" id="village" aria-describedby="village" required>
+              </div>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="mb-3 row">
+              <div class="col-md-3">
+                <label for="po" class="form-label">P.O.</label>
+              </div>
+              <div class="col-md-9">
+                <input type="text" class="form-control" name="po" id="po" aria-describedby="po" required>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3"></div>
+        <div class="col-md-9 row">
+          <div class="col-md">
+            <div class="mb-3 row">
+              <div class="col-md-3">
+                <label for="ps" class="form-label">P.S.</label>
+              </div>
+              <div class="col-md-9">
+                <input type="text" class="form-control" name="ps" id="ps" aria-describedby="ps" required>
+              </div>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="mb-3 row">
+              <div class="col-md-3">
+                <label for="block" class="form-label">Block</label>
+              </div>
+              <div class="col-md-9">
+                <input type="block" class="form-control" name="block" id="block" aria-describedby="block" required>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3"></div>
+        <div class="col-md-9 row">
+          <div class="col-md">
+            <div class="mb-3 row">
+              <div class="col-md-3">
+                <label for="district" class="form-label">District</label>
+              </div>
+              <div class="col-md-9">
+                <select class="form-select" name="district" aria-label="District">
+                  <option selected>Open to select District</option>
+                  <option value="Araria">Araria</option>
+                  <option value="Arwal">Arwal</option>
+                  <option value="Aurangabad">Aurangabad</option>
+                  <option value="Banka">Banka</option>
+                  <option value="Begusarai">Begusarai</option>
+                  <option value="Bhabhua">Bhabhua</option>
+                  <option value="Bhagalpur">Bhagalpur</option>
+                  <option value="Bhojpur">Bhojpur</option>
+                  <option value="Buxar">Buxar</option>
+                  <option value="Darbhanga">Darbhanga</option>
+                  <option value="East Champaran">East Champaran</option>
+                  <option value="Gaya">Gaya</option>
+                  <option value="Gopalganj">Gopalganj</option>
+                  <option value="Jamui">Jamui</option>
+                  <option value="Jehanabad">Jehanabad</option>
+                  <option value="Katihar">Katihar</option>
+                  <option value="Khagaria">Khagaria</option>
+                  <option value="Kishanganj">Kishanganj</option>
+                  <option value="Lakhisarai">Lakhisarai</option>
+                  <option value="Madhepura">Madhepura</option>
+                  <option value="Madhubani">Madhubani</option>
+                  <option value="Monghyr">Monghyr</option>
+                  <option value="Muzaffarpur">Muzaffarpur</option>
+                  <option value="Nalanda">Nalanda</option>
+                  <option value="Nawada">Nawada</option>
+                  <option value="Patna">Patna</option>
+                  <option value="Purnea">Purnea</option>
+                  <option value="Rohtas">Rohtas</option>
+                  <option value="Saharsa">Saharsa</option>
+                  <option value="Samastipur">Samastipur</option>
+                  <option value="Saran">Saran</option>
+                  <option value="Sheikhpura">Sheikhpura</option>
+                  <option value="Sheohar">Sheohar</option>
+                  <option value="Sitamarhi">Sitamarhi</option>
+                  <option value="Siwan">Siwan</option>
+                  <option value="Supaul">Supaul</option>
+                  <option value="Vaishali">Vaishali</option>
+                  <option value="West Champaran">West Champaran</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="mb-3 row">
+              <div class="col-md-3">
+                <label for="state" class="form-label">State</label>
+              </div>
+              <div class="col-md-9">
+                <select class="form-select" name="state" aria-label="state">
+                  <option value="Bihar" selected>Bihar</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3"></div>
+        <div class="col-md-9 row">
+          <div class="col-md-6">
+            <div class="mb-3 row">
+              <div class="col-md-3">
+                <label for="pinc" class="form-label">Pin Code</label>
+              </div>
+              <div class="col-md-9">
+                <input type="text" class="form-control" minlength="6" maxlength="6" name="pin_code" id="pinc"
+                  aria-describedby="pinc" required>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h4 class="my-3">EDUCATIONAL DETAILS</h4>
+      <h5 class="my-5">10th</h5>
+      <div class="mb-3 row">
+        <div class="col-md-3">
+          <label for="board10" class="form-label">BOARD/UNIVERSITY</label>
+        </div>
+        <div class="col-md-9">
+          <input type="text" class="form-control" name="board_10" id="board10" aria-describedby="board10">
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-md-3">
+          <label for="sch10" class="form-label">SCHOOL/INSTITUTE</label>
+        </div>
+        <div class="col-md-9">
+          <input type="text" class="form-control" name="school_10" id="sch10" aria-describedby="sch10">
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-md-3">
+          <label for="pass10" class="form-label">Passing Year</label>
+        </div>
+        <div class="col-md-9">
+          <input type="month" class="form-control" name="passing_10" id="pass10" aria-describedby="pass10">
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-md-3">
+          <label for="roll10" class="form-label">Roll Number</label>
+        </div>
+        <div class="col-md-9">
+          <input type="text" class="form-control" name="roll_10" id="roll10" aria-describedby="roll10">
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-md-3">
+          <label for="marks10" class="form-label">Marks/CGPA</label>
+        </div>
+        <div class="col-md-9">
+          <input type="text" class="form-control" name="mark_10" id="marks10" aria-describedby="marks10">
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-md-3">
+          <label for="perc10" class="form-label">Percentage</label>
+        </div>
+        <div class="col-md-9">
+          <input type="text" class="form-control" name="percentage_10" id="perc10" aria-describedby="perc10">
+        </div>
+      </div>
+      <h5 class="my-5">12th</h5>
+      <div class="mb-3 row">
+        <div class="col-md-3">
+          <label for="board12" class="form-label">BOARD/UNIVERSITY</label>
+        </div>
+        <div class="col-md-9">
+          <input type="text" class="form-control" name="board_12" id="board12" aria-describedby="board12">
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-md-3">
+          <label for="sch12" class="form-label">SCHOOL/INSTITUTE</label>
+        </div>
+        <div class="col-md-9">
+          <input type="text" class="form-control" name="school_12" id="sch12" aria-describedby="sch12">
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-md-3">
+          <label for="pass12" class="form-label">Passing Year</label>
+        </div>
+        <div class="col-md-9">
+          <input type="month" class="form-control" name="passing_12" id="pass12" aria-describedby="pass12">
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-md-3">
+          <label for="roll12" class="form-label">Roll Number</label>
+        </div>
+        <div class="col-md-9">
+          <input type="text" class="form-control" name="roll_12" id="roll12" aria-describedby="roll12">
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-md-3">
+          <label for="marks12" class="form-label">Marks/CGPA</label>
+        </div>
+        <div class="col-md-9">
+          <input type="text" class="form-control" name="mark_12" id="marks12" aria-describedby="marks12">
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-md-3">
+          <label for="perc12" class="form-label">Percentage</label>
+        </div>
+        <div class="col-md-9">
+          <input type="text" class="form-control" name="percentage_12" id="perc12" aria-describedby="perc12">
+        </div>
+      </div>
+      <h5 class="my-5">Graduation</h5>
+      <div class="mb-3 row">
+        <div class="col-md-3">
+          <label for="boardgrad" class="form-label">UNIVERSITY</label>
+        </div>
+        <div class="col-md-9">
+          <input type="text" class="form-control" name="univ_graduation" id="boardgrad" aria-describedby="boardgrad">
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-md-3">
+          <label for="schgrad" class="form-label">INSTITUTE</label>
+        </div>
+        <div class="col-md-9">
+          <input type="text" class="form-control" name="insti_graduation" id="schgrad" aria-describedby="schgrad">
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-md-3">
+          <label for="passgrad" class="form-label">Passing Year</label>
+        </div>
+        <div class="col-md-9">
+          <input type="month" class="form-control" name="passing_graduation" id="passgrad" aria-describedby="passgrad">
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-md-3">
+          <label for="rollgrad" class="form-label">Roll Number</label>
+        </div>
+        <div class="col-md-9">
+          <input type="text" class="form-control" name="roll_graduation" id="rollgrad" aria-describedby="rollgrad">
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-md-3">
+          <label for="marksgrad" class="form-label">Marks/CGPA</label>
+        </div>
+        <div class="col-md-9">
+          <input type="text" class="form-control" name="mark_graduation" id="marksgrad" aria-describedby="marksgrad">
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-md-3">
+          <label for="percgrad" class="form-label">Percentage</label>
+        </div>
+        <div class="col-md-9">
+          <input type="text" class="form-control" name="percentage_graduation" id="percgrad"
+            aria-describedby="percgrad">
+        </div>
+      </div>
+      <h5 class="my-5">Master Degree</h6>
+        <div class="mb-3 row">
+          <div class="col-md-3">
+            <label for="boardmd" class="form-label">UNIVERSITY</label>
+          </div>
+          <div class="col-md-9">
+            <input type="text" class="form-control" name="univ_master" id="boardmd" aria-describedby="boardmd">
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <div class="col-md-3">
+            <label for="schmd" class="form-label">INSTITUTE</label>
+          </div>
+          <div class="col-md-9">
+            <input type="text" class="form-control" name="insti_master" id="schmd" aria-describedby="schmd">
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <div class="col-md-3">
+            <label for="passmd" class="form-label">Passing Month Year</label>
+          </div>
+          <div class="col-md-9">
+            <input type="month" class="form-control" name="passing_master" id="passmd" aria-describedby="passmd">
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <div class="col-md-3">
+            <label for="rollmd" class="form-label">Roll Number</label>
+          </div>
+          <div class="col-md-9">
+            <input type="text" class="form-control" name="roll_master" id="rollmd" aria-describedby="rollmd">
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <div class="col-md-3">
+            <label for="marksmd" class="form-label">Marks/CGPA</label>
+          </div>
+          <div class="col-md-9">
+            <input type="text" class="form-control" name="mark_master" id="marksmd" aria-describedby="marksmd">
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <div class="col-md-3">
+            <label for="percmd" class="form-label">Percentage</label>
+          </div>
+          <div class="col-md-9">
+            <input type="text" class="form-control" name="percentage_master" id="percmd" aria-describedby="percmd">
+          </div>
+        </div>
+        <!-- <h4 class="my-3">EDUCATIONAL DETAILS</h4> -->
+        <h4 class="my-5">Upload Document</h4>
+        <div class="mb-3 row">
+          <div class="col-md-3">
+            <label for="edudoc" class="form-label">Educational Document</label>
+          </div>
+          <div class="col-md-9">
+            <input type="file" class="form-control" name="edudoc" id="edudoc" aria-describedby="edudoc">
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <div class="col-md-3">
+            <label for="imgs" class="form-label">Image</label>
+          </div>
+          <div class="col-md-9">
+            <input type="file" class="form-control" name="imgs" id="imgs" aria-describedby="imgs">
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <div class="col-md-3">
+            <label for="sign" class="form-label">Signature</label>
+          </div>
+          <div class="col-md-9">
+            <input type="file" class="form-control" name="sign" id="sign" aria-describedby="sign">
+          </div>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+  </div>
+</div>
+{% block script %}
+<script>
+  $(document).ready(function (e) {
+    $('#pcid').hide();
+    $('#acid').hide();
+    $('#dlid').hide();
+    $('#viid').hide();
+  })
+  function changeFunc(e) {
+    var selectedValue = $('#idtype').val();
+    if (selectedValue == "Aadhar Card") {
+      $('#pcid').hide();
+      $('#acid').show();
+      $('#dlid').hide();
+      $('#viid').hide();
+    }
+    else if (selectedValue == "PAN Card") {
+      $('#acid').hide();
+      $('#pcid').show();
+      $('#dlid').hide();
+      $('#viid').hide();
+    }
+    else if (selectedValue == "Driving License") {
+      $('#acid').hide();
+      $('#dlid').show();
+      $('#pcid').hide();
+      $('#viid').hide();
+    }
+    else if (selectedValue == "Voter ID") {
+      $('#acid').hide();
+      $('#pcid').hide();
+      $('#dlid').hide();
+      $('#viid').show();
+    }
+    else {
+      $('#pcid').hide();
+      $('#acid').hide();
+      $('#dlid').hide();
+      $('#viid').hide();
+    }
+  }
+</script>
+{% endblock script %}
+{% endblock body %}

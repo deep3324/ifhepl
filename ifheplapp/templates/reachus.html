@@ -1,0 +1,120 @@
+{% extends 'extends/base.html' %}
+{% block title %}Reach Us{% endblock title %}
+
+
+{% block ogtitle %}Reach Us{% endblock ogtitle %}
+
+{% block ogurl %}reach-us{% endblock ogurl %}
+{% block style %}
+<style>
+    #map iframe{
+  height: 400px;
+  /* The height is 400 pixels */
+  width: 100%;
+  /* The width is the width of the web page */
+}
+    .reach_form input, .reach_form textarea{
+        margin: 10px auto;
+        border: 1px solid #261C2C;
+    }
+    .reach_form input:focus, .reach_form textarea:active{
+        border: 1px solid blue;
+    }
+    .reach_form .left_details h3, .reach_form .left_details p, .reach_form .left_details ul li{
+        margin: 15px auto;
+        color: #261C2C;
+    }
+    .reach_form .left_details li{
+        text-decoration: none;
+        list-style: none;
+        font-size: 1.25rem;
+    }
+    .reach_form .left_details p{
+        font-size: 1.25rem;
+        color: #261C2C;
+    }
+    .reach_form .left_details a{
+        text-decoration: none;
+        list-style: none;
+        color: #261C2C;
+        font-size: 1.25rem;
+    }
+    .reach_form .left_details li i{
+        color: #261C2C !important;
+    }
+    .reach_form .left_details a:hover{
+        color: red;
+    }
+</style>
+{% endblock style %}
+{% block body %}
+<div class="row1" style="background-color: rgb(255, 255, 240);">
+    <div class="container">
+        <div class="my-2 text-center">
+            <h1 style="color: red; font-weight: 900;">Reach Us</h1>
+        </div>
+        <main class="hoc container clear">
+            <!-- main body -->
+            <div class="content">
+                <form action="/reachus_submit" method="POST" class="reach_form">
+                    <div class="row">{% csrf_token %}
+                        <div class="col-md-6 left_details">
+                            <h3 class="section-title">Our Address</h3>
+                            <p>Please send us your comments, feedback or message. We will get back to you!</p>
+                            <ul class="contact-info">
+                                <li><i class="fa fa-map-marker" style="  color: #261C2C " ></i>  302, Saraswati chandra bhawan <br> Industrial estate road, <br> Kurji, Patna 800010 (INDIA)
+                                </li>
+                                <!-- <li><i class="fa fa-mobile"></i> <a href="tel:+910000000000">+91 00000 00000</a></li> -->
+                                <li><i class="fa fa-envelope"></i> <a
+                                        href="mailto:care@ifhepl.in">care@ifhepl.in</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="name" placeholder="Name" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="tel" class="form-control" name="mobile" placeholder="Mobile" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="email" class="form-control" name="email" placeholder="Email (Optional)">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <textarea class="form-control" name="message" id="" cols="30" rows="7"
+                                            placeholder="Message" required></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <input type="submit" value="Send Message" class="btn btn-primary">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- / main body -->
+            <div class="clear"></div>
+        </main>
+        <div class="row">
+            <div class="col-md">
+                <div id="map">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3597.0363752838252!2d85.10647295061175!3d25.636918219930983!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39ed59d65125f1f5%3A0x645ccd57ed4b0684!2sSaraswati%20Chandra%20Bhawan%2C%20Boring%20Patliputra%20Rd%2C%20Kurji%2C%20Patna%2C%20Bihar%20800010!5e0!3m2!1sen!2sin!4v1629651010610!5m2!1sen!2sin"  height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% block script %}
+
+{% endblock script %}
+{% endblock body %}

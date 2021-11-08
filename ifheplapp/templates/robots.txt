@@ -1,0 +1,8 @@
+User-agent: *
+
+Disallow: /static/styles/
+Disallow: /static/scripts/
+Disallow: /api/
+
+
+Sitemap: https://ifhepl.in/sitemap.xml

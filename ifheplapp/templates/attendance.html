@@ -1,0 +1,90 @@
+{% extends 'extends/base.html' %}
+{% block title %}Login{% endblock title %}
+
+
+{% block ogtitle %}Login{% endblock ogtitle %}
+
+{% block ogurl %}login{% endblock ogurl %}
+{% block style %}
+<style>
+  .btn-sub {
+    border: 0;
+    background-color: #261C2C;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    border-radius: 25px;
+  }
+
+  .btn-sub:hover {
+    background-color: #381949;
+  }
+  .btn-sub1 {
+    border: 0;
+    background-color: #383838;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    border-radius: 25px;
+  }
+
+  .btn-sub1:hover {
+    background-color: #5c5c5c;
+  }
+  @media screen and (max-width: 800px) {
+    .cont{
+      max-width: 70% !important;
+    }
+  }
+</style>
+{% endblock style %}
+{% block body %}
+<!-- <div class="container hoc row1">
+    <div class="d-flex jsutify-content-center">
+        <h5>Help</h5>
+    </div> -->
+<div class="row1" style="background-color: rgb(255, 255, 240);">
+  <div class="container cont" style="max-width: 50%;">
+    <div class="my-4 text-center">
+      <h3>Attendance</h3>
+    </div>
+    <form id="msform" method="POST" action="/handleAttendance" enctype="multipart/form-data"> {% csrf_token %}
+      <div class="mb-3 row">
+        <div class="col-md-3">
+          <label for="image" class="form-label">Capture Image <span style="color: red;">*</span></label>
+        </div>
+        <div class="col-md-9">
+          <input type="file" accept="image/*" capture="camera" class="form-control" name="captureImage" aria-describedby="image">
+          <input type="hidden" name="lattitude" id="lattitude" value="">
+          <input type="hidden" name="longitude" id="longitude" value="">
+        </div>
+      </div>
+      <div class="my-4 text-center d-flex justify-content-center ">
+      {% if status == "show" %}
+        <button type="submit" class="btn-sub">Submit</button>
+        {% else %}
+        <button type="submit" disabled class="btn-sub1">Submit</button>
+      {% endif %}
+      </div>
+    </form>
+  </div>
+</div>
+{% block script %}
+<script>
+  var x = $("#longitude").val();
+  var y = $("#lattitude").val();
+  getLocation()
+  function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  }
+  }
+  function showPosition(position) {
+    $("#longitude").val(position.coords.longitude);
+    $("#lattitude").val(position.coords.latitude);
+  }
+  console.log(x)
+  console.log(y)
+</script>
+{% endblock script %}
+{% endblock body %}

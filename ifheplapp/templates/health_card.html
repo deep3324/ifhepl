@@ -1,0 +1,67 @@
+{% extends 'extends/base.html' %}
+{% block title %}Health Card{% endblock title %}
+
+
+{% block ogtitle %}Health Card{% endblock ogtitle %}
+
+{% block ogurl %}Health-Card{% endblock ogurl %}
+{% block style %}
+<style>
+    .btn-sub {
+    border: 0;
+    background-color: #261C2C;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1.25rem;
+    border-radius: 25px;
+  }
+
+  .btn-sub:hover {
+    background-color: #381949;
+    color: white;
+  }
+</style>
+{% endblock style %}
+{% block body %}
+<div class="row1" style="background-color: rgb(255, 255, 240);">
+    <div class="container" style="max-width: 60%;">
+        <div class="my-2 text-center">
+            <h2 style="color: red; font-weight: 900;"> Health card</h2>
+        </div>
+        <div class="my-5 row">
+            <div class="col-md">
+                <img src="/static/images/card/card-2.png" alt="">
+            </div>
+            <div class="col-md">
+                <img src="/static/images/card/card-2a.png" alt="">
+            </div>
+        </div>
+        <div class="my-2">
+            
+            <p><strong> हेल्थ कार्ड के फायदे।  ( BENEFITS OF HEALTH CARD. )  :</strong></p>
+            <ol>
+
+            <li> हमारी संगठन इस हेल्थ कार्ड को सबसे कम कीमत पर बनाती है। मात्र 119 रूपये।  ( Our organization makes  this Health Card at lowest price. Only Rs119. )</li>
+
+            <li> इस कार्ड से आप हमसे जुड़े सभी अस्पतालों में बीमारियों के इलाज पर 40% तक की छूट पा सकते हैं।  ( With this card, you can get up to 40% discount on the treatment of diseases in all the hospitals associated with us. )</li>
+
+            <li> इस कार्ड के साथ हमसे जुड़ें, आप  दवाखाना में  40% तक की छूट प्राप्त कर सकते हैं।  ( JOIN US WITH THIS CARD , YOU CAN GET UP TO 40% DISCOUNT ON MEDICAL. )</li>
+
+            <li> इस कार्ड के माध्यम से, हमारी संस्था कार्डधारक को 24×7 रक्त प्रदान कराती है जब उसे रक्त की आवश्यकता होती है।  ( Through this card , our organization provides 24×7 Blood to the Cardholder when he needs blood. )</li>
+
+            <li> इस कार्ड के माध्यम से कार्डधारक को हर तीन महीने में बिल्कुल मुफ्त स्वास्थ्य जांच प्रदान की जाती है। ( Through this card, health check-up is provided to the cardholder absolutely free of cost every three months. )</li>
+
+            <li> कार्डधारकों को हमारे संगठन से जुड़े सभी पैथोलैब पर 30% तक की छूट मिलती है।  ( Cardholders get up to 30% off at all patholab associated with our organization. )</li>
+
+            <li> स्वास्थ्य संबंधी जानकारी के लिए कार्डधारक दिए गए टोल फ्री नंबर पर कॉल कर प्रशिक्षित डॉक्टर से जानकारी प्राप्त कर सकते हैं।  ( For health related information, the card holders can call on the given toll free number and get information from the trained doctor. )</li>
+
+            <li> हमारे विशेषज्ञों द्वारा समय-समय पर कार्डधारकों को घरेलू उपचार / प्राथमिक उपचार का प्रशिक्षण निःशुल्क प्रदान किया जाता है।  ( Training of Home remedies / Primary remedies is provided free of cost to the cardholders by our experts  time to time. )</li>
+            </ol>
+        </div>
+        <a href="/card/Health-Card/apply" class="btn-sub">Apply Now</a>
+    </div>
+</div>
+{% block script %}
+
+{% endblock script %}
+{% endblock body %}

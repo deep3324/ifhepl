@@ -1,0 +1,65 @@
+{% extends 'extends/base.html' %}
+{% block title %}Login{% endblock title %}
+
+
+{% block ogtitle %}Login{% endblock ogtitle %}
+
+{% block ogurl %}login{% endblock ogurl %}
+{% block style %}
+<style>
+  .btn-sub {
+    border: 0;
+    background-color: #261C2C;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1.25rem;
+    border-radius: 25px;
+  }
+
+  .btn-sub:hover {
+    background-color: #381949;
+  }
+  @media screen and (max-width: 800px) {
+    .cont{
+      max-width: 70% !important;
+    }
+  }
+</style>
+{% endblock style %}
+{% block body %}
+<!-- <div class="container hoc row1">
+    <div class="d-flex jsutify-content-center">
+        <h5>Help</h5>
+    </div> -->
+<div class="row1" style="background-color: rgb(255, 255, 240);">
+  <div class="container cont" style="max-width: 50%;">
+    <div class="my-4 text-center">
+      <h3>Login</h3>
+    </div>
+    <form id="msform" method="POST" action="/handeLogin" enctype="multipart/form-data"> {% csrf_token %}
+      <div class="mb-3 row">
+        <div class="col-md-3">
+          <label for="username" class="form-label">Username <span style="color: red;">*</span></label>
+        </div>
+        <div class="col-md-9">
+          <input type="text" name="username" class="form-control" id="username" aria-describedby="username" required>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-md-3">
+          <label for="password" class="form-label">Password <span style="color: red;">*</span></label>
+        </div>
+        <div class="col-md-9">
+          <input type="password" name="password" class="form-control" id="password" aria-describedby="password"
+            required>
+        </div>
+      </div>
+      <div class="my-4 text-center d-flex justify-content-center ">
+        <button type="submit" class="btn-sub">Login</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% block script %}
+{% endblock script %}
+{% endblock body %}

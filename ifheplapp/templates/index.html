@@ -1,0 +1,225 @@
+{% extends 'extends/base.html' %}
+{% block title %}Home{% endblock title %}
+
+
+{% block ogtitle %}Home{% endblock ogtitle %}
+
+{% block ogurl %}{% endblock ogurl %}
+{% block style %}
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  #newsticker-demo {
+    width: 310px;
+    background: #EAF4F5;
+    padding: 5px 20px;
+    font-family: Verdana, Arial, Sans-Serif;
+    font-size: 12px;
+    margin: 20px auto;
+    height: 300px;
+  }
+
+  #newsticker-demo a {
+    text-decoration: none;
+  }
+
+  #newsticker-demo .title {
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 5px;
+  }
+
+  @media screen and (max-width: 768px) {
+    .cr-cont {
+      width: 85% !important;
+    }
+
+    .prev-next {
+      left: 25% !important;
+      bottom: -6% !important;
+    }
+    .cr-img{
+      height: 320px !important;
+    }
+  }
+  .cr-img{
+    height: 550px;
+  }
+  .cr-cont {
+    width: 70%;
+    padding: 0px auto;
+    margin: 0px auto;
+  }
+
+  .btn-sub {
+    border: 0;
+    background-color: #261C2C;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1.25rem;
+    border-radius: 25px;
+  }
+
+  .btn-sub:hover {
+    background-color: #381949;
+    color: white;
+  }
+
+  .prev-next {
+    position: absolute;
+    display: flex !important;
+    width: 100px;
+    left: 2%;
+    bottom: 20%;
+  }
+
+  .prev-next button {
+    background-color: #381949 !important;
+    border-radius: 50%;
+    height: 30px !important;
+    width: 30px !important;
+    padding: 5px;
+  }
+</style>
+{% endblock style %}
+{% block body %}
+<!-- slider -->
+<div id="carouselSlider" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    {% for slider in sliders|slice:":1" %}
+    <div class="carousel-item active">
+      <img src="/media/{{slider.image}}" class="d-block w-100 cr-img" alt="...">
+    </div>
+    {% endfor %}
+    {% for slider in sliders|slice:"1:6" %}
+    <div class="carousel-item">
+      <img src="/media/{{slider.image}}" class="d-block w-100 cr-img" alt="...">
+    </div>
+    {% endfor %}
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselSlider" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselSlider" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+<!-- slider end -->
+
+<div class="wrapper row3">
+  <main class="hoc container clear">
+    <!-- main body -->
+    <article class="group">
+      <div class="two_third first">
+        <h6 class="heading underline font-x2">IFHE Pvt. Ltd.</h6>
+        <p>Since our company's establishment in the year 2016, we have continued to expand organically in the health,
+          agriculture, finance, and education sector with the help of dynamic communities, clubs, and services. We
+          currently operate in Karnataka, Odisha, Punjab, West Bengal, Madhya Pradesh, Jharkhand, Uttar Pradesh, and
+          Bihar and are working incessantly on expanding to the other states.</p>
+        <footer><a class="btn" href="/about-us">Read More</a></footer>
+      </div>
+      <div class="one_third">
+        {% if notices %}
+        <div id="newsticker-demo">
+
+          <div class="title py-3">Latest News</div>
+          <marquee direction="up" height="230px" scrollamount="1">
+            {% for notice in notices %}
+            <div class="info">
+              <a href="/media/{{notice.doc}}" target="__blank">{{notice.title}}</a> <br>
+              <span class="cat">{{notice.notice_type}}</span>
+            </div>
+            <div class="clear"></div>
+            {% endfor %}
+          </marquee>
+        </div>
+      </div>
+      {% endif %}
+    </article>
+    <!-- / main body -->
+    <div class="clear"></div>
+  </main>
+</div>
+
+<div class="wrapper bgded overlay light" style="background-image:url('images/demo/backgrounds/01.png');">
+  <section id="cta" class="hoc container clear">
+    <h6 class="three_quarter first">Membership</h6>
+    <footer class="one_quarter"><a class="btn" href="/membership">Apply Now</a></footer>
+  </section>
+</div>
+
+
+
+<div class="wrapper row3">
+  <section id="testimonials" class="hoc container clear">
+    <div class="center btmspace">
+      <h6 class="heading underline font-x2">Cards</h6>
+    </div>
+    <div class="container cr-cont">
+      <div id="carouselCard" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <div class="row">
+              <div class="col-md-6" style="min-height: 250px">
+                <h3 style="font-size: 1.75rem; font-weight: 700;">Membership Card</h3>
+                <p>Membership Card holder will get discount on all facilities</p>
+                <a href="/membership" class="btn-sub">Join Us</a>
+
+              </div>
+              <div class="col-md-6">
+                <img src="/static/images/card/card-1.png" class="d-block w-100" alt="...">
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="row">
+              <div class="col-md-6" style="min-height: 250px">
+                <h3 style="font-size: 1.75rem; font-weight: 700;">Health Card</h3>
+                <p>With Health card, you can get up to 40% discount on the treatment of diseases in all the hospitals
+                  associated with us.</p>
+                <a href="/card/Health-Card" class="btn-sub">See More Details</a>
+              </div>
+              <div class="col-md-6">
+                <img src="/static/images/card/card-2.png" class="d-block w-100" alt="...">
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="row">
+              <div class="col-md-6" style="min-height: 250px">
+                <h3 style="font-size: 1.75rem; font-weight: 700;">Kisan Card</h3>
+                <p>Kisan Cardholders get upto 25% off at purchasing agricultural equipments in agricultural shop
+                  associated with our organization.</p>
+                <a href="/card/Kisan-Card" class="btn-sub">See More Details</a>
+              </div>
+              <div class="col-md-6">
+                <img src="/static/images/card/card-3.png" class="d-block w-100" alt="...">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="prev-next">
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselCard"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselCard"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </section>
+</div>
+
+{% endblock body %}

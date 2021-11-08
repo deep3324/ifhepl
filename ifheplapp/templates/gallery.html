@@ -1,0 +1,42 @@
+{% extends 'extends/base.html' %}
+{% block title %}Gallery{% endblock title %}
+
+
+{% block ogtitle %}Gallery{% endblock ogtitle %}
+
+{% block ogurl %}gallery{% endblock ogurl %}
+{% block style %}
+<style>
+  .gallery img:hover {
+    transform: scale(1.07);
+  }
+</style>
+{% endblock style %}
+{% block body %}
+<div class="row1" style="background-color: rgb(255, 255, 240);">
+  <div class="container">
+    <div class="my-2 text-center">
+      <h1 style="color: red; font-weight: 900;">Our Gallery</h1>
+    </div>
+    <main class="hoc container clear">
+      <!-- main body -->
+      <div class="content">
+        <div id="gallery">
+          <figure>
+            <ul class="nospace clear row gallery">
+            {% for image in images  %}
+              <li class="col-md-4"><img src="/media/{{image.image}}" alt=""></li>
+            {% endfor %}
+            </ul>
+          </figure>
+        </div>
+      </div>
+      <!-- / main body -->
+      <div class="clear"></div>
+    </main>
+  </div>
+</div>
+{% block script %}
+
+{% endblock script %}
+{% endblock body %}

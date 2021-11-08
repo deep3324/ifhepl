@@ -1,0 +1,39 @@
+{% extends 'extends/base.html' %}
+{% block title %}Career{% endblock title %}
+
+
+{% block ogtitle %}Career{% endblock ogtitle %}
+
+{% block ogurl %}career{% endblock ogurl %}
+{% load static %}
+{% block body %}
+<div class="wrapper row3" style="background-color: rgb(255, 255, 240);">
+  <section id="services" class="hoc container clear">
+    <!-- ################################################################################################ -->
+    <div class="center btmspace-80">
+      <h6 class="heading underline font-x2">Career</h6>
+      <p>Our greatest weakness lies in giving up. The most certain way to succeed is always to try just one more time.</p>
+    </div>
+    <ul class="nospace group">
+    {% for job in jobs %}
+      <li class="one_third">
+        <article>
+          <h6 class="heading">{{job.title}}</h6>
+          {% if job.qualification %}
+          <p class="">Qualification: {{job.qualification}}</p>
+          {% endif %}
+          {% if job.salary %}
+          <p class="">Salary: {{job.salary}}
+          {% endif %}
+          {% if job.is_insentive %} + INCENTIVE {% endif %}
+          </p>
+          <!-- <footer><a href="career/{{job.slug}}/apply"><i class="fas fa-arrow-right"></i></a></footer> -->
+          <footer><a href="javascript:void(0)"><i class="fas fa-arrow-right"></i></a></footer>
+        </article>
+      </li>
+    {% endfor %}
+    </ul>
+    <!-- ################################################################################################ -->
+  </section>
+</div>
+{% endblock body %}

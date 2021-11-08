@@ -1,0 +1,48 @@
+{% extends 'extends/base.html' %}
+{% block title %}Confirmation{% endblock title %}
+
+
+{% block ogtitle %}Confirmation{% endblock ogtitle %}
+
+{% block style %}
+
+{% endblock style %}
+{% block body %}
+<div class="row1" style="background-color: rgb(255, 255, 240);">
+  <div class="container" style="max-width: 60%;">
+    <div class="my-2 text-center">
+      <img src="/static/images/icon_confirmation.gif" alt="">
+      {% if data_ref %}
+      <h3>Membership Request has been Submitted</h3>
+      {% for data in data_ref  %}
+      <h5 class="my-2">Membership Reference No.: <span style="color: red;"> {{data.reference_number}}</span></h5>
+      {% endfor %}
+      {% endif %}
+
+      {% if data_ref_job %}
+      {% for data_job in data_ref_job  %}
+      <h3>Job Application for <strong>{{data_job.applied_for}}</strong> has been Submitted</h3>
+      <h5 class="my-2">Job Reference No.: <span style="color: red;"> {{data_job.reference_number}}</span></h5>
+      {% endfor %}
+      {% endif %}
+
+      {% if data_ref_kisan %}
+      {% for data_job in data_ref_kisan  %}
+      <h3>Kisan Card Application has been Submitted</h3>
+      <h5 class="my-2">Kisan Card Reference No.: <span style="color: red;"> {{data_job.reference_number}}</span></h5>
+      {% endfor %}
+      {% endif %}
+      
+      {% if data_ref_health %}
+      {% for data_job in data_ref_health  %}
+      <h3>Health Card Application has been Submitted</h3>
+      <h5 class="my-2">Health Card Reference No.: <span style="color: red;"> {{data_job.reference_number}}</span></h5>
+      {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% block script %}
+
+{% endblock script %}
+{% endblock body %}

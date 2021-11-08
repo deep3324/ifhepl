@@ -1,0 +1,55 @@
+{% extends 'extends/base.html' %}
+{% block title %}{% endblock title %}
+
+
+{% block ogtitle %}{% endblock ogtitle %}
+
+{% block ogurl %}{% endblock ogurl %}
+{% block style %}
+
+{% endblock style %}
+{% block body %}
+<div class="row1" style="background-color: rgb(255, 255, 240);">
+  <div class="container" style="max-width: 60%;">
+    <div class="my-2 text-center">
+      {% if object_list_reference %}
+      {% for data in object_list_reference %}
+      <h5 class="my-2">Membership Reference No.: <span style="color: red;"> {{data.reference_number}}</span></h5>
+      {% if data.reject %}
+      <h5 class="my-2"><br>We are sorry to say that your Membership Application is Rejected.<br> Call us for more Query
+        <br> <br> <a href="/reach-us" class="my-3" style="color: red; text-decoration: none;" target="__blank">Click
+          here</a> to Contact </h5>
+      {% elif data.approve%}
+      <h5 class="my-2">Membership Application has been Approved.<br>Your Membership Card Number is <span
+          style="color: red;">{{data.card_number}}</span></h5>
+      {% elif data.underprocess %}
+      <h5 class="my-5">Your Membership Application is under Review.<br><small style="color: red"> It takes 2-3 working
+          days for further process</small><br>When your application is approved, you will get mail from us.</h5>
+      {% endif %}
+      {% endfor %}
+
+      {% elif object_list_card %}
+      {% for data in object_list_card %}
+      <h4 class="my-2">Card No.: <span style="color: red;"> {{data.card_number}}</span></h4>
+      <div class="row">
+        <div class="col-md-6">
+          <img src="/static/images/card/card-1.png" style="height: 300px; margin-top: 15px;" alt=""> <br>
+        </div>
+        <div class="col-md-6">
+          <img src="/static/images/card/card-1a.png" style="height: 300px; margin-top: 15px;" alt=""> <br>
+        </div>
+      </div>
+      <a href="" class="btn btn-primary mt-5">Download</a>
+      {% endfor %}
+      {% else %}
+      <img src="/static/images/alert_icon.png" alt="">
+      <h5 class="my-2">Please check your Membership Reference Number/ Card Number / DOB</h5>
+      {% endif %}
+
+    </div>
+  </div>
+</div>
+{% block script %}
+
+{% endblock script %}
+{% endblock body %}
