@@ -39,8 +39,8 @@ Set Time to show attendance submit
 
 @login_required(login_url='/login')
 def attendance(request):
-    t1 = timedelta(hours=10, minutes=00).seconds
-    t1_end = timedelta(hours=10, minutes=30).seconds
+    t1 = timedelta(hours=9, minutes=00).seconds
+    t1_end = timedelta(hours=9, minutes=30).seconds
     t2 = timedelta(hours=13, minutes=00).seconds
     t2_end = timedelta(hours=13, minutes=30).seconds
     t3 = timedelta(hours=17, minutes=00).seconds
