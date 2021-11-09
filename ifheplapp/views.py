@@ -309,7 +309,7 @@ def membership_submit(request):
         else:
             membership.save()
             msg = "succ-msg-mem"
-            ifheplapp.def_mail("Membership | PHOENIX", subject, email)
+            ifheplapp.def_mail("Membership | IFHEPL", subject, email)
             data_ref = Membership.objects.filter(id_proof=membership.id_proof)
             return render(request, "confirmation.html", {'data_ref': data_ref, "msg":msg})
 
@@ -379,7 +379,7 @@ def kisan_submit(request):
         else:
             kisan.save()
             msg = "succ-msg-kis"
-            ifheplapp.def_mail("Kisan Card | PHOENIX", subject, email)
+            ifheplapp.def_mail("Kisan Card | IFHEPL", subject, email)
             data_ref = KisanCard.objects.filter(id_proof=kisan.id_proof)
             return render(request, "confirmation.html", {'data_ref_kisan': data_ref, "msg":msg})
 
@@ -449,7 +449,7 @@ def health_submit(request):
         else:
             health.save()
             msg = "succ-msg-hel"
-            ifheplapp.def_mail("Health Card | PHOENIX", subject, email)
+            ifheplapp.def_mail("Health Card | IFHEPL", subject, email)
             data_ref = HealthCard.objects.filter(id_proof=health.id_proof)
             return render(request, "confirmation.html", {'data_ref_health': data_ref, "msg":msg})
 
