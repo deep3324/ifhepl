@@ -46,7 +46,7 @@ class EmployeeRegistrationView(CreateAPIView):
         return Response(response, status=status_code)
 
 
-class UserLoginView(RetrieveAPIView):
+class UserLoginView(CreateAPIView):
 
     permission_classes = (AllowAny,)
     serializer_class = UserLoginSerializer
