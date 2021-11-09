@@ -229,12 +229,35 @@
   <script src="/static/scripts/jquery.mobilemenu.js"></script>
   <script src="/static/scripts/owl.carousel.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+  <input type="hidden" id="msg" value="{{msg}}">
   <script>
     var preloader = document.getElementById("loading");
     function myFunction() {
       preloader.style.display = 'none';
     };
   </script>
+  <script type="text/javascript">
+      var msg = $("#msg").val()
+      if (msg == "succ-msg-atn") {
+        alert("Attendance submitted")
+      }
+      if (msg == "err-msg-atn") {
+        alert("Try Again!!!")
+      }
+      if (msg == "err-msg-login") {
+        alert("Invalid credentials! Please try again")
+      }
+      if (msg == "succ-msg-mem") {
+        alert("Your application has been Submitted Successfully")
+      }
+      if (msg == "succ-msg-kis") {
+        alert("Your application has been Submitted Successfully")
+      }
+      if (msg == "succ-msg-hel") {
+        alert("Your application has been Submitted Successfully")
+      }
+    </script>
+  
   {% block script %}{% endblock script %}
 </body>
 

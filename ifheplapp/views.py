@@ -35,18 +35,17 @@ Set Time to show attendance submit
 13:00-13:30
 17:00-17:30
 """
-
+t1 = timedelta(hours=9, minutes=00).seconds
+t1_end = timedelta(hours=9, minutes=30).seconds
+t2 = timedelta(hours=13, minutes=00).seconds
+t2_end = timedelta(hours=13, minutes=30).seconds
+t3 = timedelta(hours=17, minutes=00).seconds
+t3_end = timedelta(hours=17, minutes=30).seconds
+time = datetime.now().time()
+curr_sec1 = (time.hour * 60 + time.minute) * 60 + time.second
 
 @login_required(login_url='/login')
 def attendance(request):
-    t1 = timedelta(hours=9, minutes=00).seconds
-    t1_end = timedelta(hours=9, minutes=30).seconds
-    t2 = timedelta(hours=13, minutes=00).seconds
-    t2_end = timedelta(hours=13, minutes=30).seconds
-    t3 = timedelta(hours=17, minutes=00).seconds
-    t3_end = timedelta(hours=17, minutes=30).seconds
-    time = datetime.now().time()
-    curr_sec1 = (time.hour * 60 + time.minute) * 60 + time.second
     if t1 <= curr_sec1 <= t1_end:
         status = "show"
     elif t2 <= curr_sec1 <= t2_end:
@@ -58,6 +57,7 @@ def attendance(request):
     return render(request, "attendance.html", {"status": status})
 
 
+@login_required(login_url='/login')
 def handleAttendance(request):
     emp = EmployeeProfile.objects.filter(user=request.user)
     for i in emp:
@@ -74,11 +74,24 @@ def handleAttendance(request):
         location = locname.address
         attendance = Attendance(
             employeeID=employeeID, employeeName=employeeName, image=image, location=location)
-        attendance.save()
+        msg = ""
+        if t1 <= curr_sec1 <= t1_end:
+            attendance.save()
+            msg = "succ-msg-atn"
+            return render(request, "index.html", {"msg": msg})
+        elif t2 <= curr_sec1 <= t2_end:
+            attendance.save()
+            msg = "succ-msg-atn"
+            return render(request, "index.html", {"msg": msg})
+        elif t3 <= curr_sec1 <= t3_end:
+            attendance.save()
+            msg = "succ-msg-atn"
+            return render(request, "index.html", {"msg": msg})
+        else:
+            msg = "err-msg-atn"
+            return render(request, "attendance.html", {"msg": msg})
         # Get the post parameters
 
-        messages.success(request, "Successfully Submitted your attendance")
-        return redirect("/")
         # else:
         #     messages.error(request, "Something you did mistake! Please try again")
         #     return redirect("/attendance")
@@ -100,13 +113,12 @@ def handeLogin(request):
                 messages.success(request, "Successfully Logged In")
                 return redirect("/")
         else:
-            messages.error(request, "Invalid credentials! Please try again")
-            return redirect("/login")
+            msg = "err-msg-login"
+            return render(request, "login.html",{"msg":msg})
 
 
 def handelLogout(request):
     logout(request)
-    # messages.success(request, "Successfully logged out")
     return redirect('/')
 
 
@@ -271,7 +283,7 @@ def membership_submit(request):
             dob=dob,
             idtype=idtype,
             id_proof=id_proof,
-            father_name=father_name,
+            father_Husband_name=father_name,
             mother_name=mother_name,
             category=category,
             disability=disability,
@@ -296,11 +308,10 @@ def membership_submit(request):
                 return redirect('/membership')
         else:
             membership.save()
-            messages.success(
-                request, "Your application has been Submitted Successfully")
+            msg = "succ-msg-mem"
             ifheplapp.def_mail("Membership | PHOENIX", subject, email)
             data_ref = Membership.objects.filter(id_proof=membership.id_proof)
-            return render(request, "confirmation.html", {'data_ref': data_ref})
+            return render(request, "confirmation.html", {'data_ref': data_ref, "msg":msg})
 
 
 def kisan_submit(request):
@@ -342,7 +353,7 @@ def kisan_submit(request):
             dob=dob,
             idtype=idtype,
             id_proof=id_proof,
-            father_name=father_name,
+            father_Husband_name=father_name,
             mother_name=mother_name,
             category=category,
             disability=disability,
@@ -367,11 +378,10 @@ def kisan_submit(request):
                 return redirect('/card/Kisan-Card')
         else:
             kisan.save()
-            messages.success(
-                request, "Your application has been Submitted Successfully")
+            msg = "succ-msg-kis"
             ifheplapp.def_mail("Kisan Card | PHOENIX", subject, email)
             data_ref = KisanCard.objects.filter(id_proof=kisan.id_proof)
-            return render(request, "confirmation.html", {'data_ref_kisan': data_ref})
+            return render(request, "confirmation.html", {'data_ref_kisan': data_ref, "msg":msg})
 
 
 def health_submit(request):
@@ -413,7 +423,7 @@ def health_submit(request):
             dob=dob,
             idtype=idtype,
             id_proof=id_proof,
-            father_name=father_name,
+            father_Husband_name=father_name,
             mother_name=mother_name,
             category=category,
             disability=disability,
@@ -438,11 +448,10 @@ def health_submit(request):
                 return redirect('/card/Health-Card')
         else:
             health.save()
-            messages.success(
-                request, "Your application has been Submitted Successfully")
+            msg = "succ-msg-hel"
             ifheplapp.def_mail("Health Card | PHOENIX", subject, email)
             data_ref = HealthCard.objects.filter(id_proof=health.id_proof)
-            return render(request, "confirmation.html", {'data_ref_health': data_ref})
+            return render(request, "confirmation.html", {'data_ref_health': data_ref, "msg":msg})
 
 
 def job_submit(request):
