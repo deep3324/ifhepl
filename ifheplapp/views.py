@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,  login as dj_login, logout
 from django.contrib import messages
 from geopy.geocoders import Nominatim
+import pytz
 
 
 def offer_letter(request):
@@ -35,26 +36,26 @@ Set Time to show attendance submit
 13:00-13:30
 17:00-17:30
 """
-t1 = timedelta(hours=9, minutes=00).seconds
-t1_end = timedelta(hours=9, minutes=30).seconds
-t2 = timedelta(hours=13, minutes=00).seconds
-t2_end = timedelta(hours=13, minutes=30).seconds
-t3 = timedelta(hours=17, minutes=00).seconds
-t3_end = timedelta(hours=17, minutes=30).seconds
-time = datetime.now().time()
-curr_sec1 = (time.hour * 60 + time.minute) * 60 + time.second
+# t1 = timedelta(hours=9, minutes=00).seconds
+# t1_end = timedelta(hours=9, minutes=30).seconds
+# t2 = timedelta(hours=13, minutes=00).seconds
+# t2_end = timedelta(hours=13, minutes=30).seconds
+# t3 = timedelta(hours=23, minutes=00).seconds
+# t3_end = timedelta(hours=23, minutes=30).seconds
+# time = datetime.now(pytz.timezone('Asia/Kolkata') ).time()
+# curr_sec1 = (time.hour * 60 + time.minute) * 60 + time.second
 
 @login_required(login_url='/login')
 def attendance(request):
-    if t1 <= curr_sec1 <= t1_end:
-        status = "show"
-    elif t2 <= curr_sec1 <= t2_end:
-        status = "show"
-    elif t3 <= curr_sec1 <= t3_end:
-        status = "show"
-    else:
-        status = "hide"
-    return render(request, "attendance.html", {"status": status})
+    # if t1 <= curr_sec1 <= t1_end:
+    #     status = "show"
+    # elif t2 <= curr_sec1 <= t2_end:
+    #     status = "show"
+    # elif t3 <= curr_sec1 <= t3_end:
+    #     status = "show"
+    # else:
+    #     status = "hide"
+    return render(request, "attendance.html")
 
 
 @login_required(login_url='/login')
@@ -110,6 +111,7 @@ def handeLogin(request):
         if user is not None:
             if user.is_active:
                 dj_login(request, user)
+                request.session.set_expiry(60)
                 messages.success(request, "Successfully Logged In")
                 return redirect("/")
         else:
