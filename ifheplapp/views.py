@@ -1,4 +1,4 @@
-from ifheplapp import convert_to_html
+from ifheplapp import convert_to_html, membership_card_creation, qr_generator
 from datetime import timedelta, datetime
 from django.db.models.query_utils import Q
 from django.http import HttpResponse
@@ -36,26 +36,59 @@ Set Time to show attendance submit
 13:00-13:30
 17:00-17:30
 """
-# t1 = timedelta(hours=9, minutes=00).seconds
-# t1_end = timedelta(hours=9, minutes=30).seconds
-# t2 = timedelta(hours=13, minutes=00).seconds
-# t2_end = timedelta(hours=13, minutes=30).seconds
-# t3 = timedelta(hours=23, minutes=00).seconds
-# t3_end = timedelta(hours=23, minutes=30).seconds
-# time = datetime.now(pytz.timezone('Asia/Kolkata') ).time()
-# curr_sec1 = (time.hour * 60 + time.minute) * 60 + time.second
 
 @login_required(login_url='/login')
 def attendance(request):
-    # if t1 <= curr_sec1 <= t1_end:
-    #     status = "show"
-    # elif t2 <= curr_sec1 <= t2_end:
-    #     status = "show"
-    # elif t3 <= curr_sec1 <= t3_end:
-    #     status = "show"
-    # else:
-    #     status = "hide"
     return render(request, "attendance.html")
+
+def qr_generator_fuc(request):
+    datas = Membership.objects.all()
+    for data in datas:
+        print(data.name)
+        data = {
+            "Company": "IFHE Pvt. Ltd. Email: care@ifhepl.in  Website: ifhepl.in Contact Number: +91 88098 61888",
+            "Name": data.name,
+            "Mobile Number": data.name,
+            "DOB": data.dob,
+            "Id Proof and Number" : data.idtype + " - " + data.id_proof,
+            "Father's / Husband's Name": data.father_Husband_name,
+            "Mother's Name": data.mother_name,
+            "Category": data.category,
+            "Disability": data.disability,
+            "Address": "village: "+ data.village + ", po: "+ data.po + ", ps: "+ data.ps +", block: "+ data.block + ", district: "+ data.district + ", state: " +data.state + ", pin_code: "+ data.pin_code,
+            "ID Proof Document" : data.id_proof_document,
+            "Photo" : data.photo,
+            "Card Number" : data.card_number,
+        }
+        qr_generator(data)
+    return HttpResponse("Qr generatred")
+
+def card_generator_fuc(request):
+    datas = Membership.objects.all()
+    for data in datas:
+        print(data.name)
+        datam = {
+            "Name": data.name,
+            "Mobile Number": data.name,
+            "DOB": data.dob,
+            "Id Proof and Number" : data.idtype + " - " + data.id_proof,
+            "Father's / Husband's Name": data.father_Husband_name,
+            "Mother's Name": data.mother_name,
+            "Category": data.category,
+            "Disability": data.disability,
+            "village": data.village,
+            "po": data.po,
+            "ps": data.ps,
+            "block":data.block,
+            "district": data.district,
+            "state" :data.state,
+            "pin_code": data.pin_code,
+            "ID Proof Document" : data.id_proof_document,
+            "Photo" : data.photo,
+            "Card Number" : data.card_number,
+        }
+        membership_card_creation(datam)
+    return HttpResponse("Qr generatred")
 
 
 @login_required(login_url='/login')
@@ -76,26 +109,9 @@ def handleAttendance(request):
         attendance = Attendance(
             employeeID=employeeID, employeeName=employeeName, image=image, location=location)
         msg = ""
-        if t1 <= curr_sec1 <= t1_end:
-            attendance.save()
-            msg = "succ-msg-atn"
-            return render(request, "index.html", {"msg": msg})
-        elif t2 <= curr_sec1 <= t2_end:
-            attendance.save()
-            msg = "succ-msg-atn"
-            return render(request, "index.html", {"msg": msg})
-        elif t3 <= curr_sec1 <= t3_end:
-            attendance.save()
-            msg = "succ-msg-atn"
-            return render(request, "index.html", {"msg": msg})
-        else:
-            msg = "err-msg-atn"
-            return render(request, "attendance.html", {"msg": msg})
-        # Get the post parameters
-
-        # else:
-        #     messages.error(request, "Something you did mistake! Please try again")
-        #     return redirect("/attendance")
+        attendance.save()
+        msg = "succ-msg-atn"
+        return render(request, "index.html", {"msg": msg})
 
 
 def login(request):
