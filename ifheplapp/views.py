@@ -127,7 +127,7 @@ def handeLogin(request):
         if user is not None:
             if user.is_active:
                 dj_login(request, user)
-                request.session.set_expiry(60)
+                request.session.set_expiry(0)
                 messages.success(request, "Successfully Logged In")
                 return redirect("/")
         else:
