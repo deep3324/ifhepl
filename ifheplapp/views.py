@@ -117,6 +117,10 @@ def handleAttendance(request):
 def login(request):
     return render(request, "login.html")
 
+def profile(request):
+    profile = EmployeeProfile.objects.filter(user = request.user)
+    return render(request, "profile.html", {"profile":profile})
+
 
 def handeLogin(request):
     if request.method == "POST":

@@ -83,7 +83,6 @@ class UserProfileView(RetrieveAPIView):
                     'name': user_profile.name,
                     'email': user_profile.email,
                     'phone_number': user_profile.phone_number,
-                    'age': user_profile.age,
                     'gender': user_profile.gender,
                     'bloodgroup': user_profile.bloodgroup,
                     'dob': user_profile.dob,
