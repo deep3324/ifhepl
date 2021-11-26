@@ -103,18 +103,18 @@ def handleAttendance(request):
         lattitude = request.POST['lattitude']
         if longitude and lattitude:
             locname = geoLoc.reverse("{}, {}".format(lattitude, longitude))
+            employeeID = empid
+            employeeName = empname
+            image = request.FILES['captureImage']
+            location = locname.address
+            attendance = Attendance(
+                employeeID=employeeID, employeeName=employeeName, image=image, location=location)
+            attendance.save()
+            msg = "succ-msg-atn"
+            return render(request, "index.html", {"msg": msg})
         else:
             msg = "alert-msg-loc"
-        employeeID = empid
-        employeeName = empname
-        image = request.FILES['captureImage']
-        location = locname.address
-        attendance = Attendance(
-            employeeID=employeeID, employeeName=employeeName, image=image, location=location)
-        successs = attendance.save()
-        if successs:
-            msg = "succ-msg-atn"
-        return render(request, "index.html", {"msg": msg})
+            return render(request, "attendance.html", {"msg": msg})
 
 
 def login(request):
