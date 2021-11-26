@@ -9,8 +9,13 @@
 {% block body %}
 <div class="row1" style="background-color: rgb(255, 255, 240);">
   <div class="container" style="max-width: 60%;">
-    <div class="my-2 text-center">
-      <img src="/static/images/unnamed.png" style="width: 768px;" alt="">
+    <div class="row my-2">
+      {% for prof in profile %}
+      <div class="prof-image">
+        <img src="/media/{{prof.image}}" alt="">
+      </div>
+      {{prof.name}}
+      {% endfor %}
     </div>
   </div>
 </div>

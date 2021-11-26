@@ -42,3 +42,4 @@ class EmployeeProfile(models.Model):
         to set table name in database
         '''
         db_table = "profile"
+        verbose_name_plural = "Employee Profiles"

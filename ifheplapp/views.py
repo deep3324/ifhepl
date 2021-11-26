@@ -101,16 +101,19 @@ def handleAttendance(request):
         geoLoc = Nominatim(user_agent="GetLoc")
         longitude = request.POST['longitude']
         lattitude = request.POST['lattitude']
-        locname = geoLoc.reverse("{}, {}".format(lattitude, longitude))
+        if longitude and lattitude:
+            locname = geoLoc.reverse("{}, {}".format(lattitude, longitude))
+        else:
+            msg = "alert-msg-loc"
         employeeID = empid
         employeeName = empname
         image = request.FILES['captureImage']
         location = locname.address
         attendance = Attendance(
             employeeID=employeeID, employeeName=employeeName, image=image, location=location)
-        msg = ""
-        attendance.save()
-        msg = "succ-msg-atn"
+        successs = attendance.save()
+        if successs:
+            msg = "succ-msg-atn"
         return render(request, "index.html", {"msg": msg})
 
 
