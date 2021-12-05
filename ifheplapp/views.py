@@ -29,6 +29,9 @@ def index(request):
 def aboutus(request):
     return render(request, "aboutus.html")
 
+def ads(request):
+    return render(request, "ads.txt")
+
 
 """
 Set Time to show attendance submit

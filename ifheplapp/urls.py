@@ -6,6 +6,7 @@ from ifheplapp.api import AttendanceView, EmployeeRegistrationView, SliderList, 
 urlpatterns = [
     path('', views.index, name="index"),
     path('membership', views.membership, name="membership"),
+    path('ads.txt', views.ads, name="ads.txt"),
     path('profile', views.profile, name="profile"),
     path('qr_generator_fuc', views.qr_generator_fuc, name="qr_generator_fuc"),
     path('card_generator_fuc', views.card_generator_fuc, name="card_generator_fuc"),
