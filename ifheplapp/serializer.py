@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from EmployeeProfile.models import EmployeeProfile
-from ifheplapp.models import Attendance
+from ifheplapp.models import Attendance, Slider
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import update_last_login
 from rest_framework import serializers
@@ -13,6 +13,11 @@ class AttendanceSerializer(serializers.ModelSerializer):
         model = Attendance
         fields = ('employeeID', 'employeeName',
                   'location', 'image', 'uploaded_at')
+
+class SliderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Slider
+        fields = ('title', 'image')
 
 
 class EmployeeSerializer(serializers.ModelSerializer):

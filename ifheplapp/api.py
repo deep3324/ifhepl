@@ -1,8 +1,9 @@
 from rest_framework import status
-from rest_framework.generics import CreateAPIView, RetrieveAPIView
+from rest_framework.generics import CreateAPIView, RetrieveAPIView, ListAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
-from ifheplapp.serializer import AttendanceSerializer, EmployeeRegistrationSerializer, UserLoginSerializer
+from ifheplapp.models import Slider
+from ifheplapp.serializer import AttendanceSerializer, EmployeeRegistrationSerializer, SliderSerializer, UserLoginSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from EmployeeProfile.models import EmployeeProfile
@@ -103,3 +104,11 @@ class UserProfileView(RetrieveAPIView):
                 'error': str(e)
             }
         return Response(response, status=status_code)
+
+class SliderList(ListAPIView):
+    """
+    List all snippets, or create a new snippet.
+    """
+    queryset = Slider.objects.all()
+    serializer_class = SliderSerializer
+    permission_classes = (AllowAny,)

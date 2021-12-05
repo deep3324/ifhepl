@@ -1,6 +1,6 @@
 from django.urls import path, include
 from ifheplapp import views
-from ifheplapp.api import AttendanceView, EmployeeRegistrationView, UserLoginView, UserProfileView
+from ifheplapp.api import AttendanceView, EmployeeRegistrationView, SliderList, UserLoginView, UserProfileView
 
 
 urlpatterns = [
@@ -46,4 +46,5 @@ urlpatterns = [
     path('api/signin', UserLoginView.as_view(), name="signin"),
     path('api/profile', UserProfileView.as_view(), name="profile"),
     path('api/attendance', AttendanceView.as_view(), name="attendance"),
+    path('api/slider', SliderList.as_view(), name="slider"),
 ]
