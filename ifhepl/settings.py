@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_jwt',
     'import_export',
+    'django_crontab'
 ]
 
 MIDDLEWARE = [
@@ -207,3 +208,7 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
 }
+
+CRONJOBS = [
+    ('@daily', 'ifheplapp.cron.membership_cron_job')
+]

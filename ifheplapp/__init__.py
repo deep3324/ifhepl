@@ -1,21 +1,27 @@
-from ifhepl.settings import MEDIA_ROOT
+from datetime import datetime
+import os
+import qrcode
 import pdfkit
+from django.conf import settings
 from django.contrib.auth import authenticate
 from rest_framework import serializers
 from smtplib import SMTPException
 from django.core.mail.message import EmailMessage
-
-
+from datetime import datetime, timedelta
+from PIL import Image, ImageFont, ImageDraw
 
 
 def convert_to_html(html):
-    pdfkit.from_string(html, MEDIA_ROOT + '/out.pdf')
+    pdfkit.from_string(html, settings.MEDIA_ROOT + '/out.pdf')
+
 
 def get_and_authenticate_user(email, password):
     user = authenticate(username=email, password=password)
     if user is None:
-        raise serializers.ValidationError("Invalid username/password. Please try again!")
+        raise serializers.ValidationError(
+            "Invalid username/password. Please try again!")
     return user
+
 
 def def_mail(subject, html, receiver_email):
     subject, from_email, to = subject, 'care@ifhepl.in', receiver_email
@@ -28,17 +34,15 @@ def def_mail(subject, html, receiver_email):
         status = "Failed"
     return {"status": status}
 
+
 """
 QR Generator
 pip install qrcode #To generate QR code
 pip install Pillow #To manage Images
 """
 
-import qrcode
-import os
-from django.conf import settings
 
-def qr_generator(data):
+def qr_generator(card_name, data):
     qr = qrcode.QRCode(
         version=5,
         box_size=5,
@@ -48,39 +52,71 @@ def qr_generator(data):
     print(data)
     qr.add_data(data)
     qr.make(fit=True)
-    img = qr.make_image(fill_color='black',back_color='white')
-    img.save('{}.png'.format(data["Name"]))
-    # img.save('{}.png'.format("1"))
-    # uploaded_filename = img.save('{}.png'.format(data["name"]))
-    # try:
-    #     os.mkdir(os.path.join(settings.MEDIA_ROOT, folder))
-    # except:
-    #     pass
+    img = qr.make_image(fill_color='black', back_color='white')
+    print(settings.MEDIA_ROOT)
+    parent_dir = settings.MEDIA_ROOT
+    card_path = os.path.join(parent_dir, "{}".format(card_name))
+    # if not os.path.exists(card_path):
+    try:
+        os.mkdir(card_path)
+    except:
+        pass
+    final_path = os.path.join(card_path, "{}\\QR".format(datetime.now().strftime("%d %m %y")))
+    try:
+        os.mkdir(final_path)
+    except:
+        pass
+    img.save('{}\\{}.png'.format(final_path, data["Name"]))
 
-    # # save the uploaded file inside that folder.
-    # full_filename = os.path.join(settings.MEDIA_ROOT, folder, uploaded_filename)
-from PIL import Image, ImageFont, ImageDraw
 
 def membership_card_creation(data):
-        my_image = Image.open("kisancard.png")
-        print( format_date(data["DOB"]))
-        title_font = ImageFont.truetype("arial.ttf", 32)
-        title_font1 = ImageFont.truetype("arial.ttf", 60)
-        image_editable = ImageDraw.Draw(my_image)
-        image_editable.text((470, 111), data["village"].title(), (0, 0, 0), font=title_font)
-        image_editable.text((470, 166), data["po"].title(), (0, 0, 0), font=title_font)
-        image_editable.text((470, 216), data["ps"].title(), (0, 0, 0), font=title_font)
-        image_editable.text((470, 266), data["block"].title(), (0, 0, 0), font=title_font)
-        image_editable.text((470, 314), data["district"].title(), (0, 0, 0), font=title_font)
-        image_editable.text((750, 366), data["pin_code"].title(), (0, 0, 0), font=title_font)
-        # my_image.paste((Image.open("{}.png".format(data["Name"]))).resize(
-        #     (220, 220), Image.ANTIALIAS), (58, 210))
-        # my_image.save(MEDIA_ROOT + "\\converted\\" +str(member.name.title()).replace(" ","_") + ".png")
-        my_image.save("{}_1.png".format(data["Name"]))
-    
+    my_image = Image.open(settings.MEDIA_ROOT + "\\Membership\\membership.png")
+    title_font = ImageFont.truetype("arial.ttf", 35)
+    title_font1 = ImageFont.truetype("arial.ttf", 60)
+    image_editable = ImageDraw.Draw(my_image)
+    image_editable.text(
+        (635, 299), data["Name"].title(), (0, 0, 0), font=title_font)
+    image_editable.text((635, 352), format_date(
+        data["DOB"]), (0, 0, 0), font=title_font)
+    image_editable.text(
+        (635, 400), data["Father's / Husband's Name"].title(), (0, 0, 0), font=title_font)
+    image_editable.text((420, 556), format_num(
+        str(data["Card Number"])), (255, 253, 246), font=title_font1)
+    my_image.paste((Image.open(settings.MEDIA_ROOT + "\\Membership\\{}\\QR\\{}.png".format(datetime.now().strftime("%d %m %y"),data["Name"]))).resize(
+        (220, 220), Image.ANTIALIAS), (58, 210))
+    path = os.path.join(settings.MEDIA_ROOT + '\\Membership\\{}\\cards'.format(datetime.now().strftime("%d %m %y")))
+    if not path:
+        os.mkdir(path)
+    my_image.save('{}\\{}.png'.format(path, data["Name"]))
+
+
+def membership_card_creation_back(data):
+    my_image = Image.open(settings.MEDIA_ROOT +
+                          "\\Membership\\membership_1.png")
+    print(data["Name"])
+    title_font = ImageFont.truetype("arial.ttf", 35)
+    image_editable = ImageDraw.Draw(my_image)
+    image_editable.text(
+        (510, 100), data["village"].title(), (0, 0, 0), font=title_font)
+    image_editable.text(
+        (510, 152), data["po"].title(), (0, 0, 0), font=title_font)
+    image_editable.text(
+        (510, 203), data["ps"].title(), (0, 0, 0), font=title_font)
+    image_editable.text(
+        (510, 252), data["block"].title(), (0, 0, 0), font=title_font)
+    image_editable.text(
+        (510, 300), data["district"].title(), (0, 0, 0), font=title_font)
+    image_editable.text(
+        (760, 348), data["pin_code"].title(), (0, 0, 0), font=title_font)
+    path = os.path.join(settings.MEDIA_ROOT +
+                        '\\Membership\\{}\\cards'.format(datetime.now().strftime("%d %m %y")))
+    if not path:
+        os.mkdir(path)
+    my_image.save('{}\\{}_1.png'.format(path, data["Name"]))
+
+
 def format_num(strn):
-    return strn[0:4] + " " + strn[4:8] + " " + strn[8: ]
-from datetime import datetime
+    return strn[0:4] + " " + strn[4:8] + " " + strn[8:]
 
 
 def format_date(date_string):

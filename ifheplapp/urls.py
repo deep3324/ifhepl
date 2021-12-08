@@ -1,5 +1,5 @@
 from django.urls import path, include
-from ifheplapp import views
+from ifheplapp import views, cards
 from ifheplapp.api import AttendanceView, EmployeeRegistrationView, SliderList, UserLoginView, UserProfileView
 
 
@@ -8,8 +8,8 @@ urlpatterns = [
     path('membership', views.membership, name="membership"),
     path('ads.txt', views.ads, name="ads.txt"),
     path('profile', views.profile, name="profile"),
-    path('qr_generator_fuc', views.qr_generator_fuc, name="qr_generator_fuc"),
-    path('card_generator_fuc', views.card_generator_fuc, name="card_generator_fuc"),
+    path('qr_generator_fuc', cards.qr_generator_fuc, name="qr_generator_fuc"),
+    path('card_generator_fuc', cards.card_generator_fuc, name="card_generator_fuc"),
     path('login', views.login, name="login"),
     path('attendance', views.attendance, name="attendance"),
     path('handleAttendance', views.handleAttendance, name="handleAttendance"),
