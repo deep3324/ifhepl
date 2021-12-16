@@ -66,11 +66,55 @@ def qr_generator(card_name, data):
         os.mkdir(final_path)
     except:
         pass
-    img.save('{}\\{}.png'.format(final_path, data["Name"]))
+    img.save('{}.png'.format(data["Name"]))
 
 
-def membership_card_creation(data):
-    my_image = Image.open(settings.MEDIA_ROOT + "\\Membership\\membership.png")
+# def health_card_creation(data):
+#     my_image = Image.open(settings.MEDIA_ROOT + "\\Membership\\health.png")
+#     title_font = ImageFont.truetype("arial.ttf", 35)
+#     title_font1 = ImageFont.truetype("arial.ttf", 60)
+#     image_editable = ImageDraw.Draw(my_image)
+#     image_editable.text(
+#         (635, 299), data["Name"].title(), (0, 0, 0), font=title_font)
+#     image_editable.text((635, 352), format_date(
+#         data["DOB"]), (0, 0, 0), font=title_font)
+#     image_editable.text(
+#         (635, 400), data["Father's / Husband's Name"].title(), (0, 0, 0), font=title_font)
+#     image_editable.text((420, 556), format_num(
+#         str(data["Card Number"])), (255, 253, 246), font=title_font1)
+#     my_image.paste((Image.open("{}.png".format(data["Name"]))).resize(
+#         (220, 220), Image.ANTIALIAS), (58, 210))
+#     # path = os.path.join(settings.MEDIA_ROOT + '\\Membership\\{}\\cards'.format(datetime.now().strftime("%d %m %y")))
+#     # if not path:
+#     #     os.mkdir(path)
+#     my_image.save('{}.png'.format(data["Name"]))
+
+
+# def health_card_creation_back(data):
+#     my_image = Image.open(settings.MEDIA_ROOT +
+#                           "\\Membership\\health_1.png")
+#     print(data["Name"])
+#     title_font = ImageFont.truetype("arial.ttf", 35)
+#     image_editable = ImageDraw.Draw(my_image)
+#     image_editable.text(
+#         (510, 100), data["village"].title(), (0, 0, 0), font=title_font)
+#     image_editable.text(
+#         (510, 152), data["po"].title(), (0, 0, 0), font=title_font)
+#     image_editable.text(
+#         (510, 203), data["ps"].title(), (0, 0, 0), font=title_font)
+#     image_editable.text(
+#         (510, 252), data["block"].title(), (0, 0, 0), font=title_font)
+#     image_editable.text(
+#         (510, 300), data["district"].title(), (0, 0, 0), font=title_font)
+#     image_editable.text(
+#         (760, 348), data["pin_code"].title(), (0, 0, 0), font=title_font)
+#     # path = os.path.join(settings.MEDIA_ROOT +
+#     #                     '\\Membership\\{}\\cards'.format(datetime.now().strftime("%d %m %y")))
+#     # if not path:
+#     #     os.mkdir(path)
+#     my_image.save('{}_1.png'.format(data["Name"]))
+def kisan_card_creation(data):
+    my_image = Image.open(settings.MEDIA_ROOT + "\\Membership\\kisan.png")
     title_font = ImageFont.truetype("arial.ttf", 35)
     title_font1 = ImageFont.truetype("arial.ttf", 60)
     image_editable = ImageDraw.Draw(my_image)
@@ -82,17 +126,17 @@ def membership_card_creation(data):
         (635, 400), data["Father's / Husband's Name"].title(), (0, 0, 0), font=title_font)
     image_editable.text((420, 556), format_num(
         str(data["Card Number"])), (255, 253, 246), font=title_font1)
-    my_image.paste((Image.open(settings.MEDIA_ROOT + "\\Membership\\{}\\QR\\{}.png".format(datetime.now().strftime("%d %m %y"),data["Name"]))).resize(
+    my_image.paste((Image.open("{}.png".format(data["Name"]))).resize(
         (220, 220), Image.ANTIALIAS), (58, 210))
-    path = os.path.join(settings.MEDIA_ROOT + '\\Membership\\{}\\cards'.format(datetime.now().strftime("%d %m %y")))
-    if not path:
-        os.mkdir(path)
-    my_image.save('{}\\{}.png'.format(path, data["Name"]))
+    # path = os.path.join(settings.MEDIA_ROOT + '\\Membership\\{}\\cards'.format(datetime.now().strftime("%d %m %y")))
+    # if not path:
+    #     os.mkdir(path)
+    my_image.save('{}.png'.format(data["Name"]))
 
 
-def membership_card_creation_back(data):
+def kisan_card_creation_back(data):
     my_image = Image.open(settings.MEDIA_ROOT +
-                          "\\Membership\\membership_1.png")
+                          "\\Membership\\kisan_1.png")
     print(data["Name"])
     title_font = ImageFont.truetype("arial.ttf", 35)
     image_editable = ImageDraw.Draw(my_image)
@@ -108,11 +152,56 @@ def membership_card_creation_back(data):
         (510, 300), data["district"].title(), (0, 0, 0), font=title_font)
     image_editable.text(
         (760, 348), data["pin_code"].title(), (0, 0, 0), font=title_font)
-    path = os.path.join(settings.MEDIA_ROOT +
-                        '\\Membership\\{}\\cards'.format(datetime.now().strftime("%d %m %y")))
-    if not path:
-        os.mkdir(path)
-    my_image.save('{}\\{}_1.png'.format(path, data["Name"]))
+    # path = os.path.join(settings.MEDIA_ROOT +
+    #                     '\\Membership\\{}\\cards'.format(datetime.now().strftime("%d %m %y")))
+    # if not path:
+    #     os.mkdir(path)
+    my_image.save('{}_1.png'.format(data["Name"]))
+
+# def membership_card_creation(data):
+#     my_image = Image.open(settings.MEDIA_ROOT + "\\Membership\\membership.png")
+#     title_font = ImageFont.truetype("arial.ttf", 35)
+#     title_font1 = ImageFont.truetype("arial.ttf", 60)
+#     image_editable = ImageDraw.Draw(my_image)
+#     image_editable.text(
+#         (635, 299), data["Name"].title(), (0, 0, 0), font=title_font)
+#     image_editable.text((635, 352), format_date(
+#         data["DOB"]), (0, 0, 0), font=title_font)
+#     image_editable.text(
+#         (635, 400), data["Father's / Husband's Name"].title(), (0, 0, 0), font=title_font)
+#     image_editable.text((420, 556), format_num(
+#         str(data["Card Number"])), (255, 253, 246), font=title_font1)
+#     my_image.paste((Image.open("{}.png".format(data["Name"]))).resize(
+#         (220, 220), Image.ANTIALIAS), (58, 210))
+#     # path = os.path.join(settings.MEDIA_ROOT + '\\Membership\\{}\\cards'.format(datetime.now().strftime("%d %m %y")))
+#     # if not path:
+#     #     os.mkdir(path)
+#     my_image.save('{}.png'.format(data["Name"]))
+
+
+# def membership_card_creation_back(data):
+#     my_image = Image.open(settings.MEDIA_ROOT +
+#                           "\\Membership\\membership_1.png")
+#     print(data["Name"])
+#     title_font = ImageFont.truetype("arial.ttf", 35)
+#     image_editable = ImageDraw.Draw(my_image)
+#     image_editable.text(
+#         (510, 100), data["village"].title(), (0, 0, 0), font=title_font)
+#     image_editable.text(
+#         (510, 152), data["po"].title(), (0, 0, 0), font=title_font)
+#     image_editable.text(
+#         (510, 203), data["ps"].title(), (0, 0, 0), font=title_font)
+#     image_editable.text(
+#         (510, 252), data["block"].title(), (0, 0, 0), font=title_font)
+#     image_editable.text(
+#         (510, 300), data["district"].title(), (0, 0, 0), font=title_font)
+#     image_editable.text(
+#         (760, 348), data["pin_code"].title(), (0, 0, 0), font=title_font)
+#     # path = os.path.join(settings.MEDIA_ROOT +
+#     #                     '\\Membership\\{}\\cards'.format(datetime.now().strftime("%d %m %y")))
+#     # if not path:
+#     #     os.mkdir(path)
+#     my_image.save('{}_1.png'.format(data["Name"]))
 
 
 def format_num(strn):

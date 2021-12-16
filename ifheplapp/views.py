@@ -3,7 +3,7 @@ from datetime import timedelta, datetime
 from django.db.models.query_utils import Q
 from django.http import HttpResponse
 import ifheplapp
-from ifheplapp.models import Attendance, Contact, Gallery, HealthCard, KisanCard, Membership, Jobs, JobApply, Notice, Slider
+from ifheplapp.models import AssociatePartner, Attendance, Contact, Gallery, HealthCard, KisanCard, Membership, Jobs, JobApply, Notice, Slider
 from EmployeeProfile.models import EmployeeProfile
 from django.shortcuts import redirect, render
 from django.template.loader import *
@@ -23,7 +23,8 @@ def offer_letter(request):
 def index(request):
     notice = Notice.objects.all().order_by('-id')
     sliders = Slider.objects.all().order_by('-id')
-    return render(request, "index.html", {'notices': notice, 'sliders': sliders})
+    partners = AssociatePartner.objects.all().order_by('-id')
+    return render(request, "index.html", {'notices': notice, 'sliders': sliders, 'partners': partners})
 
 
 def aboutus(request):

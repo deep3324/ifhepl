@@ -7,10 +7,11 @@
 
   <title>{% block title %}{% endblock title %} | IFHEPL</title>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9810924620901406"
-     crossorigin="anonymous"></script>
+    crossorigin="anonymous"></script>
   <meta name="description"
     content="We at IFHE Pvt Ltd aim to empower every village man, woman, and child in ways that make them robust, healthier, and financially independent by bringing them access to all the essential amenities at their convenience that would help them focus on important parts of their life and enjoy the socio-cultural developments in the community, without having to worry over other trivial things.">
-  <meta name="keywords" content="KISAN CARD, HEALTH CARD, Membership Card, IFHEPL, ifhepl, ifhepl.in, ifhepl.in patna, www.ifhepl.in, IFHE Pvt Ltd, IFHE. Pvt. Ltd., IFHEPL Patna, ifhepl patna, IFHEPL Kisan Card, IFHEPL Health Card, ifhepl health card, ifhepl kisan card">
+  <meta name="keywords"
+    content="KISAN CARD, HEALTH CARD, Membership Card, IFHEPL, ifhepl, ifhepl.in, ifhepl.in patna, www.ifhepl.in, IFHE Pvt Ltd, IFHE. Pvt. Ltd., IFHEPL Patna, ifhepl patna, IFHEPL Kisan Card, IFHEPL Health Card, ifhepl health card, ifhepl kisan card">
   <link rel="apple-touch-icon" sizes="180x180" href="/static/images/favicon/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/static/images/favicon/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/static/images/favicon/favicon-16x16.png">
@@ -23,18 +24,19 @@
   <meta property="og:type" content="website" />
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-3T1G15R267"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
 
-  gtag('config', 'G-3T1G15R267');
-</script>
+    gtag('config', 'G-3T1G15R267');
+  </script>
   <meta name="author" content="IFHE PVT LTD">
   <link href="/static/styles/layout.css" rel="stylesheet" type="text/css" media="all">
   <link href="/static/styles/owl.carousel.min.css" rel="stylesheet" type="text/css" media="all">
   <script src="/static/scripts/jquery-3.5.1.slim.min.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
   <style type="text/css">
     a {
       text-decoration: none !important;
@@ -75,10 +77,12 @@
           <li class="one_third first">
             <div class="block clear"><a href="mailto:care@ifhepl.in"><i class="fas fa-envelope"></i></a>
               <span><strong>Send us a
-                  mail:</strong>care@ifhepl.in</span></div>
+                  mail:</strong>care@ifhepl.in</span>
+            </div>
           </li>
           <li class="one_third">
-            <div class="block clear"><a href="tel:+918809861888"><i class="fas fa-phone"></i></a> <span><strong>Give us a call:</strong>
+            <div class="block clear"><a href="tel:+918809861888"><i class="fas fa-phone"></i></a> <span><strong>Give us
+                  a call:</strong>
                 +91 88098 61888</span></div>
           </li>
         </ul>
@@ -159,85 +163,100 @@
     </div>
   </div>
   {% if messages %}
-    {% for message in messages %}
-    <div{% if message.tags %} class="alert {{ message.tags }} text-center"{% endif %}>{{ message }}</div>
+  {% for message in messages %}
+  <div{% if message.tags %} class="alert {{ message.tags }} text-center" {% endif %}>{{ message }}</div>
     {% endfor %}
-{% endif %}
-  {% block body %}{% endblock body %}
+    {% endif %}
+    {% block body %}{% endblock body %}
 
-  <div class="wrapper row4" style="background-color: #261C2C;">
-    <footer id="footer" class="hoc clear">
-      <!-- ################################################################################################ -->
-      <div class="one_quarter first">
-        <h1 class="logoname clear"><a href="/"><img src="/static/images/logo/logo-w.png" alt=""></a></h1>
-        <p class="btmspace-30">Since our company's establishment in the year 2016, we have continued to expand organically in the health, agriculture, finance, and education sector with the help of [<a
-            href="/about-us">&hellip;</a>]</p>
-        <ul class="faico clear">
-          <li><a target="_blank" class="faicon-facebook" href="https://www.facebook.com/ifhepl"><i class="fab fa-facebook"></i></a></li>
-          <li><a target="_blank" class="faicon-instagram" href="https://www.instagram.com/ifhepl/"><i class="fab fa-instagram"></i></a></li>
-          <li><a target="_blank" class="faicon-youtube" href="https://www.youtube.com/channel/UCFbNdasGGboTLJIDPAD5-4A/featured"><i class="fab fa-youtube"></i></a></li>
-          <li><a target="_blank" class="faicon-linkedin" href="https://t.me/Ifhepl"><i class="fab fa-telegram"></i></a></li>
-        </ul>
-      </div>
-      <div class="one_quarter">
-        <h6 class="heading">Quick Links</h6>
-        <ul class="nospace linklist">
-          <li><a href="/membership">Membership</a></li>
-          <li><a href="/career">Career</a></li>
-          <li><a href="about-us">About Us</a></li>
-          <li><a href="/reach-us">Reach Us</a></li>
-        </ul>
-      </div>
-      <div class="one_quarter">
-        <h6 class="heading">Resources</h6>
-        <ul class="nospace linklist">
-          <li><a href="/privacy-policy">Privacy Policy</a></li>
-          <li><a href="/terms-and-condition">Terms and Condition</a></li>
-          <li><a href="about-us">About Us</a></li>
-        </ul>
-      </div>
-      <div class="one_quarter">
-        <h6 class="heading">Contact Details</h6>
-        <ul class="nospace linklist contact">
-          <!-- <li><i class="fas fa-phone"></i> +00 (123) 456 7890</li> -->
-          <li><i class="far fa-envelope"></i> care@ifhepl.in</li>
-        </ul>
-      </div>
-      <!-- ################################################################################################ -->
-    </footer>
-  </div>
-  <!-- ################################################################################################ -->
-  <!-- ################################################################################################ -->
-  <!-- ################################################################################################ -->
-  <div class="wrapper row5">
-    <div id="copyright" class="hoc clear">
-      <!-- ################################################################################################ -->
-      <p class="fl_left">Copyright &copy; 2021 - All Rights Reserved - <a href="https://ifhepl.in">ifhepl.in</a></p>
-      <p class="fl_right">
-        <!-- Template by <a target="_blank" href="https://www.os-templates.com/"
-          title="Free Website Templates">OS Templates</a> -->
-      </p>
-      <!-- ################################################################################################ -->
+    <div class="wrapper row4" style="background-color: #261C2C;">
+      <footer id="footer" class="hoc clear">
+        <!-- ################################################################################################ -->
+        <div class="one_quarter first">
+          <h1 class="logoname clear"><a href="/"><img src="/static/images/logo/logo-w.png" alt=""></a></h1>
+          <h5 class="logoname clear">Indie Feeder Haleness & Erudition Private Limited</h5>
+          <!-- <p class="btmspace-30">Since our company's establishment in the year 2016, we have continued to expand organically in the health, agriculture, finance, and education sector with the help of [<a
+            href="/about-us">&hellip;</a>]</p> -->
+            <ul class="faico clear">
+              <li><a target="_blank" class="faicon-facebook" href="https://www.facebook.com/ifhepl"><i
+                    class="fab fa-facebook"></i></a></li>
+              <li><a target="_blank" class="faicon-instagram" href="https://www.instagram.com/ifhepl/"><i
+                    class="fab fa-instagram"></i></a></li>
+              <li><a target="_blank" class="faicon-youtube"
+                  href="https://www.youtube.com/channel/UCFbNdasGGboTLJIDPAD5-4A/featured"><i
+                    class="fab fa-youtube"></i></a></li>
+              <li><a target="_blank" class="faicon-linkedin" href="https://t.me/Ifhepl"><i
+                    class="fab fa-telegram"></i></a></li>
+            </ul>
+        </div>
+        <div class="one_quarter">
+          <h6 class="heading">Quick Links</h6>
+          <ul class="nospace linklist">
+            <li><a href="/membership">Membership</a></li>
+            <li><a href="/career">Career</a></li>
+            <li><a href="about-us">About Us</a></li>
+            <li><a href="/reach-us">Reach Us</a></li>
+          </ul>
+        </div>
+        <div class="one_quarter">
+          <h6 class="heading">Resources</h6>
+          <ul class="nospace linklist">
+            <li><a href="/privacy-policy">Privacy Policy</a></li>
+            <li><a href="/terms-and-condition">Terms and Condition</a></li>
+            <li><a href="about-us">About Us</a></li>
+          </ul>
+        </div>
+        <div class="one_quarter">
+          <h6 class="heading">Contact Details</h6>
+          <ul class="nospace linklist contact">
+            <!-- <li><i class="fas fa-phone"></i> +00 (123) 456 7890</li> -->
+            <li><i class="far fa-envelope"></i> care@ifhepl.in</li>
+          </ul>
+          <h6 class="heading " style="padding-top: 40px;">Our Legal Information</h6>
+          <ul class="nospace linklist">
+            <li>GSTiN: 10AAGCI3136G1Z4</li>
+            <li>CIN No: U80902BR2021PTC054121</li>
+            <li>TAN No: PTNI01479C</li>
+            <li>PAN No: AAGCI3136G</li>
+          </ul>
+        </div>
+        <!-- ################################################################################################ -->
+      </footer>
     </div>
-  </div>
-  <!-- ################################################################################################ -->
-  <!-- ################################################################################################ -->
-  <!-- ################################################################################################ -->
-  <a id="backtotop" href="#top"><i class="fas fa-chevron-up"></i></a>
-  <!-- JAVASCRIPTS -->
-  <script src="/static/scripts/jquery.min.js"></script>
-  <script src="/static/scripts/jquery.backtotop.js"></script>
-  <script src="/static/scripts/jquery.mobilemenu.js"></script>
-  <script src="/static/scripts/owl.carousel.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-  <input type="hidden" id="msg" value="{{msg}}">
-  <script>
-    var preloader = document.getElementById("loading");
-    function myFunction() {
-      preloader.style.display = 'none';
-    };
-  </script>
-  <script type="text/javascript">
+    <!-- ################################################################################################ -->
+    <!-- ################################################################################################ -->
+    <!-- ################################################################################################ -->
+    <div class="wrapper row5">
+      <div id="copyright" class="hoc clear">
+        <!-- ################################################################################################ -->
+        <p class="fl_left">Copyright &copy; 2021 - All Rights Reserved - <a href="https://ifhepl.in">ifhepl.in</a></p>
+        <p class="fl_right">
+          <!-- Template by <a target="_blank" href="https://www.os-templates.com/"
+          title="Free Website Templates">OS Templates</a> -->
+        </p>
+        <!-- ################################################################################################ -->
+      </div>
+    </div>
+    <!-- ################################################################################################ -->
+    <!-- ################################################################################################ -->
+    <!-- ################################################################################################ -->
+    <a id="backtotop" href="#top"><i class="fas fa-chevron-up"></i></a>
+    <!-- JAVASCRIPTS -->
+    <script src="/static/scripts/jquery.min.js"></script>
+    <script src="/static/scripts/jquery.backtotop.js"></script>
+    <script src="/static/scripts/jquery.mobilemenu.js"></script>
+    <script src="/static/scripts/owl.carousel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"></script>
+    <input type="hidden" id="msg" value="{{msg}}">
+    <script>
+      var preloader = document.getElementById("loading");
+      function myFunction() {
+        preloader.style.display = 'none';
+      };
+    </script>
+    <script type="text/javascript">
       var msg = $("#msg").val()
       if (msg == "succ-msg-atn") {
         alert("Attendance submitted")
@@ -261,8 +280,8 @@
         alert("Your application has been Submitted Successfully")
       }
     </script>
-  
-  {% block script %}{% endblock script %}
+
+    {% block script %}{% endblock script %}
 </body>
 
 </html>

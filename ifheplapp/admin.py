@@ -1,4 +1,4 @@
-from ifheplapp.models import Attendance, Contact,  Gallery, HealthCard, Jobs, KisanCard, Membership, JobApply, Notice, Slider
+from ifheplapp.models import AssociatePartner, Attendance, Contact,  Gallery, HealthCard, Jobs, KisanCard, Membership, JobApply, Notice, Slider
 from django.contrib import admin
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
@@ -10,6 +10,7 @@ admin.site.register(Slider)
 admin.site.register(Contact)
 admin.site.register(Jobs)
 admin.site.unregister(User)
+admin.site.register(AssociatePartner)
 
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 @admin.register(User)
