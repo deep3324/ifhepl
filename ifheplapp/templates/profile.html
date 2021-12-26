@@ -1,8 +1,8 @@
 {% extends 'extends/base.html' %}
-{% block title %}Coming Soon{% endblock title %}
+{% block title %}{{profile.0.name}}{% endblock title %}
 
-{% block ogtitle %}Coming Soon{% endblock ogtitle %}
-{% block ogurl %}comingsoon{% endblock ogurl %}
+{% block ogtitle %}{{profile.0.name}}{% endblock ogtitle %}
+{% block ogurl %}profile{% endblock ogurl %}
 {% block style %}
 <style>
   .prof-image,
