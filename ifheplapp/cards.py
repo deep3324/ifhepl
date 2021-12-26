@@ -1,18 +1,10 @@
-<<<<<<< HEAD
-from ifheplapp import convert_to_html, kisan_card_creation, kisan_card_creation_back, qr_generator
-=======
 from ifheplapp import convert_to_html, health_card_creation, health_card_creation_back, kisan_card_creation, kisan_card_creation_back, qr_generator
->>>>>>> 251e91c42869b07e385db33b1b44f7ae85631880
 from ifheplapp.models import HealthCard, KisanCard, Membership
 from django.http import HttpResponse
 from datetime import datetime
 
 def qr_generator_fuc(request):
-<<<<<<< HEAD
-    datas = KisanCard.objects.all()
-=======
     datas = HealthCard.objects.filter(submitted_on__gt = "2021-12-09")
->>>>>>> 251e91c42869b07e385db33b1b44f7ae85631880
     for data in datas:
         print(data.name)
         datam = {
@@ -34,11 +26,7 @@ def qr_generator_fuc(request):
     return HttpResponse("Qr generatred")
 
 def card_generator_fuc(request):
-<<<<<<< HEAD
-    datas = KisanCard.objects.all()
-=======
     datas = HealthCard.objects.filter(submitted_on__gt = "2021-12-09")
->>>>>>> 251e91c42869b07e385db33b1b44f7ae85631880
     for data in datas:
         print(data.name)
         datam = {
@@ -61,9 +49,5 @@ def card_generator_fuc(request):
             "Photo" : data.photo,
             "Card Number" : data.card_number,
         }
-<<<<<<< HEAD
-        kisan_card_creation_back(datam)
-=======
         health_card_creation_back(datam)
->>>>>>> 251e91c42869b07e385db33b1b44f7ae85631880
     return HttpResponse("Qr generatred")
