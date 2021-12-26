@@ -58,7 +58,7 @@ class MembershipAdmin(ImportExportModelAdmin):
             'fields': (('id_proof_document'), ('photo'),),
         }),
         ('Card Update', {
-            'fields': ('approve', 'reject', 'underprocess', 'card_number',)
+            'fields': ('approve', 'reject', 'underprocess', 'created','card_number',)
         }),
     )
 
@@ -87,7 +87,7 @@ class KisanCardAdmin(ImportExportModelAdmin):
             'fields': (('id_proof_document'), ('photo'),),
         }),
         ('Card Update', {
-            'fields': ('approve', 'reject', 'underprocess', 'card_number',)
+            'fields': ('approve', 'reject', 'underprocess','created', 'card_number',)
         }),
 
     )
@@ -117,7 +117,7 @@ class HealthCardAdmin(ImportExportModelAdmin):
             'fields': (('id_proof_document'), ('photo'),),
         }),
         ('Card Update', {
-            'fields': ('approve', 'reject', 'underprocess', 'card_number',)
+            'fields': ('approve', 'reject', 'underprocess','created', 'card_number',)
         }),
 
     )
