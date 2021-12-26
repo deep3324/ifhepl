@@ -73,6 +73,13 @@ class Attendance(models.Model):
         outputIoStream.seek(0)
         image = InMemoryUploadedFile(outputIoStream,'ImageField', "%s.jpg" % image.name.split('.')[0], 'image/jpeg', sys.getsizeof(outputIoStream), None)
         return image
+    def delete(self, *args, **kwargs):
+        # You have to prepare what you need before delete the model
+        storage, path = self.image.storage, self.image.path
+        # Delete the model before the file
+        super(Attendance, self).delete(*args, **kwargs)
+        # Delete the file after the model
+        storage.delete(path)
 
 
 class Gallery(models.Model):
