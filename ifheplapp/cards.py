@@ -1,9 +1,9 @@
-from ifheplapp import convert_to_html, membership_card_creation, qr_generator,membership_card_creation_back
-from ifheplapp.models import Membership
+from ifheplapp import convert_to_html, kisan_card_creation, kisan_card_creation_back, qr_generator
+from ifheplapp.models import HealthCard, KisanCard, Membership
 from django.http import HttpResponse
 
 def qr_generator_fuc(request):
-    datas = Membership.objects.all()
+    datas = KisanCard.objects.all()
     for data in datas:
         print(data.name)
         datam = {
@@ -25,7 +25,7 @@ def qr_generator_fuc(request):
     return HttpResponse("Qr generatred")
 
 def card_generator_fuc(request):
-    datas = Membership.objects.all()
+    datas = KisanCard.objects.all()
     for data in datas:
         print(data.name)
         datam = {
@@ -48,5 +48,5 @@ def card_generator_fuc(request):
             "Photo" : data.photo,
             "Card Number" : data.card_number,
         }
-        membership_card_creation_back(datam)
+        kisan_card_creation_back(datam)
     return HttpResponse("Qr generatred")

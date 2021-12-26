@@ -42,13 +42,16 @@
       left: 25% !important;
       bottom: -6% !important;
     }
-    .cr-img{
+
+    .cr-img {
       height: 320px !important;
     }
   }
-  .cr-img{
+
+  .cr-img {
     height: 550px;
   }
+
   .cr-cont {
     width: 70%;
     padding: 0px auto;
@@ -116,8 +119,23 @@
   <main class="hoc container clear">
     <!-- main body -->
     <article class="group">
-      <div class="two_third first">
-        <h6 class="heading underline font-x2">IFHE Pvt. Ltd.</h6>
+      <div class="one_third first">
+        <div id="newsticker-demo">
+          <div class="title py-3">Our Associate Partner</div>
+          {% if partners %}
+          <marquee direction="up" height="230px" scrollamount="1">
+            {% for partner in partners %}
+            <div class="info" style="padding-bottom: 8px;">
+              <span class="cat">{{partner.partnerName}}</span>
+            </div>
+            <div class="clear"></div>
+            {% endfor %}
+          </marquee>
+          {% endif %}
+        </div>
+      </div>
+      <div class="one_third ">
+        <h6 class="heading underline font-x2">Indie Feeder Haleness & Erudition Private Limited</h6>
         <p>Since our company's establishment in the year 2016, we have continued to expand organically in the health,
           agriculture, finance, and education sector with the help of dynamic communities, clubs, and services. We
           currently operate in Karnataka, Odisha, Punjab, West Bengal, Madhya Pradesh, Jharkhand, Uttar Pradesh, and
@@ -127,7 +145,6 @@
       <div class="one_third">
         {% if notices %}
         <div id="newsticker-demo">
-
           <div class="title py-3">Latest News</div>
           <marquee direction="up" height="230px" scrollamount="1">
             {% for notice in notices %}
@@ -139,8 +156,8 @@
             {% endfor %}
           </marquee>
         </div>
+        {% endif %}
       </div>
-      {% endif %}
     </article>
     <!-- / main body -->
     <div class="clear"></div>
@@ -205,13 +222,11 @@
           </div>
         </div>
         <div class="prev-next">
-          <button class="carousel-control-prev" type="button" data-bs-target="#carouselCard"
-            data-bs-slide="prev">
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselCard" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Previous</span>
           </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#carouselCard"
-            data-bs-slide="next">
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselCard" data-bs-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
           </button>

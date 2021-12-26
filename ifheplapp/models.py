@@ -34,6 +34,12 @@ def health_card_increase():
         return larget.card_number + 1
 
 
+class AssociatePartner(models.Model):
+    partnerName = models.CharField(max_length=300, default="")
+
+    def __str__(self):
+        return self.partnerName
+
 class Jobs(models.Model):
     title = models.CharField(max_length=100, default="")
     slug = AutoSlugField(populate_from='title')
