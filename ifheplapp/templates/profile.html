@@ -4,7 +4,20 @@
 {% block ogtitle %}Coming Soon{% endblock ogtitle %}
 {% block ogurl %}comingsoon{% endblock ogurl %}
 {% block style %}
+<style>
+  .prof-image {
+    max-width: 200px;
+    max-height: 200px;
+    border: 3px solid black;
+    border-radius: 50%;
+  }
 
+  .prof-image img {
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 50%;
+  }
+</style>
 {% endblock style %}
 {% block body %}
 <div class="row1" style="background-color: rgb(255, 255, 240);">
@@ -14,7 +27,9 @@
       <div class="prof-image">
         <img src="/media/{{prof.image}}" alt="">
       </div>
-      {{prof.name}}
+      <div class="prof-name">
+        <h5> {{prof.name}}</h5>
+      </div>
       {% endfor %}
     </div>
   </div>
