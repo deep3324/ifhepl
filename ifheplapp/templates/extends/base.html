@@ -23,14 +23,14 @@
   <meta property="og:url" content="https://ifhepl.in/{% block ogurl %}{% endblock ogurl %}" />
   <meta property="og:type" content="website" />
   <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3T1G15R267"></script>
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-3T1G15R267"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
 
     gtag('config', 'G-3T1G15R267');
-  </script>
+  </script> -->
   <meta name="author" content="IFHE PVT LTD">
   <link href="/static/styles/layout.css" rel="stylesheet" type="text/css" media="all">
   <link href="/static/styles/owl.carousel.min.css" rel="stylesheet" type="text/css" media="all">
@@ -150,6 +150,7 @@
           {% if user.is_authenticated %}
           <li><a class="drop">{{user.username}}</a>
             <ul>
+              <li><a href="/profile">My Profile</a></li>
               <li><a href="/attendance">Attendance</a></li>
               <li><a href="/logout">Logout</a></li>
             </ul>

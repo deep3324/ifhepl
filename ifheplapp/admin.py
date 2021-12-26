@@ -40,8 +40,7 @@ class MembershipResource(resources.ModelResource):
 @admin.register(Membership)
 class MembershipAdmin(ImportExportModelAdmin):
     resource_class = MembershipResource
-    list_display = ("name", "mobile_number", "submitted_on",
-                    "card_number", "reference_number","employeename",)
+    list_display = ("name", "card_number", "reference_number","employeename","created",)
     fieldsets = (
         ('Employee Details', {
             'fields': (('employeeID', 'employeename'),)
@@ -69,8 +68,7 @@ class KisanCardResource(resources.ModelResource):
 @admin.register(KisanCard)
 class KisanCardAdmin(ImportExportModelAdmin):
     resource_class = KisanCardResource
-    list_display = ("name", "mobile_number", "submitted_on",
-                    "card_number", "reference_number","employeename",)
+    list_display = ("name", "card_number", "reference_number","employeename","created",)
     fieldsets = (
         ('Employee Details', {
             'fields': (('employeeID', 'employeename'),)
@@ -99,8 +97,7 @@ class HealthCardResource(resources.ModelResource):
 @admin.register(HealthCard)
 class HealthCardAdmin(ImportExportModelAdmin):
     resource_class = HealthCardResource
-    list_display = ("name", "mobile_number", "submitted_on",
-                    "card_number", "reference_number","employeename",)
+    list_display = ("name", "card_number", "reference_number","employeename","created",)
     fieldsets = (
         ('Employee Details', {
             'fields': (('employeeID', 'employeename'),)

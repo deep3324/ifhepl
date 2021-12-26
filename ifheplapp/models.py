@@ -144,7 +144,7 @@ class Membership (models.Model):
     submitted_on = models.DateField()
     # =========================== Card Update ===========================
     approve = models.BooleanField(default=False)
-    created = models.BooleanField(default=True)
+    created = models.BooleanField(default=False)
     underprocess = models.BooleanField(default=True)
     reject = models.BooleanField(default=False)
     card_number = models.IntegerField(
@@ -186,7 +186,7 @@ class KisanCard(models.Model):
     submitted_on = models.DateField()
     # =========================== Card Update ===========================
     approve = models.BooleanField(default=False)
-    created = models.BooleanField(default=True)
+    created = models.BooleanField(default=False)
     underprocess = models.BooleanField(default=True)
     reject = models.BooleanField(default=False)
     card_number = models.IntegerField(
@@ -227,7 +227,7 @@ class HealthCard(models.Model):
     photo = models.FileField(upload_to="HealthCard/Photo/")
     submitted_on = models.DateField()
     # =========================== Card Update ===========================
-    created = models.BooleanField(default=True)
+    created = models.BooleanField(default=False)
     approve = models.BooleanField(default=False)
     underprocess = models.BooleanField(default=True)
     reject = models.BooleanField(default=False)

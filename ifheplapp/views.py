@@ -74,9 +74,17 @@ def handleAttendance(request):
 def login(request):
     return render(request, "login.html")
 
+@login_required(login_url='/login')
 def profile(request):
     profile = EmployeeProfile.objects.filter(user = request.user)
-    return render(request, "profile.html", {"profile":profile})
+    for i in profile:
+        kisan_count = len(KisanCard.objects.filter(employeeID = i.emmloyeeid))
+        kisan_count = kisan_count if kisan_count else 0
+        membership_count = len(Membership.objects.filter(employeeID = i.emmloyeeid))
+        membership_count = membership_count if membership_count else 0
+        health_count = len(HealthCard.objects.filter(employeeID = i.emmloyeeid))
+        health_count = health_count if health_count else 0
+    return render(request, "profile.html", {"profile":profile, "kisan_count": kisan_count, "membership_count": membership_count, "health_count": health_count})
 
 
 def handeLogin(request):
@@ -90,7 +98,7 @@ def handeLogin(request):
                 dj_login(request, user)
                 request.session.set_expiry(0)
                 messages.success(request, "Successfully Logged In")
-                return redirect("/")
+                return redirect("/profile")
         else:
             msg = "err-msg-login"
             return render(request, "login.html",{"msg":msg})

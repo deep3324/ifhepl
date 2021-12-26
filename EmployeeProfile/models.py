@@ -36,6 +36,9 @@ class EmployeeProfile(models.Model):
     dob = models.DateField()
     Address = models.CharField(max_length=500, default="")
     image = models.ImageField(upload_to="Employee", blank=True, null=True)
+    health_card_created = models.IntegerField(default=0)
+    kisan_card_created = models.IntegerField(default=0)
+    membership_card_created = models.IntegerField(default=0)
 
     class Meta:
         '''
