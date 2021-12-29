@@ -67,16 +67,47 @@
       </div>
       <hr class="py-2">
       <div class="row py-3">
+        <h3 class="logoname">Current Month Card Created</h3>
         <div class="col-md-4 text-center card py-2">
-          <h4>Kisan card Created: {{kisan_count}}</h4>
+          <h4>Kisan card Created: {{prof.current_month_kisan_card_created}}</h4>
           <a style="color: red;" href="/card/Kisan-Card/apply">Apply more</a>
         </div>
         <div class="col-md-4 text-center card py-2">
-          <h4>Health Card Created: {{health_count}}</h4>
+          <h4>Health Card Created: {{prof.current_month_health_card_created}}</h4>
           <a style="color: red;" href="/card/Health-Card/apply">Apply more</a>
         </div>
         <div class="col-md-4 text-center card py-2">
-          <h4>Membership Card Created: {{membership_count}}</h4>
+          <h4>Membership Card Created: {{prof.current_month_membership_card_created}}</h4>
+          <a style="color: red;" href="/membership">Apply more</a>
+        </div>
+      </div>
+      <div class="row py-3">
+        <h3 class="logoname">Previous Month Card Created</h3>
+        <div class="col-md-4 text-center card py-2">
+          <h4>Kisan card Created: {{prof.previous_month_kisan_card_created}}</h4>
+          <a style="color: red;" href="/card/Kisan-Card/apply">Apply more</a>
+        </div>
+        <div class="col-md-4 text-center card py-2">
+          <h4>Health Card Created: {{prof.previous_month_health_card_created}}</h4>
+          <a style="color: red;" href="/card/Health-Card/apply">Apply more</a>
+        </div>
+        <div class="col-md-4 text-center card py-2">
+          <h4>Membership Card Created: {{prof.previous_month_membership_card_created}}</h4>
+          <a style="color: red;" href="/membership">Apply more</a>
+        </div>
+      </div>
+      <div class="row py-3">
+        <h3 class="logoname">Total Card Created</h3>
+        <div class="col-md-4 text-center card py-2">
+          <h4>Kisan card Created: {{prof.total_kisan_card_created}}</h4>
+          <a style="color: red;" href="/card/Kisan-Card/apply">Apply more</a>
+        </div>
+        <div class="col-md-4 text-center card py-2">
+          <h4>Health Card Created: {{prof.total_health_card_created}}</h4>
+          <a style="color: red;" href="/card/Health-Card/apply">Apply more</a>
+        </div>
+        <div class="col-md-4 text-center card py-2">
+          <h4>Membership Card Created: {{prof.total_membership_card_created}}</h4>
           <a style="color: red;" href="/membership">Apply more</a>
         </div>
       </div>
