@@ -233,9 +233,8 @@ def careerApply(request, slug):
 
 def membership_submit(request):
     emp = EmployeeProfile.objects.filter(user=request.user)
-    for i in emp:
-        empid = i.emmloyeeid
-        empname = i.name
+    empid = emp[0].emmloyeeid
+    empname = emp[0].name
     if request.method == 'POST' and request.FILES:
         name = request.POST.get('name')
         dob = request.POST.get('dob')
@@ -298,14 +297,20 @@ def membership_submit(request):
             msg = "succ-msg-mem"
             ifheplapp.def_mail("Membership | IFHEPL", subject, email)
             data_ref = Membership.objects.filter(id_proof=membership.id_proof)
+            emp = EmployeeProfile.objects.get(user=request.user)
+            emp.total_membership_card_created = len(Membership.objects.filter(employeeID=empid))
+            curr_month = datetime.now().month
+            emp.current_month_membership_card_created = len(Membership.objects.filter(employeeID=empid, submitted_on__month = curr_month))
+            prev_month = (datetime.now().replace(day=1) - timedelta(days=1)).month
+            emp.previous_month_membership_card_created = len(Membership.objects.filter(employeeID=empid, submitted_on__month = prev_month))
+            emp.save()
             return render(request, "confirmation.html", {'data_ref': data_ref, "msg":msg})
 
 
 def kisan_submit(request):
     emp = EmployeeProfile.objects.filter(user=request.user)
-    for i in emp:
-        empid = i.emmloyeeid
-        empname = i.name
+    empid = emp[0].emmloyeeid
+    empname = emp[0].name
     if request.method == 'POST' and request.FILES:
         name = request.POST.get('name')
         dob = request.POST.get('dob')
@@ -368,14 +373,20 @@ def kisan_submit(request):
             msg = "succ-msg-kis"
             ifheplapp.def_mail("Kisan Card | IFHEPL", subject, email)
             data_ref = KisanCard.objects.filter(id_proof=kisan.id_proof)
+            emp = EmployeeProfile.objects.get(user=request.user)
+            emp.total_kisan_card_created = len(KisanCard.objects.filter(employeeID=empid))
+            curr_month = datetime.now().month
+            emp.current_month_kisan_card_created = len(KisanCard.objects.filter(employeeID=empid, submitted_on__month = curr_month))
+            prev_month = (datetime.now().replace(day=1) - timedelta(days=1)).month
+            emp.previous_month_kisan_card_created = len(KisanCard.objects.filter(employeeID=empid, submitted_on__month = prev_month))
+            emp.save()
             return render(request, "confirmation.html", {'data_ref_kisan': data_ref, "msg":msg})
 
 
 def health_submit(request):
     emp = EmployeeProfile.objects.filter(user=request.user)
-    for i in emp:
-        empid = i.emmloyeeid
-        empname = i.name
+    empid = emp[0].emmloyeeid
+    empname = emp[0].name
     if request.method == 'POST' and request.FILES:
         name = request.POST.get('name')
         dob = request.POST.get('dob')
@@ -438,6 +449,13 @@ def health_submit(request):
             msg = "succ-msg-hel"
             ifheplapp.def_mail("Health Card | IFHEPL", subject, email)
             data_ref = HealthCard.objects.filter(id_proof=health.id_proof)
+            emp = EmployeeProfile.objects.get(user=request.user)
+            emp.total_health_card_created = len(HealthCard.objects.filter(employeeID=empid))
+            curr_month = datetime.now().month
+            emp.current_month_health_card_created = len(HealthCard.objects.filter(employeeID=empid, submitted_on__month = curr_month))
+            prev_month = (datetime.now().replace(day=1) - timedelta(days=1)).month
+            emp.previous_month_health_card_created = len(HealthCard.objects.filter(employeeID=empid, submitted_on__month = prev_month))
+            emp.save()
             return render(request, "confirmation.html", {'data_ref_health': data_ref, "msg":msg})
 
 

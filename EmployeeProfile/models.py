@@ -36,9 +36,15 @@ class EmployeeProfile(models.Model):
     dob = models.DateField()
     Address = models.CharField(max_length=500, default="")
     image = models.ImageField(upload_to="Employee", blank=True, null=True)
-    health_card_created = models.IntegerField(default=0)
-    kisan_card_created = models.IntegerField(default=0)
-    membership_card_created = models.IntegerField(default=0)
+    total_health_card_created = models.IntegerField(default=0)
+    total_kisan_card_created = models.IntegerField(default=0)
+    total_membership_card_created = models.IntegerField(default=0)
+    current_month_health_card_created = models.IntegerField(default=0)
+    current_month_kisan_card_created = models.IntegerField(default=0)
+    current_month_membership_card_created = models.IntegerField(default=0)
+    previous_month_health_card_created = models.IntegerField(default=0)
+    previous_month_kisan_card_created = models.IntegerField(default=0)
+    previous_month_membership_card_created = models.IntegerField(default=0)
 
     class Meta:
         '''
