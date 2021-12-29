@@ -16,3 +16,17 @@ class EmployeeProfileAdmin(ImportExportModelAdmin):
     resource_class = EmployeeProfileResource
     list_display = ('name', 'emmloyeeid', 'email', 
                   "designation", "job_location",)
+    fieldsets = (
+        ('Employee Details', {
+            'fields': (('user', 'emmloyeeid'), ('name', 'gender'), ('email', 'phone_number'),("designation", "job_location"),("dob", "bloodgroup"),("image", "Address"),)
+        }),
+        ('Current Month Card Created', {
+            'fields': (('current_month_health_card_created', 'current_month_kisan_card_created', 'current_month_membership_card_created',),)
+        }),
+        ('Previous Month Card Created', {
+            'fields': (('previous_month_health_card_created', 'previous_month_kisan_card_created', 'previous_month_membership_card_created',),),
+        }),
+        ('Total Card Created', {
+            'fields': (('total_health_card_created', 'total_kisan_card_created', 'total_membership_card_created'),),
+        }),
+    )
