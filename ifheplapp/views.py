@@ -14,22 +14,6 @@ from geopy.geocoders import Nominatim
 import pytz
 
 
-def offer_letter(request):
-    html = render_to_string('includes/offer_letter.html', {'name': ""})
-    convert_to_html(html)
-    return render(request, "includes/offer_letter.html")
-
-
-def index(request):
-    notice = Notice.objects.all().order_by('-id')
-    sliders = Slider.objects.all().order_by('-id')
-    partners = AssociatePartner.objects.all().order_by('-id')
-    return render(request, "index.html", {'notices': notice, 'sliders': sliders, 'partners': partners})
-
-
-def aboutus(request):
-    return render(request, "aboutus.html")
-
 def ads(request):
     return render(request, "ads.txt")
 
@@ -182,6 +166,8 @@ def viewMembership(request):
             return render(request, "viewDetails.html", {'object_list_card': object_list_card})
         else:
             object_list_card = Membership.objects.all()
+def maintainance(request):
+    return render(request, "maintainance.html")
 
 
 def error_404(request, exception):
