@@ -14,6 +14,23 @@ from geopy.geocoders import Nominatim
 import pytz
 
 
+def offer_letter(request):
+    html = render_to_string('includes/offer_letter.html', {'name': ""})
+    convert_to_html(html)
+    return render(request, "includes/offer_letter.html")
+
+
+def index(request):
+    notice = Notice.objects.all().order_by('-id')
+    sliders = Slider.objects.all().order_by('-id')
+    partners = AssociatePartner.objects.all().order_by('-id')
+    return render(request, "index.html", {'notices': notice, 'sliders': sliders, 'partners': partners})
+
+
+def aboutus(request):
+    return render(request, "aboutus.html")
+
+
 def ads(request):
     return render(request, "ads.txt")
 
@@ -25,9 +42,11 @@ Set Time to show attendance submit
 17:00-17:30
 """
 
+
 @login_required(login_url='/login')
 def attendance(request):
     return render(request, "attendance.html")
+
 
 @login_required(login_url='/login')
 def handleAttendance(request):
@@ -58,17 +77,19 @@ def handleAttendance(request):
 def login(request):
     return render(request, "login.html")
 
+
 @login_required(login_url='/login')
 def profile(request):
-    profile = EmployeeProfile.objects.filter(user = request.user)
+    profile = EmployeeProfile.objects.filter(user=request.user)
     for i in profile:
-        kisan_count = len(KisanCard.objects.filter(employeeID = i.emmloyeeid))
+        kisan_count = len(KisanCard.objects.filter(employeeID=i.emmloyeeid))
         kisan_count = kisan_count if kisan_count else 0
-        membership_count = len(Membership.objects.filter(employeeID = i.emmloyeeid))
+        membership_count = len(
+            Membership.objects.filter(employeeID=i.emmloyeeid))
         membership_count = membership_count if membership_count else 0
-        health_count = len(HealthCard.objects.filter(employeeID = i.emmloyeeid))
+        health_count = len(HealthCard.objects.filter(employeeID=i.emmloyeeid))
         health_count = health_count if health_count else 0
-    return render(request, "profile.html", {"profile":profile, "kisan_count": kisan_count, "membership_count": membership_count, "health_count": health_count})
+    return render(request, "profile.html", {"profile": profile, "kisan_count": kisan_count, "membership_count": membership_count, "health_count": health_count})
 
 
 def handeLogin(request):
@@ -85,7 +106,7 @@ def handeLogin(request):
                 return redirect("/profile")
         else:
             msg = "err-msg-login"
-            return render(request, "login.html",{"msg":msg})
+            return render(request, "login.html", {"msg": msg})
 
 
 def handelLogout(request):
@@ -166,6 +187,8 @@ def viewMembership(request):
             return render(request, "viewDetails.html", {'object_list_card': object_list_card})
         else:
             object_list_card = Membership.objects.all()
+
+
 def maintainance(request):
     return render(request, "maintainance.html")
 
@@ -284,13 +307,17 @@ def membership_submit(request):
             ifheplapp.def_mail("Membership | IFHEPL", subject, email)
             data_ref = Membership.objects.filter(id_proof=membership.id_proof)
             emp = EmployeeProfile.objects.get(user=request.user)
-            emp.total_membership_card_created = len(Membership.objects.filter(employeeID=empid))
+            emp.total_membership_card_created = len(
+                Membership.objects.filter(employeeID=empid))
             curr_month = datetime.now().month
-            emp.current_month_membership_card_created = len(Membership.objects.filter(employeeID=empid, submitted_on__month = curr_month))
-            prev_month = (datetime.now().replace(day=1) - timedelta(days=1)).month
-            emp.previous_month_membership_card_created = len(Membership.objects.filter(employeeID=empid, submitted_on__month = prev_month))
+            emp.current_month_membership_card_created = len(
+                Membership.objects.filter(employeeID=empid, submitted_on__month=curr_month))
+            prev_month = (datetime.now().replace(
+                day=1) - timedelta(days=1)).month
+            emp.previous_month_membership_card_created = len(
+                Membership.objects.filter(employeeID=empid, submitted_on__month=prev_month))
             emp.save()
-            return render(request, "confirmation.html", {'data_ref': data_ref, "msg":msg})
+            return render(request, "confirmation.html", {'data_ref': data_ref, "msg": msg})
 
 
 def kisan_submit(request):
@@ -360,13 +387,17 @@ def kisan_submit(request):
             ifheplapp.def_mail("Kisan Card | IFHEPL", subject, email)
             data_ref = KisanCard.objects.filter(id_proof=kisan.id_proof)
             emp = EmployeeProfile.objects.get(user=request.user)
-            emp.total_kisan_card_created = len(KisanCard.objects.filter(employeeID=empid))
+            emp.total_kisan_card_created = len(
+                KisanCard.objects.filter(employeeID=empid))
             curr_month = datetime.now().month
-            emp.current_month_kisan_card_created = len(KisanCard.objects.filter(employeeID=empid, submitted_on__month = curr_month))
-            prev_month = (datetime.now().replace(day=1) - timedelta(days=1)).month
-            emp.previous_month_kisan_card_created = len(KisanCard.objects.filter(employeeID=empid, submitted_on__month = prev_month))
+            emp.current_month_kisan_card_created = len(KisanCard.objects.filter(
+                employeeID=empid, submitted_on__month=curr_month))
+            prev_month = (datetime.now().replace(
+                day=1) - timedelta(days=1)).month
+            emp.previous_month_kisan_card_created = len(
+                KisanCard.objects.filter(employeeID=empid, submitted_on__month=prev_month))
             emp.save()
-            return render(request, "confirmation.html", {'data_ref_kisan': data_ref, "msg":msg})
+            return render(request, "confirmation.html", {'data_ref_kisan': data_ref, "msg": msg})
 
 
 def health_submit(request):
@@ -436,13 +467,17 @@ def health_submit(request):
             ifheplapp.def_mail("Health Card | IFHEPL", subject, email)
             data_ref = HealthCard.objects.filter(id_proof=health.id_proof)
             emp = EmployeeProfile.objects.get(user=request.user)
-            emp.total_health_card_created = len(HealthCard.objects.filter(employeeID=empid))
+            emp.total_health_card_created = len(
+                HealthCard.objects.filter(employeeID=empid))
             curr_month = datetime.now().month
-            emp.current_month_health_card_created = len(HealthCard.objects.filter(employeeID=empid, submitted_on__month = curr_month))
-            prev_month = (datetime.now().replace(day=1) - timedelta(days=1)).month
-            emp.previous_month_health_card_created = len(HealthCard.objects.filter(employeeID=empid, submitted_on__month = prev_month))
+            emp.current_month_health_card_created = len(
+                HealthCard.objects.filter(employeeID=empid, submitted_on__month=curr_month))
+            prev_month = (datetime.now().replace(
+                day=1) - timedelta(days=1)).month
+            emp.previous_month_health_card_created = len(
+                HealthCard.objects.filter(employeeID=empid, submitted_on__month=prev_month))
             emp.save()
-            return render(request, "confirmation.html", {'data_ref_health': data_ref, "msg":msg})
+            return render(request, "confirmation.html", {'data_ref_health': data_ref, "msg": msg})
 
 
 def job_submit(request):
