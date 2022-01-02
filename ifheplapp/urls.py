@@ -8,8 +8,10 @@ urlpatterns = [
     path('membership', views.membership, name="membership"),
     path('ads.txt', views.ads, name="ads.txt"),
     path('profile', views.profile, name="profile"),
-    path('qr_generator_fuc', cards.qr_generator_fuc, name="qr_generator_fuc"),
-    path('card_generator_fuc', cards.card_generator_fuc, name="card_generator_fuc"),
+    ##Card Generate Function
+    path('membership_card_generate', cards.membership_card_generate, name="membership_card_generate"),
+    path('health_card_generate', cards.health_card_generate, name="health_card_generate"),
+    path('kisan_card_generate', cards.kisan_card_generate, name="kisan_card_generate"),
     path('login', views.login, name="login"),
     path('attendance', views.attendance, name="attendance"),
     path('handleAttendance', views.handleAttendance, name="handleAttendance"),

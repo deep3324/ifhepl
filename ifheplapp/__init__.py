@@ -1,4 +1,4 @@
-from datetime import datetime
+import time
 import os
 import qrcode
 import pdfkit
@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate
 from rest_framework import serializers
 from smtplib import SMTPException
 from django.core.mail.message import EmailMessage
-from datetime import datetime, timedelta
+from datetime import datetime
 from PIL import Image, ImageFont, ImageDraw
 
 
@@ -49,164 +49,81 @@ def qr_generator(card_name, data):
         border=2
     )
     data = data
-    print(data)
     qr.add_data(data)
     qr.make(fit=True)
     img = qr.make_image(fill_color='black', back_color='white')
-    print(settings.MEDIA_ROOT)
-    parent_dir = settings.MEDIA_ROOT
-    card_path = os.path.join(parent_dir, "{}".format(card_name))
-    # if not os.path.exists(card_path):
-    try:
+    path = settings.MEDIA_ROOT + f"/{card_name}/"
+    path_exist = os.path.exists(path)
+    if not path_exist:
+        os.mkdir(path)
+    else:
+        pass
+    qr_path = path + "QR"
+    qr_path_exist = os.path.exists(qr_path)
+    if not qr_path_exist:
+        os.mkdir(qr_path)
+    else:
+        pass
+    if qr_path:
+        img.save(f'{qr_path}/{data["Card Number"]}.png')
+
+def card_creation(card_name, data):
+    path = settings.MEDIA_ROOT + f"/{card_name}/"
+    path_exist = os.path.exists(path)
+    if not path_exist:
+        os.mkdir(path)
+    else:
+        pass
+    card_path = path + "CARD"
+    card_path_exist = os.path.exists(card_path)
+    if not card_path_exist:
         os.mkdir(card_path)
-    except:
+    else:
         pass
-    final_path = os.path.join(card_path, "{}\\QR".format(datetime.now().strftime("%d %m %y")))
-    try:
-        os.mkdir(final_path)
-    except:
-        pass
-    img.save('{}.png'.format(data["Name"]))
-
-
-def health_card_creation(data):
-    my_image = Image.open(settings.MEDIA_ROOT + "\\Membership\\health.png")
-    title_font = ImageFont.truetype("arial.ttf", 35)
-    title_font1 = ImageFont.truetype("arial.ttf", 60)
-    image_editable = ImageDraw.Draw(my_image)
-    image_editable.text(
-        (635, 299), data["Name"].title(), (0, 0, 0), font=title_font)
-    image_editable.text((635, 352), format_date(
-        data["DOB"]), (0, 0, 0), font=title_font)
-    image_editable.text(
-        (635, 400), data["Father's / Husband's Name"].title(), (0, 0, 0), font=title_font)
-    image_editable.text((420, 556), format_num(
-        str(data["Card Number"])), (255, 253, 246), font=title_font1)
-    my_image.paste((Image.open("{}.png".format(data["Name"]))).resize(
+    """Front image data fill"""
+    front_image = Image.open(settings.MEDIA_ROOT +
+                          f"/{card_name}/{card_name}.png")
+    text_font = ImageFont.truetype("arial.ttf", 35)
+    card_number_font = ImageFont.truetype("arial.ttf", 60)
+    front_edit = ImageDraw.Draw(front_image)
+    front_edit.text(
+        (635, 299), data["Name"].title(), (0, 0, 0), font=text_font)
+    front_edit.text((635, 352), format_date(
+        data["DOB"]), (0, 0, 0), font=text_font)
+    front_edit.text(
+        (635, 400), data["Father's / Husband's Name"].title(), (0, 0, 0), font=text_font)
+    front_edit.text(
+        (635, 450), data["Expiry"], (0, 0, 0), font=text_font)
+    front_edit.text((420, 556), format_num(
+        str(data["Card Number"])), (255, 253, 246), font=card_number_font)
+    front_image.paste((Image.open(path + "QR/{}.png".format(data["Card Number"]))).resize(
         (220, 220), Image.ANTIALIAS), (58, 210))
-    # path = os.path.join(settings.MEDIA_ROOT + '\\Membership\\{}\\cards'.format(datetime.now().strftime("%d %m %y")))
-    # if not path:
-    #     os.mkdir(path)
-    my_image.save('{}.png'.format(data["Name"]))
 
-
-def health_card_creation_back(data):
-    my_image = Image.open(settings.MEDIA_ROOT +
-                          "\\Membership\\health_1.png")
-    print(data["Name"])
-    title_font = ImageFont.truetype("arial.ttf", 35)
-    image_editable = ImageDraw.Draw(my_image)
-    image_editable.text(
-        (510, 100), data["village"].title(), (0, 0, 0), font=title_font)
-    image_editable.text(
-        (510, 152), data["po"].title(), (0, 0, 0), font=title_font)
-    image_editable.text(
-        (510, 203), data["ps"].title(), (0, 0, 0), font=title_font)
-    image_editable.text(
-        (510, 252), data["block"].title(), (0, 0, 0), font=title_font)
-    image_editable.text(
-        (510, 300), data["district"].title(), (0, 0, 0), font=title_font)
-    image_editable.text(
-        (760, 348), data["pin_code"].title(), (0, 0, 0), font=title_font)
-    # path = os.path.join(settings.MEDIA_ROOT +
-    #                     '\\Membership\\{}\\cards'.format(datetime.now().strftime("%d %m %y")))
-    # if not path:
-    #     os.mkdir(path)
-    my_image.save('{}_1.png'.format(data["Name"]))
-def kisan_card_creation(data):
-    my_image = Image.open(settings.MEDIA_ROOT + "\\Membership\\kisan.png")
-    title_font = ImageFont.truetype("arial.ttf", 35)
-    title_font1 = ImageFont.truetype("arial.ttf", 60)
-    image_editable = ImageDraw.Draw(my_image)
-    image_editable.text(
-        (635, 299), data["Name"].title(), (0, 0, 0), font=title_font)
-    image_editable.text((635, 352), format_date(
-        data["DOB"]), (0, 0, 0), font=title_font)
-    image_editable.text(
-        (635, 400), data["Father's / Husband's Name"].title(), (0, 0, 0), font=title_font)
-    image_editable.text((420, 556), format_num(
-        str(data["Card Number"])), (255, 253, 246), font=title_font1)
-    my_image.paste((Image.open("{}.png".format(data["Name"]))).resize(
-        (220, 220), Image.ANTIALIAS), (58, 210))
-    # path = os.path.join(settings.MEDIA_ROOT + '\\Membership\\{}\\cards'.format(datetime.now().strftime("%d %m %y")))
-    # if not path:
-    #     os.mkdir(path)
-    my_image.save('{}.png'.format(data["Name"]))
-
-
-def kisan_card_creation_back(data):
-    my_image = Image.open(settings.MEDIA_ROOT +
-                          "\\Membership\\kisan_1.png")
-    print(data["Name"])
-    title_font = ImageFont.truetype("arial.ttf", 35)
-    image_editable = ImageDraw.Draw(my_image)
-    image_editable.text(
-        (510, 100), data["village"].title(), (0, 0, 0), font=title_font)
-    image_editable.text(
-        (510, 152), data["po"].title(), (0, 0, 0), font=title_font)
-    image_editable.text(
-        (510, 203), data["ps"].title(), (0, 0, 0), font=title_font)
-    image_editable.text(
-        (510, 252), data["block"].title(), (0, 0, 0), font=title_font)
-    image_editable.text(
-        (510, 300), data["district"].title(), (0, 0, 0), font=title_font)
-    image_editable.text(
-        (760, 348), data["pin_code"].title(), (0, 0, 0), font=title_font)
-    # path = os.path.join(settings.MEDIA_ROOT +
-    #                     '\\Membership\\{}\\cards'.format(datetime.now().strftime("%d %m %y")))
-    # if not path:
-    #     os.mkdir(path)
-    my_image.save('{}_1.png'.format(data["Name"]))
-
-# def membership_card_creation(data):
-#     my_image = Image.open(settings.MEDIA_ROOT + "\\Membership\\membership.png")
-#     title_font = ImageFont.truetype("arial.ttf", 35)
-#     title_font1 = ImageFont.truetype("arial.ttf", 60)
-#     image_editable = ImageDraw.Draw(my_image)
-#     image_editable.text(
-#         (635, 299), data["Name"].title(), (0, 0, 0), font=title_font)
-#     image_editable.text((635, 352), format_date(
-#         data["DOB"]), (0, 0, 0), font=title_font)
-#     image_editable.text(
-#         (635, 400), data["Father's / Husband's Name"].title(), (0, 0, 0), font=title_font)
-#     image_editable.text((420, 556), format_num(
-#         str(data["Card Number"])), (255, 253, 246), font=title_font1)
-#     my_image.paste((Image.open("{}.png".format(data["Name"]))).resize(
-#         (220, 220), Image.ANTIALIAS), (58, 210))
-#     # path = os.path.join(settings.MEDIA_ROOT + '\\Membership\\{}\\cards'.format(datetime.now().strftime("%d %m %y")))
-#     # if not path:
-#     #     os.mkdir(path)
-#     my_image.save('{}.png'.format(data["Name"]))
-
-
-# def membership_card_creation_back(data):
-#     my_image = Image.open(settings.MEDIA_ROOT +
-#                           "\\Membership\\membership_1.png")
-#     print(data["Name"])
-#     title_font = ImageFont.truetype("arial.ttf", 35)
-#     image_editable = ImageDraw.Draw(my_image)
-#     image_editable.text(
-#         (510, 100), data["village"].title(), (0, 0, 0), font=title_font)
-#     image_editable.text(
-#         (510, 152), data["po"].title(), (0, 0, 0), font=title_font)
-#     image_editable.text(
-#         (510, 203), data["ps"].title(), (0, 0, 0), font=title_font)
-#     image_editable.text(
-#         (510, 252), data["block"].title(), (0, 0, 0), font=title_font)
-#     image_editable.text(
-#         (510, 300), data["district"].title(), (0, 0, 0), font=title_font)
-#     image_editable.text(
-#         (760, 348), data["pin_code"].title(), (0, 0, 0), font=title_font)
-#     # path = os.path.join(settings.MEDIA_ROOT +
-#     #                     '\\Membership\\{}\\cards'.format(datetime.now().strftime("%d %m %y")))
-#     # if not path:
-#     #     os.mkdir(path)
-#     my_image.save('{}_1.png'.format(data["Name"]))
+    """Back image data fill"""
+    back_image = Image.open(settings.MEDIA_ROOT +
+                          f"/{card_name}/{card_name}_1.png")
+    back_edit = ImageDraw.Draw(back_image)
+    back_edit.text(
+        (510, 100), data["village"].title(), (0, 0, 0), font=text_font)
+    back_edit.text(
+        (510, 152), data["po"].title(), (0, 0, 0), font=text_font)
+    back_edit.text(
+        (510, 203), data["ps"].title(), (0, 0, 0), font=text_font)
+    back_edit.text(
+        (510, 252), data["block"].title(), (0, 0, 0), font=text_font)
+    back_edit.text(
+        (510, 300), data["district"].title(), (0, 0, 0), font=text_font)
+    back_edit.text(
+        (760, 348), data["pin_code"].title(), (0, 0, 0), font=text_font)
+    if card_path:
+        front_image.save(f'{card_path}/{data["Card Number"]}.png')
+        back_image.save(f'{card_path}/{data["Card Number"]}_1.png')
+        os.remove(path + "QR/{}.png".format(data["Card Number"]))
+        time.sleep(7)
 
 
 def format_num(strn):
     return strn[0:4] + " " + strn[4:8] + " " + strn[8:]
-
 
 def format_date(date_string):
     date_object = datetime.strptime(date_string, "%Y-%m-%d")

@@ -210,5 +210,7 @@ MESSAGE_TAGS = {
 }
 
 CRONJOBS = [
-    ('@daily', 'ifheplapp.cron.membership_cron_job')
+    ('* 1 * * *', 'ifheplapp.cron.membership_cron_job'),
+    ('30 1 * * *', 'ifheplapp.cron.kisan_cron_job'),
+    ('* 2 * * *', 'ifheplapp.cron.health_cron_job'),
 ]
