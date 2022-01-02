@@ -25,8 +25,11 @@ def membership_cron_job():
             "Photo" : data.photo,
             "Card Number" : data.card_number,
         }
-        qr_generator("Membership",datam)
-        card_creation("Membership",datam)
+        if not data.created:
+            qr_generator("Membership",datam)
+            card_creation("Membership",datam)
+            data.created = True
+            data.save()
 def kisan_cron_job():
     datas = KisanCard.objects.all()
     for data in datas:
@@ -51,8 +54,11 @@ def kisan_cron_job():
             "Photo" : data.photo,
             "Card Number" : data.card_number,
         }
-        qr_generator("KisanCard",datam)
-        card_creation("KisanCard",datam)
+        if not data.created:
+            qr_generator("KisanCard",datam)
+            card_creation("KisanCard",datam)
+            data.created = True
+            data.save()
 def health_cron_job():
     datas = HealthCard.objects.all()
     for data in datas:
@@ -78,5 +84,8 @@ def health_cron_job():
             "Photo" : data.photo,
             "Card Number" : data.card_number,
         }
-        qr_generator("HealthCard",datam)
-        card_creation("HealthCard",datam)
+        if not data.created:
+            qr_generator("HealthCard",datam)
+            card_creation("HealthCard",datam)
+            data.created = True
+            data.save()
