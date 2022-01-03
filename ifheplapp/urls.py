@@ -5,6 +5,7 @@ from ifheplapp.api import AttendanceView, EmployeeRegistrationView, SliderList, 
 
 urlpatterns = [
     path('', views.index, name="maintainance"),
+    path('membership', views.membership, name="membership"),
     path('ads.txt', views.ads, name="ads.txt"),
     path('profile', views.profile, name="profile"),
     ##Card Generate Function
