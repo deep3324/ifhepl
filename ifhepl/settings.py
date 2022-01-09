@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_jwt',
     'import_export',
-    'django_crontab'
+    'django_cron'
 ]
 
 MIDDLEWARE = [
@@ -209,8 +209,14 @@ MESSAGE_TAGS = {
     messages.ERROR: 'alert-danger',
 }
 
-CRONJOBS = [
-    ('* 1 * * *', 'ifheplapp.cron.membership_cron_job'),
-    ('30 1 * * *', 'ifheplapp.cron.kisan_cron_job'),
-    ('* 2 * * *', 'ifheplapp.cron.health_cron_job'),
+# CRONJOBS = [
+#     ('* 1 * * *', 'ifheplapp.cron.membership_cron_job'),
+#     ('30 1 * * *', 'ifheplapp.cron.kisan_cron_job'),
+#     ('* 2 * * *', 'ifheplapp.cron.health_cron_job'),
+# ]
+
+CRON_CLASSES = [
+    "ifheplapp.cron.MembershipCronJob",
+    "ifheplapp.cron.KisanCronJob",
+    "ifheplapp.cron.HealthCronJob",
 ]
