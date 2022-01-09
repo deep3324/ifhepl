@@ -14,8 +14,7 @@ class EmployeeProfileResource(resources.ModelResource):
 @admin.register(EmployeeProfile)
 class EmployeeProfileAdmin(ImportExportModelAdmin):
     resource_class = EmployeeProfileResource
-    list_display = ('name', 'emmloyeeid', 'email', 
-                  "designation", "job_location",)
+    list_display = ('name', 'emmloyeeid', "job_location","current_month_health_card_created","current_month_kisan_card_created","current_month_membership_card_created")
     fieldsets = (
         ('Employee Details', {
             'fields': (('user', 'emmloyeeid'), ('name', 'gender'), ('email', 'phone_number'),("designation", "job_location"),("dob", "bloodgroup"),("image", "Address"),)
