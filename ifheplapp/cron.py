@@ -29,6 +29,8 @@ def membership_cron_job():
             qr_generator("Membership",datam)
             card_creation("Membership",datam)
             data.created = True
+            data.underprocess = False
+            data.approve = False
             data.save()
 def kisan_cron_job():
     datas = KisanCard.objects.all()
@@ -58,6 +60,8 @@ def kisan_cron_job():
             qr_generator("KisanCard",datam)
             card_creation("KisanCard",datam)
             data.created = True
+            data.underprocess = False
+            data.approve = False
             data.save()
 def health_cron_job():
     datas = HealthCard.objects.all()
@@ -88,4 +92,6 @@ def health_cron_job():
             qr_generator("HealthCard",datam)
             card_creation("HealthCard",datam)
             data.created = True
+            data.underprocess = False
+            data.approve = False
             data.save()

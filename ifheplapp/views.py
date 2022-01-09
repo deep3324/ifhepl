@@ -169,24 +169,63 @@ def searchMembership(request):
     return render(request, "seach_membership.html")
 
 
+def searchKisan(request):
+    return render(request, "seach_kisan.html")
+
+
+def searchHealth(request):
+    return render(request, "seach_health.html")
+
+
 def viewMembership(request):
     if request.method == 'GET':
         query_reference = request.GET.get('query_reference')
         query_card = request.GET.get('query_card')
         query_card_dob = request.GET.get('query_card_dob')
         if query_reference:
-            object_list_reference = Membership.objects.filter(
+            membership_reference = Membership.objects.filter(
                 reference_number=query_reference)
-            return render(request, "viewDetails.html", {'object_list_reference': object_list_reference})
-        else:
-            object_list_reference = Membership.objects.all()
-
-        if query_card and query_card_dob:
-            object_list_card = Membership.objects.filter(
+            return render(request, "viewDetails.html", {'membership_reference': membership_reference[0] if membership_reference else ""})
+        elif query_card and query_card_dob:
+            membership_card = Membership.objects.filter(
                 Q(card_number=query_card) & Q(dob=query_card_dob))
-            return render(request, "viewDetails.html", {'object_list_card': object_list_card})
+            return render(request, "viewDetails.html", {'membership_card': membership_card[0] if membership_card else ""})
         else:
-            object_list_card = Membership.objects.all()
+            return render(request, "viewDetails.html", {'membership_reference': "", "membership_card": ""})
+
+
+def viewKisanCard(request):
+    if request.method == 'GET':
+        query_reference = request.GET.get('query_reference')
+        query_card = request.GET.get('query_card')
+        query_card_dob = request.GET.get('query_card_dob')
+        if query_reference:
+            kisan_reference = KisanCard.objects.filter(
+                reference_number=query_reference)
+            return render(request, "viewDetails.html", {'kisan_reference': kisan_reference[0] if kisan_reference else ""})
+        elif query_card and query_card_dob:
+            kisan_card = KisanCard.objects.filter(
+                Q(card_number=query_card) & Q(dob=query_card_dob))
+            return render(request, "viewDetails.html", {'kisan_card': kisan_card[0] if kisan_card else ""})
+        else:
+            return render(request, "viewDetails.html", {'kisan_reference': "", "kisan_card": ""})
+
+
+def viewHealthCard(request):
+    if request.method == 'GET':
+        query_reference = request.GET.get('query_reference')
+        query_card = request.GET.get('query_card')
+        query_card_dob = request.GET.get('query_card_dob')
+        if query_reference:
+            Health_reference = HealthCard.objects.filter(
+                reference_number=query_reference)
+            return render(request, "viewDetails.html", {'Health_reference': Health_reference[0] if Health_reference else ""})
+        elif query_card and query_card_dob:
+            Health_card = HealthCard.objects.filter(
+                Q(card_number=query_card) & Q(dob=query_card_dob))
+            return render(request, "viewDetails.html", {'Health_card': Health_card[0] if Health_card else ""})
+        else:
+            return render(request, "viewDetails.html", {'Health_reference': "", "Health_card": ""})
 
 
 def maintainance(request):

@@ -1,8 +1,8 @@
 {% extends 'extends/base.html' %}
-{% block title %}{% endblock title %}
+{% block title %}Card Details{% endblock title %}
 
 
-{% block ogtitle %}{% endblock ogtitle %}
+{% block ogtitle %}Card Details{% endblock ogtitle %}
 
 {% block ogurl %}{% endblock ogurl %}
 {% block style %}
@@ -12,44 +12,152 @@
 <div class="row1" style="background-color: rgb(255, 255, 240);">
   <div class="container" style="max-width: 60%;">
     <div class="my-2 text-center">
-      {% if object_list_reference %}
-      {% for data in object_list_reference %}
-      <h5 class="my-2">Membership Reference No.: <span style="color: red;"> {{data.reference_number}}</span></h5>
-      {% if data.reject %}
+      <!-- Membership Card-->
+      {% if membership_reference %}
+      <h5 class="my-2">Membership Reference No.: <span style="color: red;">
+          {{membership_reference.reference_number}}</span></h5> <br>
+      {% if membership_reference.reject %}
       <h5 class="my-2"><br>We are sorry to say that your Membership Application is Rejected.<br> Call us for more Query
         <br> <br> <a href="/reach-us" class="my-3" style="color: red; text-decoration: none;" target="__blank">Click
-          here</a> to Contact </h5>
-      {% elif data.approve%}
+          here</a> to Contact
+      </h5>
+      {% elif membership_reference.approve %}
       <h5 class="my-2">Membership Application has been Approved.<br>Your Membership Card Number is <span
-          style="color: red;">{{data.card_number}}</span></h5>
-      {% elif data.underprocess %}
+          style="color: red;">{{membership_reference.card_number}}</span></h5> <br>
+      {% elif membership_reference.created %}
+      <h5 class="my-2">Membership Application has been Created.<br>Your Membership Card Number is <span
+          style="color: red;">{{membership_reference.card_number}}</span> <br> <br>It will be delivered to you by
+        shortly. <br>You can see your card by provding above card number and your Date of Birth in previous page.</h5>
+      {% elif membership_reference.underprocess %}
       <h5 class="my-5">Your Membership Application is under Review.<br><small style="color: red"> It takes 2-3 working
           days for further process</small><br>When your application is approved, you will get mail from us.</h5>
       {% endif %}
-      {% endfor %}
-
-      {% elif object_list_card %}
-      {% for data in object_list_card %}
-      <h4 class="my-2">Card No.: <span style="color: red;"> {{data.card_number}}</span></h4>
+      {% elif membership_card %}
+      <h4 class="my-2">Name : <span style="color: red;"> {{membership_card.name}}</span> | Membership Card No.: <span
+          style="color: red;"> {{membership_card.card_number}}</span></h4>
       <div class="row">
         <div class="col-md-6">
-          <img src="/static/images/card/card-1.png" style="height: 300px; margin-top: 15px;" alt=""> <br>
+          <img src="/media/Membership/CARD/{{membership_card.card_number}}.png" style="height: 300px; margin-top: 15px;"
+            alt="">
+          <br>
         </div>
         <div class="col-md-6">
-          <img src="/static/images/card/card-1a.png" style="height: 300px; margin-top: 15px;" alt=""> <br>
+          <img src="/media/Membership/CARD/{{membership_card.card_number}}_1.png"
+            style="height: 300px; margin-top: 15px;" alt="">
+          <br>
         </div>
       </div>
-      <a href="" class="btn btn-primary mt-5">Download</a>
-      {% endfor %}
+      <!-- Health Card-->
+      {% elif Health_reference %}
+      <h5 class="my-2">Health Card Reference No.: <span style="color: red;">
+          {{Health_reference.reference_number}}</span></h5>
+      {% if Health_reference.reject %}
+      <h5 class="my-2"><br>We are sorry to say that your Health Card Application is Rejected.<br> Call us for more Query
+        <br> <br> <a href="/reach-us" class="my-3" style="color: red; text-decoration: none;" target="__blank">Click
+          here</a> to Contact
+      </h5>
+      {% elif Health_reference.approve%}
+      <h5 class="my-2">Health Card Application has been Approved.<br>Your Health Card Number is <span
+          style="color: red;">{{Health_reference.card_number}}</span></h5>
+      {% elif Health_reference.created%}
+      <h5 class="my-2">Membership Application has been Created.<br>Your Membership Card Number is <span
+          style="color: red;">{{Health_reference.card_number}}</span> <br> <br>It will be delivered to you by shortly.
+        <br>You can see your card by provding above card number and your Date of Birth in previous page.</h5>
+      {% elif Health_reference.underprocess %}
+      <h5 class="my-5">Your Health Card Application is under Review.<br><small style="color: red"> It takes 2-3 working
+          days for further process</small><br>When your application is approved, you will get mail from us.</h5>
+      {% endif %}
+      {% elif Health_card %}
+      <h4 class="my-2">Name : <span style="color: red;"> {{Health_card.name}}</span> | Health Card No.: <span
+          style="color: red;"> {{Health_card.card_number}}</span></h4>
+      <div class="row">
+        <div class="col-md-6">
+          <img src="/media/HealthCard/CARD/{{Health_card.card_number}}.png" style="height: 300px; margin-top: 15px;"
+            alt="">
+          <br>
+        </div>
+        <div class="col-md-6">
+          <img src="/media/HealthCard/CARD/{{Health_card.card_number}}_1.png" style="height: 300px; margin-top: 15px;"
+            alt="">
+          <br>
+        </div>
+      </div>
+      <!-- Kisan Card-->
+      {% elif kisan_reference %}
+      <h5 class="my-2">Kisan Reference No.: <span style="color: red;"> {{kisan_reference.reference_number}}</span></h5>
+      {% if kisan_reference.reject %}
+      <h5 class="my-2"><br>We are sorry to say that your Kisan Card Application is Rejected.<br> Call us for more Query
+        <br> <br> <a href="/reach-us" class="my-3" style="color: red; text-decoration: none;" target="__blank">Click
+          here</a> to Contact
+      </h5>
+      {% elif kisan_reference.approve %}
+      <h5 class="my-2">Kisan Card Application has been Approved.<br>Your Kisan Card Number is <span
+          style="color: red;">{{kisan_reference.card_number}}</span></h5>
+      {% elif kisan_reference.created %}
+      <h5 class="my-2">Membership Application has been Created.<br>Your Membership Card Number is <span
+          style="color: red;">{{kisan_reference.card_number}}</span> <br> <br>It will be delivered to you by shortly.
+        <br>You can see your card by provding above card number and your Date of Birth in previous page.</h5>
+      {% elif kisan_reference.underprocess %}
+      <h5 class="my-5">Your Kisan Card Application is under Review.<br><small style="color: red"> It takes 2-3 working
+          days for further process</small><br>When your application is approved, you will get mail from us.</h5>
+      {% endif %}
+
+      {% elif kisan_card %}
+      <h4 class="my-2">Name : <span style="color: red;"> {{kisan_card.name}}</span> | Kisan Card No.: <span
+          style="color: red;"> {{kisan_card.card_number}}</span></h4>
+      <div class="row">
+        <div class="col-md-6">
+          <img src="/media/KisanCard/CARD/{{kisan_card.card_number}}.png" style="height: 300px; margin-top: 15px;"
+            alt="">
+          <br>
+        </div>
+        <div class="col-md-6">
+          <img src="/media/KisanCard/CARD/{{kisan_card.card_number}}_1.png" style="height: 300px; margin-top: 15px;"
+            alt="">
+          <br>
+        </div>
+      </div>
+      <!--else-->
       {% else %}
       <img src="/static/images/alert_icon.png" alt="">
-      <h5 class="my-2">Please check your Membership Reference Number/ Card Number / DOB</h5>
+      <h5 class="my-2">Please check your Reference Number/ Card Number / DOB</h5>
       {% endif %}
 
     </div>
   </div>
 </div>
 {% block script %}
+<script>
+  $(document).bind("contextmenu", function (e) {
+    return false;
+  });
+  document.addEventListener("keyup", function (e) {
+    var keyCode = e.keyCode ? e.keyCode : e.which;
+    if (keyCode == 44) {
+      stopPrntScr();
+      alert("Taking Screenshot is Disabled")
+    }
+  });
+  function stopPrntScr() {
 
+    var inpFld = document.createElement("input");
+    inpFld.setAttribute("value", ".");
+    inpFld.setAttribute("width", "0");
+    inpFld.style.height = "0px";
+    inpFld.style.width = "0px";
+    inpFld.style.border = "0px";
+    document.body.appendChild(inpFld);
+    inpFld.select();
+    document.execCommand("copy");
+    inpFld.remove(inpFld);
+  }
+  function AccessClipboardData() {
+    try {
+      window.clipboardData.setData('text', "Access   Restricted");
+    } catch (err) {
+    }
+  }
+  setInterval("AccessClipboardData()", 300);
+</script>
 {% endblock script %}
 {% endblock body %}

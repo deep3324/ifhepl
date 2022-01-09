@@ -1,10 +1,10 @@
 {% extends 'extends/base.html' %}
-{% block title %}{% endblock title %}
+{% block title %}Search Membership Card{% endblock title %}
 
 
-{% block ogtitle %}{% endblock ogtitle %}
+{% block ogtitle %}Search Membership Card{% endblock ogtitle %}
 
-{% block ogurl %}{% endblock ogurl %}
+{% block ogurl %}verify_membership{% endblock ogurl %}
 {% block style %}
 
 {% endblock style %}
@@ -12,15 +12,14 @@
 <div class="row1" style="background-color: rgb(255, 255, 240);">
   <div class="container" style="max-width: 60%;">
     <div class="my-2 text-center">
-      <form class="" action="search_membership/viewDetails" method="GET">
+      <form class="" action="verify_membership/viewDetails" method="GET">
         <div class="row">
           <div class="col-md-3">
             <label for="exampleInputEmail1" class="form-label">Reference Number</label>
-
           </div>
           <div class="col-md-7">
-            <input class="form-control me-2" name="query_reference" type="search" placeholder="Search" aria-label="Search">
-
+            <input class="form-control me-2" name="query_reference" type="search" placeholder="Search"
+              aria-label="Search">
           </div>
           <div class="col-md-2">
             <button class="btn btn-outline-warning" type="submit">Check Status</button>
@@ -28,7 +27,7 @@
         </div>
       </form>
       <h5 class="my-5">or</h5>
-      <form class="" action="search_membership/viewDetails" method="GET">
+      <form class="" action="verify_membership/viewDetails" method="GET">
         <div class="row">
           <div class="col-md-3">
             <label for="exampleInputEmail1" class="form-label">Membership Card Number & <br>Date of Birth</label>
@@ -40,7 +39,7 @@
             <input class="form-control me-2" name="query_card_dob" type="date" placeholder="Search" aria-label="Search">
           </div>
           <div class="col-md-2">
-            <button class="btn btn-outline-success" type="submit">Verify & Download</button>
+            <button class="btn btn-outline-success" type="submit">View Card</button>
           </div>
         </div>
       </form>

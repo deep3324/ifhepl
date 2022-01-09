@@ -32,10 +32,13 @@ def membership_card_generate(request):
             "Card Number" : data.card_number,
             "Expiry" : expiry,
         }
-        if not data.created:
+        if not data.created and data.approve:
             qr_generator("Membership",datam)
             card_creation("Membership",datam)
             data.created = True
+            data.underprocess = False
+            data.approve = False
+            data.reject = False
             data.save()
     return HttpResponse("Membership Card generatred")
     
@@ -68,10 +71,12 @@ def health_card_generate(request):
             "Card Number" : data.card_number,
             "Expiry" : expiry,
         }
-        if not data.created:
+        if not data.created and data.approve:
             qr_generator("HealthCard",datam)
             card_creation("HealthCard",datam)
             data.created = True
+            data.underprocess = False
+            data.approve = False
             data.save()
     return HttpResponse("Health Card generatred")
     
@@ -104,10 +109,12 @@ def kisan_card_generate(request):
             "Card Number" : data.card_number,
             "Expiry" : expiry,
         }
-        if not data.created:
+        if not data.created and data.approve:
             qr_generator("KisanCard",datam)
             card_creation("KisanCard",datam)
             data.created = True
+            data.underprocess = False
+            data.approve = False
             data.save()
     return HttpResponse("Kisan Card generatred")
     
