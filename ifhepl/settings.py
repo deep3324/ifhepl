@@ -26,9 +26,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-#t!5vncrl9^ja7en&_wf)c-jpe47252a2=_=xf0ifmrv+my*o='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['ifhepl.in', 'www.ifhepl.in',"*"]
+ALLOWED_HOSTS = ['ifhepl.in', 'www.ifhepl.in']
 
 # Application definition
 
@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_jwt',
     'import_export',
-    'django_cron'
+    'django_q'
 ]
 
 MIDDLEWARE = [
@@ -209,14 +209,10 @@ MESSAGE_TAGS = {
     messages.ERROR: 'alert-danger',
 }
 
-# CRONJOBS = [
-#     ('* 1 * * *', 'ifheplapp.cron.membership_cron_job'),
-#     ('30 1 * * *', 'ifheplapp.cron.kisan_cron_job'),
-#     ('* 2 * * *', 'ifheplapp.cron.health_cron_job'),
-# ]
-
-CRON_CLASSES = [
-    "ifheplapp.cron.MembershipCronJob",
-    "ifheplapp.cron.KisanCronJob",
-    "ifheplapp.cron.HealthCronJob",
-]
+Q_CLUSTER = {
+    "name": "Cron",
+    'retry': 15,
+   'workers': 4,
+   'timeout': 10,
+    "orm": "default",  # Use Django's ORM + database for broker
+}
