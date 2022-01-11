@@ -23,7 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-#t!5vncrl9^ja7en&_wf)c-jpe47252a2=_=xf0ifmrv+my*o='
+# SECRET_KEY = 'django-insecure-#t!5vncrl9^ja7en&_wf)c-jpe47252a2=_=xf0ifmrv+my*o='
+with open('/etc/secret_key.txt') as f:
+    SECRET_KEY = f.read().strip()
+# SECRET_KEY = 
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -157,8 +160,8 @@ EMAIL_USE_TLS=True
 EMAIL_PORT= 587
 
 EMAIL_HOST_USER='care@ifhepl.in'
-
-EMAIL_HOST_PASSWORD='obyrdidbbwqelaum'
+with open('/etc/email_password.txt') as f:
+    EMAIL_HOST_PASSWORD = f.read().strip()
 
 REST_FRAMEWORK = {
      'DEFAULT_PERMISSION_CLASSES': [
@@ -216,3 +219,11 @@ Q_CLUSTER = {
    'timeout': 10,
     "orm": "default",  # Use Django's ORM + database for broker
 }
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = True
+SECURE_HSTS_SECONDS = 31536000
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_HSTS_PRELOAD = True
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
