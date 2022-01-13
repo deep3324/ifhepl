@@ -1,0 +1,64 @@
+{% extends 'extends/base.html' %}
+{% block title %}Associate Partners{% endblock title %}
+{% block ogtitle %}Associate Partners{% endblock ogtitle %}
+{% block ogurl %}associate-partner{% endblock ogurl %}
+
+{% block style %}
+<style>
+    @media screen and (max-width: 768px) {
+        .notice_board {
+            max-width: 95% !important;
+        }
+    }
+
+    .notice_board {
+        background-color: transparent !important;
+        padding: 10px !important;
+    }
+
+    th {
+        background: none !important;
+        color: black;
+    }
+
+    table {
+        /* background-color: transparent !important; */
+
+        border-color: transparent !important;
+    }
+</style>
+{% endblock style %}
+{% block body %}
+<div class="row1" style="background-color: rgb(255, 255, 240);">
+
+    <div class="container notice_board" style="max-width: 60%;">
+        {% if associate_partners %}
+        <div class="my-4 text-center">
+            <h2>Our Associate Partners</h2>
+        </div>
+        <div style=" overflow-wrap: break-word; padding: 10px !important;">
+            {% for associate_partner in associate_partners %}
+            <table>
+                <td style="width: 250px">
+                    <img src="/media/{{associate_partner.partnerImage}}" style="height: 250px !important;" alt="">
+                </td>
+                <td>
+                    <strong>
+                        <h3>{{associate_partner.partnerName}}</h3>
+                    </strong>
+                    <h5>{{associate_partner.partnerAddress}}</h5>
+                </td>
+            </table>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="my-2 text-center">
+            <img src="/static/images/unnamed.png" style="width: 768px;" alt="">
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% block script %}
+
+{% endblock script %}
+{% endblock body %}

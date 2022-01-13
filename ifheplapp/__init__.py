@@ -46,6 +46,7 @@ def qr_generator(card_name, data):
     qr = qrcode.QRCode(
         version=5,
         box_size=5,
+        error_correction = qrcode.constants.ERROR_CORRECT_L,
         border=2
     )
     data = data
@@ -118,7 +119,7 @@ def card_creation(card_name, data):
     if card_path:
         front_image.save(f'{card_path}/{data["Card Number"]}.png')
         back_image.save(f'{card_path}/{data["Card Number"]}_1.png')
-        os.remove(path + "QR/{}.png".format(data["Card Number"]))
+        # os.remove(path + "QR/{}.png".format(data["Card Number"]))
         time.sleep(7)
 
 

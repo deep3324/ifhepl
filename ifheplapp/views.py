@@ -1,9 +1,8 @@
 from ifheplapp import convert_to_html
 from datetime import timedelta, datetime
 from django.db.models.query_utils import Q
-from django.http import HttpResponse
 import ifheplapp
-from ifheplapp.models import AssociatePartner, Attendance, Contact, Gallery, HealthCard, KisanCard, Membership, Jobs, JobApply, Notice, Slider
+from ifheplapp.models import AssociatePartner, Attendance, Contact, Gallery, HealthCard, KisanCard, Membership, Jobs, Notice, Slider
 from EmployeeProfile.models import EmployeeProfile
 from django.shortcuts import redirect, render
 from django.template.loader import *
@@ -11,7 +10,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,  login as dj_login, logout
 from django.contrib import messages
 from geopy.geocoders import Nominatim
-import pytz
 
 
 def offer_letter(request):
@@ -134,6 +132,10 @@ def health_card_apply(request):
 
 def reachus(request):
     return render(request, "reachus.html")
+
+def associate(request):
+    associate_partners = AssociatePartner.objects.all().order_by('-id')
+    return render(request, "associate.html",{'associate_partners':associate_partners})
 
 
 def reachus_submit(request):
@@ -275,7 +277,7 @@ def career(request):
 
 
 def careerApply(request, slug):
-    jobs = Jobs.objects.filter(slug=slug)
+    jobs = Jobs.objects.get(slug=slug)
     return render(request, "career_apply.html", {'jobs': jobs})
 
 
@@ -517,113 +519,3 @@ def health_submit(request):
                 HealthCard.objects.filter(employeeID=empid, submitted_on__month=prev_month))
             emp.save()
             return render(request, "confirmation.html", {'data_ref_health': data_ref, "msg": msg})
-
-
-def job_submit(request):
-    if request.method == 'POST' and request.FILES:
-        applied_for = request.POST.get('applied_for')
-        name = request.POST.get('name')
-        dob = request.POST.get('dob')
-        idtype = request.POST.get('idtype')
-        id_proof = request.POST.get('id_proof1') or request.POST.get(
-            'id_proof2') or request.POST.get('id_proof3') or request.POST.get('id_proof4')
-        father_name = request.POST.get('father_name')
-        mother_name = request.POST.get('mother_name')
-        category = request.POST.get('category')
-        disability = request.POST.get('disability')
-        mobile_number = request.POST.get('mobile_number')
-        alt_mobile_no = request.POST.get('alt_mobile_no')
-        email = request.POST.get('email')
-        village = request.POST.get('village')
-        po = request.POST.get('po')
-        ps = request.POST.get('ps')
-        district = request.POST.get('district')
-        block = request.POST.get('block')
-        state = request.POST.get('state')
-        pin_code = request.POST.get('pin_code')
-        board_10 = request.POST.get('board_10')
-        school_10 = request.POST.get('school_10')
-        passing_10 = request.POST.get('passing_10')
-        roll_10 = request.POST.get('roll_10')
-        mark_10 = request.POST.get('mark_10')
-        percentage_10 = request.POST.get('percentage_10')
-        board_12 = request.POST.get('board_12')
-        school_12 = request.POST.get('school_12')
-        passing_12 = request.POST.get('passing_12')
-        roll_12 = request.POST.get('roll_12')
-        mark_12 = request.POST.get('mark_12')
-        percentage_12 = request.POST.get('percentage_12')
-        univ_graduation = request.POST.get('univ_graduation')
-        insti_graduation = request.POST.get('insti_graduation')
-        passing_graduation = request.POST.get('passing_graduation')
-        roll_graduation = request.POST.get('roll_graduation')
-        mark_graduation = request.POST.get('mark_graduation')
-        percentage_graduation = request.POST.get('percentage_graduation')
-        univ_master = request.POST.get('univ_master')
-        insti_master = request.POST.get('insti_master')
-        passing_master = request.POST.get('passing_master')
-        roll_master = request.POST.get('roll_master')
-        mark_master = request.POST.get('mark_master')
-        percentage_master = request.POST.get('percentage_master')
-        edudoc = request.FILES['edudoc']
-        imgs = request.FILES['imgs']
-        sign = request.FILES['sign']
-        reference_number = "IFHE" + \
-            (name.split(" ")[0].upper())[0:4] + (dob.split("-")[0]) + "J"
-        job = JobApply(
-            reference_number=reference_number,
-            applied_for=applied_for,
-            name=name,
-            dob=dob,
-            idtype=idtype,
-            id_proof=id_proof,
-            father_name=father_name,
-            mother_name=mother_name,
-            category=category,
-            disability=disability,
-            mobile_number=mobile_number,
-            alt_mobile_no=alt_mobile_no,
-            email=email,
-            village=village,
-            po=po,
-            ps=ps,
-            district=district,
-            block=block,
-            state=state,
-            pin_code=pin_code,
-            board_10=board_10,
-            school_10=school_10,
-            passing_10=passing_10,
-            roll_10=roll_10,
-            mark_10=mark_10,
-            percentage_10=percentage_10,
-            board_12=board_12,
-            school_12=school_12,
-            passing_12=passing_12,
-            roll_12=roll_12,
-            mark_12=mark_12,
-            percentage_12=percentage_12,
-            univ_graduation=univ_graduation,
-            insti_graduation=insti_graduation,
-            passing_graduation=passing_graduation,
-            roll_graduation=roll_graduation,
-            mark_graduation=mark_graduation,
-            percentage_graduation=percentage_graduation,
-            univ_master=univ_master,
-            insti_master=insti_master,
-            passing_master=passing_master,
-            roll_master=roll_master,
-            mark_master=mark_master,
-            percentage_master=percentage_master,
-            edudoc=edudoc,
-            imgs=imgs,
-            sign=sign,
-            submitted_on=datetime.today())
-        prev_data_job = JobApply.objects.all()
-        for data_job in prev_data_job:
-            if job.email == data_job.email:
-                return redirect('/career')
-        else:
-            job.save()
-            data_ref_job = JobApply.objects.filter(email=job.email)
-            return render(request, "confirmation.html", {'data_ref_job': data_ref_job})

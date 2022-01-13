@@ -20,10 +20,8 @@
       {% endif %}
 
       {% if data_ref_job %}
-      {% for data_job in data_ref_job  %}
-      <h3>Job Application for <strong>{{data_job.applied_for}}</strong> has been Submitted</h3>
-      <h5 class="my-2">Job Reference No.: <span style="color: red;"> {{data_job.reference_number}}</span></h5>
-      {% endfor %}
+      <h3>Job Application for <strong>{{data_ref_job.applied_for}}</strong> has been Submitted</h3>
+      <h5 class="my-2">Job Reference No.: <span style="color: red;"> {{data_ref_job.reference_number}}</span></h5>
       {% endif %}
 
       {% if data_ref_kisan %}

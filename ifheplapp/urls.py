@@ -1,11 +1,13 @@
 from django.urls import path, include
 from ifheplapp import views, cards
+import jobApplications.views as jobApplication
 from ifheplapp.api import AttendanceView, EmployeeRegistrationView, SliderList, UserLoginView, UserProfileView
 
 
 urlpatterns = [
     path('', views.index, name="maintainance"),
     path('membership', views.membership, name="membership"),
+    path('associate-partner', views.associate, name="associate_partner"),
     path('ads.txt', views.ads, name="ads.txt"),
     path('profile', views.profile, name="profile"),
     ##Card Generate Function
@@ -40,7 +42,7 @@ urlpatterns = [
     path('comingsoon', views.comingsoon, name="comingsoon"),
     path('career', views.career, name="career"),
     path('career/<str:slug>/apply', views.careerApply, name="careerApply"),
-    path('job_submit', views.job_submit, name="job_submit"),
+    path('job_submit', jobApplication.job_submit, name="job_submit"),
     path('notice/rules_regulation', views.rules_regulation, name="rules_regulation"),
     path('notice/academic_notice', views.academic_notice, name="academic_notice"),
     path('notice/administrative_notice', views.administrative_notice,
