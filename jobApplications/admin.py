@@ -1,9 +1,19 @@
 from django.contrib import admin
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
-from jobApplications.models import job_application
+from jobApplications.models import jobUser, job_application
 
 # Register your models here.
+# admin.site.register(jobUser)
+
+class JobUserResource(resources.ModelResource):
+    class Meta:
+        model = jobUser
+
+@admin.register(jobUser)
+class JobApplyAdmin(ImportExportModelAdmin):
+    resource_class = JobUserResource
+    list_display = ("username","email",)
 
 class JobApplyResource(resources.ModelResource):
     class Meta:
@@ -16,7 +26,7 @@ class JobApplyAdmin(ImportExportModelAdmin):
                     "submitted_on", "reference_number",)
     fieldsets = (
         ('Personal Details', {
-            'fields': (('reference_number', 'name'), ('dob', 'email'), ('aadhar_no','pan_no'), ('father_Husband_name', 'mother_name'), ('category', 'disability'), ('mobile_number', 'alt_mobile_no'),)
+            'fields': ('user', ('reference_number', 'name'), ('dob', 'email'), ('aadhar_no','pan_no'), ('father_Husband_name', 'mother_name'), ('category', 'disability'), ('mobile_number', 'alt_mobile_no'),)
         }),
         ('Address', {
             'classes': ('collapse',),

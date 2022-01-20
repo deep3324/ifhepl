@@ -11,6 +11,8 @@ from django.contrib.auth import authenticate,  login as dj_login, logout
 from django.contrib import messages
 from geopy.geocoders import Nominatim
 
+from jobApplications.models import jobUser
+
 
 def offer_letter(request):
     html = render_to_string('includes/offer_letter.html', {'name': ""})
@@ -96,12 +98,15 @@ def handeLogin(request):
         loginusername = request.POST['username']
         loginpassword = request.POST['password']
         user = authenticate(username=loginusername, password=loginpassword)
-        if user is not None:
+        job_User = user.jobuser.is_job_application
+        if user is not None and not job_User:
             if user.is_active:
                 dj_login(request, user)
                 request.session.set_expiry(0)
                 messages.success(request, "Successfully Logged In")
                 return redirect("/profile")
+        elif job_User:
+                return redirect("/career")
         else:
             msg = "err-msg-login"
             return render(request, "login.html", {"msg": msg})

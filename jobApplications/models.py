@@ -5,6 +5,10 @@ from ifheplapp.models import Jobs
 
 # Create your models here.
 
+from django.contrib.auth.models import User
+class jobUser(User):
+    is_job_application = models.BooleanField(default=True)
+
 class job_application(models.Model):
     # =============== Personal Details =======================
     # =============== Step 1 =======================

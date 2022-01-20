@@ -2,7 +2,7 @@ from django.shortcuts import render
 from datetime import timedelta, datetime
 from django.shortcuts import redirect, render
 from ifheplapp.models import Jobs
-from jobApplications.models import job_application
+from jobApplications.models import job_application, jobUser
 from django.contrib.auth.models import User
 
 # Create your views here.
@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 
 def job_submit(request):
     if request.method == 'POST':
-        user = User.objects.create_user(username=request.POST.get('email'), email=request.POST.get(
+        user = jobUser.objects.create_user(username=request.POST.get('email'), email=request.POST.get(
             'email'),  password=str(request.POST.get('dob')).replace("/", ""))
         user.save()
         applied_for = Jobs.objects.get(slug=request.POST.get('applied_for'))
