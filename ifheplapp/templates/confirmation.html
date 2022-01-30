@@ -17,7 +17,7 @@
       {% for data in data_ref  %}
       <h5 class="my-2">Membership Reference No.: <span style="color: red;"> {{data.reference_number}}</span></h5>
       {% if data.order_id != "CASH" %}
-      <a class="btn btn-primary" href="/pay/{{data.email}}/{{data.order_id}}">Pay Online</a>
+      <a class="btn btn-primary" href="/pay/{{data.order_id}}">Pay Online</a>
       {% endif %}
       {% endfor %}
       {% endif %}
@@ -34,7 +34,7 @@
       {% for data_kisan in data_ref_kisan  %}
       <h5 class="my-2">Kisan Card Reference No.: <span style="color: red;"> {{data_kisan.reference_number}}</span></h5>
       {% if data.order_id != "CASH" %}
-      <a class="btn btn-primary" href="/pay/{{data_kisan.email}}/{{data_kisan.order_id}}">Pay Online</a>
+      <a class="btn btn-primary" href="/pay/{{data_kisan.order_id}}">Pay Online</a>
       {% endif %}
       {% endfor %}
       {% endif %}
@@ -45,7 +45,7 @@
       {% for data_health in data_ref_health  %}
       <h5 class="my-2">Health Card Reference No.: <span style="color: red;"> {{data_health.reference_number}}</span></h5>
       {% if data.order_id != "CASH" %}
-      <a class="btn btn-primary" href="/pay/{{data_health.email}}/{{data_health.order_id}}">Pay Online</a>
+      <a class="btn btn-primary" href="/pay/{{data_health.order_id}}">Pay Online</a>
       {% endif %}
       {% endfor %}
       {% endif %}
@@ -57,23 +57,19 @@
         <table style="text-align: left;">
           <tr>
             <td>Order ID:</td>
-            <td>{{received_data.ORDERID.0}}</td>
+            <td>{{received_data.order_id}}</td>
           </tr>
           <tr>
-            <td>Transaction ID:</td>
-            <td>{{received_data.TXNID.0}}</td>
+            <td>Payment ID:</td>
+            <td>{{received_data.id}}</td>
           </tr>
           <tr>
             <td>Transaction Date:</td>
-            <td>{{received_data.TXNDATE.0}}</td>
-          </tr>
-          <tr>
-            <td>Bank Transaction ID:</td>
-            <td>{{received_data.BANKTXNID.0}}</td>
+            <td>{{received_data.transaction_date}}</td>
           </tr>
           <tr>
             <td>Payment Status:</td>
-            <td>{{received_data.STATUS.0}}</td>
+            <td>Confirmed</td>
           </tr>
         </table>
       </div>
@@ -115,11 +111,11 @@
         <table style="text-align: left;">
           <tr>
             <td>Order ID:</td>
-            <td>{{received_error_data.ORDERID.0}}</td>
+            <td>{{regenerate.order_id}}</td>
           </tr>
           <tr>
             <td>Payment Status:</td>
-            <td>{{received_error_data.STATUS.0}}</td>
+            <td>Failed</td>
           </tr>
         </table>
       </div>

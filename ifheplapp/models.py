@@ -1,4 +1,5 @@
 from http.client import GATEWAY_TIMEOUT
+from inspect import signature
 from django.db import models
 from autoslug import AutoSlugField
 from datetime import datetime
@@ -169,14 +170,11 @@ class Membership (models.Model):
     # =========================== payment Update ===========================
     order_id = models.CharField(max_length=100, default="")
     paid = models.BooleanField(default=False)
-    transaction_id = models.CharField(max_length=100, default="")
+    razorpay_signature = models.CharField(max_length=100, default="")
+    razorpay_payment_id = models.CharField(max_length=100, default="")
     transaction_date = models.CharField(max_length=100, default="")
-    bank_transaction_id = models.CharField(max_length=100, default="")
     payment_status = models.CharField(max_length=100, default="")
-    gateway_name = models.CharField(max_length=100, default="")
     payment_mode = models.CharField(max_length=100, default="")
-    bank_name = models.CharField(max_length=100, default="")
-    check_sum_hash = models.CharField(max_length=200, default="")
 
     def __str__(self):
         return self.name + " (" + self.reference_number + ")"
@@ -222,14 +220,11 @@ class KisanCard(models.Model):
     # =========================== payment Update ===========================
     order_id = models.CharField(max_length=100, default="")
     paid = models.BooleanField(default=False)
-    transaction_id = models.CharField(max_length=100, default="")
+    razorpay_signature = models.CharField(max_length=100, default="")
+    razorpay_payment_id = models.CharField(max_length=100, default="")
     transaction_date = models.CharField(max_length=100, default="")
-    bank_transaction_id = models.CharField(max_length=100, default="")
     payment_status = models.CharField(max_length=100, default="")
-    gateway_name = models.CharField(max_length=100, default="")
     payment_mode = models.CharField(max_length=100, default="")
-    bank_name = models.CharField(max_length=100, default="")
-    check_sum_hash = models.CharField(max_length=200, default="")
 
     def __str__(self):
         return self.name + " (" + self.reference_number + ")"
@@ -275,21 +270,21 @@ class HealthCard(models.Model):
     # =========================== payment Update ===========================
     order_id = models.CharField(max_length=100, default="")
     paid = models.BooleanField(default=False)
-    transaction_id = models.CharField(max_length=100, default="")
+    razorpay_signature = models.CharField(max_length=100, default="")
+    razorpay_payment_id = models.CharField(max_length=100, default="")
     transaction_date = models.CharField(max_length=100, default="")
-    bank_transaction_id = models.CharField(max_length=100, default="")
     payment_status = models.CharField(max_length=100, default="")
-    gateway_name = models.CharField(max_length=100, default="")
     payment_mode = models.CharField(max_length=100, default="")
-    bank_name = models.CharField(max_length=100, default="")
-    check_sum_hash = models.CharField(max_length=200, default="")
 
     def __str__(self):
         return self.name + " (" + self.reference_number + ")"
 
 class Transaction(models.Model):
     made_for = models.CharField(max_length=100, null=True, blank=True)
+    razorpay_id = models.CharField(max_length=100, null=True, blank=True)
+    razorpay_payment_id = models.CharField(max_length=100, null=True, blank=True)
+    order_id = models.CharField(max_length=100, null=True, blank=True)
     made_on = models.DateTimeField(auto_now_add=True)
     amount = models.IntegerField()
-    order_id = models.CharField(max_length=100, null=True, blank=True)
-    checksum = models.CharField(max_length=100, null=True, blank=True)
+    status = models.CharField(max_length=100, null=True, blank=True)
+    signature = models.CharField(max_length=300, null=True, blank=True)

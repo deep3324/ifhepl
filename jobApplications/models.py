@@ -1,13 +1,8 @@
 from django.contrib.auth.models import User
 from django.db import models
-
 from ifheplapp.models import Jobs
 
 # Create your models here.
-
-from django.contrib.auth.models import User
-class jobUser(User):
-    is_job_application = models.BooleanField(default=True)
 
 class job_application(models.Model):
     # =============== Personal Details =======================
@@ -71,7 +66,7 @@ class job_application(models.Model):
     sign = models.FileField(upload_to="Job/Signature/", blank=True)
     submitted_on = models.DateField()
     # =========================== Status ===========================
-    submitted = models.BooleanField(default=True)
+    completed = models.BooleanField(default=False)
     accept = models.BooleanField(default=False)
     reject = models.BooleanField(default=False)
     reference_number = models.CharField(

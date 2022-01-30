@@ -1,19 +1,10 @@
 from django.contrib import admin
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
-from jobApplications.models import jobUser, job_application
+from jobApplications.models import job_application
 
 # Register your models here.
 # admin.site.register(jobUser)
-
-class JobUserResource(resources.ModelResource):
-    class Meta:
-        model = jobUser
-
-@admin.register(jobUser)
-class JobApplyAdmin(ImportExportModelAdmin):
-    resource_class = JobUserResource
-    list_display = ("username","email",)
 
 class JobApplyResource(resources.ModelResource):
     class Meta:
@@ -56,7 +47,7 @@ class JobApplyAdmin(ImportExportModelAdmin):
             'fields': ('submitted_on',)
         }),
         ('Job Update', {
-            'fields': (('submitted','accept', 'reject'),)
+            'fields': (('completed','accept', 'reject'),)
         }),
 
     )

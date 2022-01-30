@@ -1,3 +1,5 @@
+import razorpay
+from django.http import HttpResponse, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
 from ifheplapp import convert_to_html
 from datetime import timedelta, datetime
@@ -12,8 +14,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,  login as dj_login, logout
 from django.contrib import messages
 from geopy.geocoders import Nominatim
-from ifheplapp.utils import filter_card_name, random_string_generator, fetch_card, regenerate_order_id
-from .paytm import generate_checksum, verify_checksum
+from ifheplapp.utils import filter_application_name, random_string_generator, fetch_card, regenerate_order_id
 
 
 def offer_letter(request):
@@ -105,7 +106,12 @@ def handeLogin(request):
             dj_login(request, user)
             request.session.set_expiry(0)
             messages.success(request, "Successfully Logged In")
-            return redirect("/profile")
+            if loginusername.startswith("IFHE"):
+                return redirect("/profile")
+            elif loginusername == "DIRECTOR" and loginusername == "Director" and loginusername == "Hr" and loginusername == "app_developer" and loginusername == "IFHEPL":
+                return redirect("/admin")
+            else:
+                return redirect("/complete_profile")
         else:
             msg = "err-msg-login"
             return render(request, "login.html", {"msg": msg})
@@ -418,7 +424,7 @@ def kisan_submit(request):
         if payment == "cash":
             order_id = "CASH"
         else:
-            order_id = random_string_generator() + reference_number.lower()
+            order_id = random_string_generator() + "_" + reference_number.lower()
         kisan = KisanCard(
             reference_number=reference_number,
             employeeID=empid,
@@ -512,7 +518,7 @@ def health_submit(request):
         if payment == "cash":
             order_id = "CASH"
         else:
-            order_id = random_string_generator() + reference_number.lower()
+            order_id = random_string_generator() + "_" + reference_number.lower()
         health = HealthCard(
             reference_number=reference_number,
             employeeID=empid,
@@ -568,65 +574,76 @@ def health_submit(request):
             return render(request, "confirmation.html", {'data_ref_health': data_ref, "msg": msg})
 
 
-def initiate_payment(request, order_id, email):
-    card_name = filter_card_name(order_id)
+razorpay_client = razorpay.Client(
+    auth=(str(settings.RAZORPAY_ID), str(settings.RAZORPAY_SECRET)))
+
+
+def initiate_payment(request, order_id):
+    application_name = filter_application_name(order_id)
     transaction = Transaction.objects.create(
-        made_for=card_name, order_id=order_id, amount=119.00)
+        made_for=application_name["card_name"], order_id=order_id, amount=application_name["amount"])
     transaction.save()
-    merchant_key = settings.PAYTM_SECRET_KEY
-    params = (
-        ('MID', settings.PAYTM_MERCHANT_ID),
-        ('ORDER_ID', str(transaction.order_id)),
-        ('CUST_ID', str(email)),
-        ('TXN_AMOUNT', str(transaction.amount)),
-        ('CHANNEL_ID', settings.PAYTM_CHANNEL_ID),
-        ('WEBSITE', settings.PAYTM_WEBSITE),
-        ('INDUSTRY_TYPE_ID', settings.PAYTM_INDUSTRY_TYPE_ID),
-        ('CALLBACK_URL', 'http://127.0.0.1:8000/payment_status/'),
-    )
-
-    paytm_params = dict(params)
-    checksum = generate_checksum(paytm_params, merchant_key)
-
-    transaction.checksum = checksum
+    data = {"amount": application_name["amount"] * 100, "currency": "INR",
+            "receipt": str(order_id), "payment_capture": '0'}
+    payment = razorpay_client.order.create(data=data)
+    transaction.razorpay_id = payment['id']
+    transaction.status = payment['status']
     transaction.save()
-
-    paytm_params['CHECKSUMHASH'] = checksum
-    return render(request, 'payments/redirect.html', context=paytm_params)
+    card = fetch_card(order_id)
+    return render(request, "payments/redirect.html", {'response': payment, "card": card})
 
 
 @csrf_exempt
 def callback(request):
     if request.method == 'POST':
-        received_data = dict(request.POST)
-        paytm_params = {}
-        paytm_checksum = received_data['CHECKSUMHASH']
-        for key, value in received_data.items():
-            if key == 'CHECKSUMHASH':
-                paytm_checksum = value[0]
+        try:
+            payment_id = request.POST.get('razorpay_payment_id', '')
+            razorpay_order_id = request.POST.get('razorpay_order_id', '')
+            signature = request.POST.get('razorpay_signature', '')
+            params_dict = {
+                'razorpay_order_id': razorpay_order_id,
+                'razorpay_payment_id': payment_id,
+                'razorpay_signature': signature
+            }
+            # verify the payment signature.
+            result = razorpay_client.utility.verify_payment_signature(
+                params_dict)
+            transaction = Transaction.objects.get(
+                razorpay_id=razorpay_order_id)
+            card = fetch_card(transaction.order_id)
+            if result is None:
+                application_name = filter_application_name(transaction.order_id)
+                amount = application_name["amount"] * 100
+                try:
+                    transaction.razorpay_payment_id = payment_id
+                    transaction.signature = signature
+                    transaction.save()
+                    razorpay_client.payment.capture(payment_id, amount)
+                    payment_details = razorpay_client.payment.fetch(payment_id)
+                    card.transaction_date = transaction.made_on
+                    card.razorpay_signature = signature
+                    card.razorpay_payment_id = payment_id
+                    card.payment_mode = payment_details['method']
+                    card.payment_status = payment_details['status']
+                    card.paid = True
+                    card.approve = True
+                    card.created = False
+                    card.underprocess = False
+                    card.reject = False
+                    card.save()
+                    payment_details['transaction_date'] = card.transaction_date
+                    payment_details['order_id'] = card.order_id
+                    return render(request, 'confirmation.html', {"received_data": payment_details})
+                except:
+                    regenerate_order_id(card)
+                    return render(request, 'confirmation.html', {"regenerate": card})
+                    # pass
             else:
-                paytm_params[key] = str(value[0])
-        # Verify checksum
-        is_valid_checksum = verify_checksum(
-            paytm_params, settings.PAYTM_SECRET_KEY, str(paytm_checksum))
-        if received_data['RESPCODE'][0] == "01":
-            card = fetch_card(received_data['ORDERID'][0])
-            card.transaction_id = received_data['TXNID'][0]
-            card.transaction_date = received_data['TXNDATE'][0]
-            card.bank_transaction_id = received_data['BANKTXNID'][0]
-            card.payment_status = received_data['STATUS'][0]
-            card.gateway_name = received_data['GATEWAYNAME'][0]
-            card.payment_mode = received_data['PAYMENTMODE'][0]
-            card.bank_name = received_data['BANKNAME'][0]
-            card.check_sum_hash = received_data['CHECKSUMHASH'][0]
-            card.paid = True
-            card.save()
-            received_data['email'] = card.email
-            return render(request, 'confirmation.html', {"received_data": received_data})
-        else:
-            card = fetch_card(received_data['ORDERID'][0])
-            if card.payment_status == "":
                 regenerate_order_id(card)
-                return render(request, 'confirmation.html', {"regenerate": card, "received_error_data": received_data})
-            else:
-                return render(request, 'confirmation.html', {"paid": card})
+                return render(request, 'confirmation.html', {"regenerate": card})
+        except:
+            # if we don't find the required parameters in POST data
+            return HttpResponseBadRequest()
+    else:
+       # if other than POST request is made.
+        return HttpResponseBadRequest()

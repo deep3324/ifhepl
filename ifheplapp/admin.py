@@ -42,7 +42,7 @@ class MembershipResource(resources.ModelResource):
 class MembershipAdmin(ImportExportModelAdmin):
     resource_class = MembershipResource
     list_display = ("name", "card_number", "reference_number","submitted_on","employeename","created",)
-    readonly_fields = ['order_id','transaction_id','transaction_date','bank_transaction_id','payment_status','gateway_name','payment_mode','bank_name','check_sum_hash']
+    readonly_fields = ['order_id','razorpay_signature','transaction_date','razorpay_payment_id','payment_status','payment_mode']
     fieldsets = (
         ('Employee Details', {
             'fields': (('employeeID', 'employeename'),)
@@ -62,7 +62,7 @@ class MembershipAdmin(ImportExportModelAdmin):
             'fields': ('approve', 'reject', 'underprocess', 'created','card_number',)
         }),
         ('Payment Update', {
-            'fields': (('order_id','transaction_id'),('transaction_date','bank_transaction_id'),('payment_status','gateway_name'),('payment_mode','bank_name'),'check_sum_hash')
+            'fields': (('order_id'),('transaction_date'),('payment_status'),('payment_mode'),('razorpay_signature','razorpay_payment_id'), 'paid')
         }),
     )
 
@@ -74,7 +74,7 @@ class KisanCardResource(resources.ModelResource):
 class KisanCardAdmin(ImportExportModelAdmin):
     resource_class = KisanCardResource
     list_display = ("name", "card_number", "reference_number","submitted_on","employeename","created",)
-    readonly_fields = ['order_id','transaction_id','transaction_date','bank_transaction_id','payment_status','gateway_name','payment_mode','bank_name','check_sum_hash']
+    readonly_fields = ['order_id','razorpay_signature','transaction_date','razorpay_payment_id','payment_status','payment_mode']
     fieldsets = (
         ('Employee Details', {
             'fields': (('employeeID', 'employeename'),)
@@ -94,7 +94,7 @@ class KisanCardAdmin(ImportExportModelAdmin):
             'fields': ('approve', 'reject', 'underprocess','created', 'card_number',)
         }),
         ('Payment Update', {
-            'fields': (('order_id','transaction_id'),('transaction_date','bank_transaction_id'),('payment_status','gateway_name'),('payment_mode','bank_name'),'check_sum_hash')
+            'fields': (('order_id'),('transaction_date'),('payment_status'),('payment_mode'),('razorpay_signature','razorpay_payment_id'), 'paid')
         }),
     )
 
@@ -106,7 +106,7 @@ class HealthCardResource(resources.ModelResource):
 class HealthCardAdmin(ImportExportModelAdmin):
     resource_class = HealthCardResource
     list_display = ("name", "card_number", "reference_number","submitted_on","employeename","created",)
-    readonly_fields = ['order_id','transaction_id','transaction_date','bank_transaction_id','payment_status','gateway_name','payment_mode','bank_name','check_sum_hash']
+    readonly_fields = ['order_id','razorpay_signature','transaction_date','razorpay_payment_id','payment_status','payment_mode']
     fieldsets = (
         ('Employee Details', {
             'fields': (('employeeID', 'employeename'),)
@@ -126,7 +126,7 @@ class HealthCardAdmin(ImportExportModelAdmin):
             'fields': ('approve', 'reject', 'underprocess','created', 'card_number',)
         }),
         ('Payment Update', {
-            'fields': (('order_id','transaction_id'),('transaction_date','bank_transaction_id'),('payment_status','gateway_name'),('payment_mode','bank_name'),'check_sum_hash')
+            'fields': (('order_id'),('transaction_date'),('payment_status'),('payment_mode'),('razorpay_signature','razorpay_payment_id'), 'paid')
         }),
     )
 

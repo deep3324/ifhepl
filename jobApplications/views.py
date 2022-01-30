@@ -2,15 +2,21 @@ from django.shortcuts import render
 from datetime import timedelta, datetime
 from django.shortcuts import redirect, render
 from ifheplapp.models import Jobs
-from jobApplications.models import job_application, jobUser
+from jobApplications.models import job_application
 from django.contrib.auth.models import User
 
 # Create your views here.
 
 
+def complete_profile(request):
+    job_profile = job_application.objects.get(user = request.user)
+    print(job_profile.applied_for)
+    return render(request, "complete_profile.html", {"job":job_profile})
+    
+
 def job_submit(request):
     if request.method == 'POST':
-        user = jobUser.objects.create_user(username=request.POST.get('email'), email=request.POST.get(
+        user = User.objects.create_user(username=request.POST.get('email'), email=request.POST.get(
             'email'),  password=str(request.POST.get('dob')).replace("/", ""))
         user.save()
         applied_for = Jobs.objects.get(slug=request.POST.get('applied_for'))

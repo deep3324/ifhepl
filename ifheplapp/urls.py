@@ -10,6 +10,7 @@ urlpatterns = [
     path('associate-partner', views.associate, name="associate_partner"),
     path('ads.txt', views.ads, name="ads.txt"),
     path('profile', views.profile, name="profile"),
+    path('complete_profile', jobApplication.complete_profile, name="complete_profile"),
     ##Card Generate Function
     path('membership_card_generate', cards.membership_card_generate, name="membership_card_generate"),
     path('health_card_generate', cards.health_card_generate, name="health_card_generate"),
@@ -55,6 +56,6 @@ urlpatterns = [
     path('api/profile', UserProfileView.as_view(), name="profile"),
     path('api/attendance', AttendanceView.as_view(), name="attendance"),
     path('api/slider', SliderList.as_view(), name="slider"),
-    path('pay/<str:email>/<str:order_id>', views.initiate_payment, name='pay'),
-    path('payment_status/', views.callback, name='callback'),
+    path('pay/<str:order_id>', views.initiate_payment, name='pay'),
+    path('success/', views.callback, name='callback'),
 ]
