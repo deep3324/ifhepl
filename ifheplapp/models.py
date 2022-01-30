@@ -1,3 +1,4 @@
+from http.client import GATEWAY_TIMEOUT
 from django.db import models
 from autoslug import AutoSlugField
 from datetime import datetime
@@ -36,11 +37,12 @@ def health_card_increase():
 
 class AssociatePartner(models.Model):
     partnerName = models.CharField(max_length=300, default="")
-    partnerAddress = models.CharField(max_length=600, default="",blank=True)
+    partnerAddress = models.CharField(max_length=600, default="", blank=True)
     partnerImage = models.FileField(upload_to="Associate Partner/")
 
     def __str__(self):
         return self.partnerName
+
 
 class Jobs(models.Model):
     title = models.CharField(max_length=100, default="")
@@ -58,23 +60,27 @@ class Attendance(models.Model):
     employeeName = models.CharField(max_length=100, default="")
     location = models.CharField(max_length=500, default="")
     image = models.FileField(upload_to="Attendance/")
-    uploaded_at = models.DateTimeField(default=datetime.now,blank=True)
+    uploaded_at = models.DateTimeField(default=datetime.now, blank=True)
 
     def __str__(self):
         return self.employeeName
+
     def save(self, *args, **kwargs):
         if not self.id:
             self.image = self.compressImage(self.image)
         super(Attendance, self).save(*args, **kwargs)
-    def compressImage(self,image):
+
+    def compressImage(self, image):
         imageTemproary = Image.open(image)
         outputIoStream = BytesIO()
         imageTemproary = imageTemproary.convert('RGB')
-        # imageTemproaryResized = imageTemproary.resize( (1020,573) ) 
-        imageTemproary.save(outputIoStream , format='JPEG', quality=50)
+        # imageTemproaryResized = imageTemproary.resize( (1020,573) )
+        imageTemproary.save(outputIoStream, format='JPEG', quality=50)
         outputIoStream.seek(0)
-        image = InMemoryUploadedFile(outputIoStream,'ImageField', "%s.jpg" % image.name.split('.')[0], 'image/jpeg', sys.getsizeof(outputIoStream), None)
+        image = InMemoryUploadedFile(outputIoStream, 'ImageField', "%s.jpg" % image.name.split(
+            '.')[0], 'image/jpeg', sys.getsizeof(outputIoStream), None)
         return image
+
     def delete(self, *args, **kwargs):
         # You have to prepare what you need before delete the model
         storage, path = self.image.storage, self.image.path
@@ -125,8 +131,8 @@ class Contact(models.Model):
 class Membership (models.Model):
     id = models.AutoField(primary_key=True)
     # =============== Personal Details =======================
-    employeeID = models.CharField(max_length=100, default="")
-    employeename = models.CharField(max_length=100, default="")
+    employeeID = models.CharField(max_length=100, default="", blank=True)
+    employeename = models.CharField(max_length=100, default="", blank=True)
     name = models.CharField(max_length=100, default="")
     dob = models.CharField(max_length=100, default="")
     idtype = models.CharField(max_length=100, default="")
@@ -160,6 +166,17 @@ class Membership (models.Model):
         default=membership_card_increase, primary_key=False)
     reference_number = models.CharField(
         max_length=15, default="")
+    # =========================== payment Update ===========================
+    order_id = models.CharField(max_length=100, default="")
+    paid = models.BooleanField(default=False)
+    transaction_id = models.CharField(max_length=100, default="")
+    transaction_date = models.CharField(max_length=100, default="")
+    bank_transaction_id = models.CharField(max_length=100, default="")
+    payment_status = models.CharField(max_length=100, default="")
+    gateway_name = models.CharField(max_length=100, default="")
+    payment_mode = models.CharField(max_length=100, default="")
+    bank_name = models.CharField(max_length=100, default="")
+    check_sum_hash = models.CharField(max_length=200, default="")
 
     def __str__(self):
         return self.name + " (" + self.reference_number + ")"
@@ -168,8 +185,8 @@ class Membership (models.Model):
 class KisanCard(models.Model):
     id = models.AutoField(primary_key=True)
     # =============== Personal Details =======================
-    employeeID = models.CharField(max_length=100, default="")
-    employeename = models.CharField(max_length=100, default="")
+    employeeID = models.CharField(max_length=100, default="", blank=True)
+    employeename = models.CharField(max_length=100, default="", blank=True)
     name = models.CharField(max_length=100, default="")
     dob = models.CharField(max_length=100, default="")
     idtype = models.CharField(max_length=100, default="")
@@ -202,6 +219,17 @@ class KisanCard(models.Model):
         default=kisan_card_increase, primary_key=False)
     reference_number = models.CharField(
         max_length=15, default="")
+    # =========================== payment Update ===========================
+    order_id = models.CharField(max_length=100, default="")
+    paid = models.BooleanField(default=False)
+    transaction_id = models.CharField(max_length=100, default="")
+    transaction_date = models.CharField(max_length=100, default="")
+    bank_transaction_id = models.CharField(max_length=100, default="")
+    payment_status = models.CharField(max_length=100, default="")
+    gateway_name = models.CharField(max_length=100, default="")
+    payment_mode = models.CharField(max_length=100, default="")
+    bank_name = models.CharField(max_length=100, default="")
+    check_sum_hash = models.CharField(max_length=200, default="")
 
     def __str__(self):
         return self.name + " (" + self.reference_number + ")"
@@ -210,8 +238,8 @@ class KisanCard(models.Model):
 class HealthCard(models.Model):
     id = models.AutoField(primary_key=True)
     # =============== Personal Details =======================
-    employeeID = models.CharField(max_length=100, default="")
-    employeename = models.CharField(max_length=100, default="")
+    employeeID = models.CharField(max_length=100, default="", blank=True)
+    employeename = models.CharField(max_length=100, default="", blank=True)
     name = models.CharField(max_length=100, default="")
     dob = models.CharField(max_length=100, default="")
     idtype = models.CharField(max_length=100, default="")
@@ -244,6 +272,24 @@ class HealthCard(models.Model):
         default=health_card_increase, primary_key=False)
     reference_number = models.CharField(
         max_length=15, default="")
+    # =========================== payment Update ===========================
+    order_id = models.CharField(max_length=100, default="")
+    paid = models.BooleanField(default=False)
+    transaction_id = models.CharField(max_length=100, default="")
+    transaction_date = models.CharField(max_length=100, default="")
+    bank_transaction_id = models.CharField(max_length=100, default="")
+    payment_status = models.CharField(max_length=100, default="")
+    gateway_name = models.CharField(max_length=100, default="")
+    payment_mode = models.CharField(max_length=100, default="")
+    bank_name = models.CharField(max_length=100, default="")
+    check_sum_hash = models.CharField(max_length=200, default="")
 
     def __str__(self):
         return self.name + " (" + self.reference_number + ")"
+
+class Transaction(models.Model):
+    made_for = models.CharField(max_length=100, null=True, blank=True)
+    made_on = models.DateTimeField(auto_now_add=True)
+    amount = models.IntegerField()
+    order_id = models.CharField(max_length=100, null=True, blank=True)
+    checksum = models.CharField(max_length=100, null=True, blank=True)

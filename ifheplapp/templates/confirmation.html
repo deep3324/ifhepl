@@ -11,31 +11,121 @@
 <div class="row1" style="background-color: rgb(255, 255, 240);">
   <div class="container" style="max-width: 60%;">
     <div class="my-2 text-center">
-      <img src="/static/images/icon_confirmation.gif" alt="">
       {% if data_ref %}
+      <img src="/static/images/icon_confirmation.gif" alt="">
       <h3>Membership Request has been Submitted</h3>
       {% for data in data_ref  %}
       <h5 class="my-2">Membership Reference No.: <span style="color: red;"> {{data.reference_number}}</span></h5>
+      {% if data.order_id != "CASH" %}
+      <a class="btn btn-primary" href="/pay/{{data.email}}/{{data.order_id}}">Pay Online</a>
+      {% endif %}
       {% endfor %}
       {% endif %}
-
+      
       {% if data_ref_job %}
+      <img src="/static/images/icon_confirmation.gif" alt="">
       <h3>Job Application for <strong>{{data_ref_job.applied_for}}</strong> has been Submitted</h3>
       <h5 class="my-2">Job Reference No.: <span style="color: red;"> {{data_ref_job.reference_number}}</span></h5>
       {% endif %}
-
+      
       {% if data_ref_kisan %}
-      {% for data_job in data_ref_kisan  %}
+      <img src="/static/images/icon_confirmation.gif" alt="">
       <h3>Kisan Card Application has been Submitted</h3>
-      <h5 class="my-2">Kisan Card Reference No.: <span style="color: red;"> {{data_job.reference_number}}</span></h5>
+      {% for data_kisan in data_ref_kisan  %}
+      <h5 class="my-2">Kisan Card Reference No.: <span style="color: red;"> {{data_kisan.reference_number}}</span></h5>
+      {% if data.order_id != "CASH" %}
+      <a class="btn btn-primary" href="/pay/{{data_kisan.email}}/{{data_kisan.order_id}}">Pay Online</a>
+      {% endif %}
       {% endfor %}
       {% endif %}
       
       {% if data_ref_health %}
-      {% for data_job in data_ref_health  %}
+      <img src="/static/images/icon_confirmation.gif" alt="">
       <h3>Health Card Application has been Submitted</h3>
-      <h5 class="my-2">Health Card Reference No.: <span style="color: red;"> {{data_job.reference_number}}</span></h5>
+      {% for data_health in data_ref_health  %}
+      <h5 class="my-2">Health Card Reference No.: <span style="color: red;"> {{data_health.reference_number}}</span></h5>
+      {% if data.order_id != "CASH" %}
+      <a class="btn btn-primary" href="/pay/{{data_health.email}}/{{data_health.order_id}}">Pay Online</a>
+      {% endif %}
       {% endfor %}
+      {% endif %}
+      
+      {% if received_data %}
+      <img src="/static/images/icon_confirmation.gif" alt="">
+      <h3>Thank you, your payment has been successfull.<br>A confirmation email has been sent to {{received_data.email}} </h3>
+      <div class="container px-2 py-3" style="max-width: 50%; background-color: transparent; box-shadow: inset;">
+        <table style="text-align: left;">
+          <tr>
+            <td>Order ID:</td>
+            <td>{{received_data.ORDERID.0}}</td>
+          </tr>
+          <tr>
+            <td>Transaction ID:</td>
+            <td>{{received_data.TXNID.0}}</td>
+          </tr>
+          <tr>
+            <td>Transaction Date:</td>
+            <td>{{received_data.TXNDATE.0}}</td>
+          </tr>
+          <tr>
+            <td>Bank Transaction ID:</td>
+            <td>{{received_data.BANKTXNID.0}}</td>
+          </tr>
+          <tr>
+            <td>Payment Status:</td>
+            <td>{{received_data.STATUS.0}}</td>
+          </tr>
+        </table>
+      </div>
+      {% endif %}
+
+      {% if paid %}
+      <img src="/static/images/icon_confirmation.gif" alt="">
+      <h3>Thank you, your payment has already paid.<br>A confirmation email has been already sent to {{paid.email}} </h3>
+      <div class="container px-2 py-3" style="max-width: 50%; background-color: transparent; box-shadow: inset;">
+        <table style="text-align: left;">
+          <tr>
+            <td>Order ID:</td>
+            <td>{{paid.order_id}}</td>
+          </tr>
+          <tr>
+            <td>Transaction ID:</td>
+            <td>{{paid.transaction_id}}</td>
+          </tr>
+          <tr>
+            <td>Transaction Date:</td>
+            <td>{{paid.transaction_date}}</td>
+          </tr>
+          <tr>
+            <td>Bank Transaction ID:</td>
+            <td>{{paid.bank_transaction_id}}</td>
+          </tr>
+          <tr>
+            <td>Payment Status:</td>
+            <td>{{paid.payment_status}}</td>
+          </tr>
+        </table>
+      </div>
+      {% endif %}
+      
+      {% if regenerate %}
+      <img src="/static/images/alert_icon.png" alt="">
+      <h3>Something Error, please try again.</h3>
+      <div class="container px-2 py-3" style="max-width: 50%; background-color: transparent; box-shadow: inset;">
+        <table style="text-align: left;">
+          <tr>
+            <td>Order ID:</td>
+            <td>{{received_error_data.ORDERID.0}}</td>
+          </tr>
+          <tr>
+            <td>Payment Status:</td>
+            <td>{{received_error_data.STATUS.0}}</td>
+          </tr>
+        </table>
+      </div>
+      {% if regenerate.order_id != "CASH" and regenerate.payment_status == "" %}
+      <a class="btn btn-primary my-2" href="/pay/{{regenerate.email}}/{{regenerate.order_id}}">Pay Again</a>
+      {% endif %}
       {% endif %}
     </div>
   </div>

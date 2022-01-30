@@ -55,4 +55,6 @@ urlpatterns = [
     path('api/profile', UserProfileView.as_view(), name="profile"),
     path('api/attendance', AttendanceView.as_view(), name="attendance"),
     path('api/slider', SliderList.as_view(), name="slider"),
+    path('pay/<str:email>/<str:order_id>', views.initiate_payment, name='pay'),
+    path('payment_status/', views.callback, name='callback'),
 ]
