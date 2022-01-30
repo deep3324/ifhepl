@@ -25,9 +25,7 @@ environ.Env.read_env()
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = 'django-insecure-#t!5vncrl9^ja7en&_wf)c-jpe47252a2=_=xf0ifmrv+my*o='
-with open('/etc/secret_key.txt') as f:
-    SECRET_KEY = f.read().strip()
-# SECRET_KEY = 
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -154,7 +152,6 @@ TAGGIT_CASE_INSENSITIVE = True
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-# EMAIL_HOST='smtp.zoho.in'
 EMAIL_HOST=env('EMAIL_HOST')
 EMAIL_USE_TLS=True
 
