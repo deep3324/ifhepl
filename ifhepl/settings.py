@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'rest_framework_jwt',
     'import_export',
     'django_q',
-    'jobApplications'
+    'jobApplications',
+    'vendorApplication'
 ]
 
 MIDDLEWARE = [
@@ -88,7 +89,7 @@ WSGI_APPLICATION = 'ifhepl.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': str(BASE_DIR / 'db.sqlite3'),
     }
 }
 
@@ -224,3 +225,7 @@ SECURE_HSTS_SECONDS = 31536000
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_HSTS_PRELOAD = True
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+
+# RAZORPAY SETUP
+RAZORPAY_ID=env('RAZORPAY_ID')
+RAZORPAY_SECRET=env('RAZORPAY_SECRET')

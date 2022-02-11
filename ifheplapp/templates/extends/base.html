@@ -16,7 +16,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/static/images/favicon/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/static/images/favicon/favicon-16x16.png">
   <link rel="manifest" href="/static/images/favicon/site.webmanifest">
-
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <meta property="og:title" content="{% block ogtitle %}{% endblock ogtitle %} | IFHEPL" />
   <meta property="og:description"
     content="We at IFHE Pvt. Ltd aim to empower every village man, woman, and child in ways that make them robust, healthier, and financially independent by bringing them access to all the essential amenities at their convenience that would help them focus on important parts of their life and enjoy the socio-cultural developments in the community, without having to worry over other trivial things." />
@@ -40,6 +40,17 @@
   <style type="text/css">
     a {
       text-decoration: none !important;
+    }
+    .btn-sub{
+      border: 0;
+      background-color: #261C2C;
+      color: white;
+      padding: 10px 20px;
+      font-size: 1.25rem;
+      border-radius: 25px;
+    }
+    .btn-sub:hover {
+      background-color: #381949;
     }
 
     #loading {
@@ -102,10 +113,16 @@
           <li><a href="/career">Careers</a>
           <li><a href="/associate-partner">Associate Partner</a>
           </li>
-          <li><a class="drop">Membership</a>
+          <li><a href="javascript:void(0);" class="drop">Membership</a>
             <ul>
               <li><a href="/membership">Join IFHEPL</a></li>
-              <li><a href="/verify_membership">Verify Card</a></li>
+              <li><a href="/verify-membership">Verify Card</a></li>
+            </ul>
+          </li>
+          <li><a href="javascript:void(0);" class="drop">Vendor Registration</a>
+            <ul>
+              <li><a href="/vendor-registration">Join IFHEPL</a></li>
+              <li><a href="/verify-vendor">Verify Vendor</a></li>
             </ul>
           </li>
           <li><a href="javascript:void(0)" class="drop">Cards</a>
@@ -113,25 +130,18 @@
               <li><a class="drop" href="/card/Health-Card">Health Cards</a>
                 <ul>
                   <li><a href="/card/Health-Card/apply">Apply Now</a></li>
-                  <li><a href="/verify_health">Verify Card</a></li>
+                  <li><a href="/verify-health">Verify Card</a></li>
                 </ul>
               </li>
               <li><a class="drop" href="/card/Kisan-Card">Kisan Card</a>
                 <ul>
                   <li><a href="/card/Kisan-Card/apply">Apply Now</a></li>
-                  <li><a href="/verify_kisan">Verify Card</a></li>
+                  <li><a href="/verify-kisan">Verify Card</a></li>
                 </ul>
               </li>
             </ul>
           </li>
-          <li><a class="drop">Project</a>
-            <ul>
-              <li><a href="/comingsoon">Health Security</a></li>
-              <li><a href="/comingsoon">Kisan Financial Help</a></li>
-              <li><a href="/comingsoon">Education Skill Training</a></li>
-            </ul>
-          </li>
-          <li><a class="drop">Notice</a>
+          <li><a href="javascript:void(0);" class="drop">Notice</a>
             <ul>
               <li><a href="/notice/rules_regulation">Rules & Regulation</a></li>
               <li><a href="/notice/academic_notice">Academic Notice</a></li>
@@ -145,14 +155,29 @@
               <li><a href="javascript:void(0);">Our Vision</a></li>
               <li><a href="javascript:void(0);">How we started</a></li> -->
               <li><a href="/gallery">Our gallery</a></li>
+              <li><a href="javascript:void(0);" class="drop">Project</a>
+                <ul>
+                  <li><a href="/comingsoon">Health Security</a></li>
+                  <li><a href="/comingsoon">Kisan Financial Help</a></li>
+                  <li><a href="/comingsoon">Education Skill Training</a></li>
+                </ul>
+              </li>
             </ul>
           </li>
           <li><a href="/reach-us">Reach Us</a></li>
           {% if user.is_authenticated %}
-          <li><a class="drop">{{user.username}}</a>
+          {% if user.username|slice:":4" == "IFHE" %}
+              <li><a href="javascript:void(0);" class="drop">{{user.username}}</a>
+          {% else %}
+              <li><a href="javascript:void(0);" class="drop">{{user.first_name}}</a>
+          {% endif %}
             <ul>
+              {% if user.username|slice:":8" == "IFHEPLE1" %}
               <li><a href="/profile">My Profile</a></li>
               <li><a href="/attendance">Attendance</a></li>
+              {% elif user.username|slice:":8" != "IFHEPLE1" %}
+              <li><a href="/complete_profile">Complete Profile</a></li>
+              {% endif %}
               <li><a href="/logout">Logout</a></li>
             </ul>
           </li>
@@ -205,7 +230,8 @@
           <ul class="nospace linklist">
             <li><a href="/privacy-policy">Privacy Policy</a></li>
             <li><a href="/terms-and-condition">Terms and Condition</a></li>
-            <li><a href="about-us">About Us</a></li>
+            <li><a href="/refund-cancellation-policy">Refund and Cancellation Policy</a></li>
+            <li><a href="/about-us">About Us</a></li>
           </ul>
         </div>
         <div class="one_quarter">
@@ -279,6 +305,12 @@
         alert("Your application has been Submitted Successfully")
       }
       if (msg == "succ-msg-hel") {
+        alert("Your application has been Submitted Successfully")
+      }
+      if (msg == "succ-msg-job") {
+        alert("Your application has been Submitted Successfully")
+      }
+      if (msg == "succ-msg-ven") {
         alert("Your application has been Submitted Successfully")
       }
     </script>

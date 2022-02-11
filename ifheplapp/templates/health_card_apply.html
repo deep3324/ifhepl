@@ -124,11 +124,11 @@
         </div>
         <div class="row col-md-9">
           <div class="form-check col-md-2">
-            <input class="form-check-input" type="radio" name="disability" value="General" id="disability">
+            <input class="form-check-input" type="radio" name="disability" value="Yes" id="disability">
             <label class="form-check-label" for="disability"> Yes </label>
           </div>
           <div class="form-check col-md-2">
-            <input class="form-check-input" type="radio" name="disability" value="OBC" id="disability">
+            <input class="form-check-input" type="radio" name="disability" value="Yes" id="disability">
             <label class="form-check-label" for="disability"> No </label>
           </div>
         </div>
@@ -306,14 +306,33 @@
           <input type="file" class="form-control" name="imgs" id="imgs" aria-describedby="imgs">
         </div>
       </div>
-      <!-- <div class="mb-3 row">
+      <div class="mb-3 row">
         <div class="col-md-3">
-          <label for="sign" class="form-label">Signature</label>
+          <label for="imgs" class="form-label">Payment Mode</label>
         </div>
-        <div class="col-md-9">
-          <input type="file" class="form-control" name="sign" id="sign" aria-describedby="sign">
+        <div class="row col-md-9">
+          {% if user.is_authenticated %}
+          <div class="form-check col-md-2">
+            <input class="form-check-input" type="radio" name="payment" value="cash" id="disability">
+            <label class="form-check-label" for="disability"> CASH </label>
+          </div>
+          {% endif %}
+          <div class="form-check col-md-2">
+            <input class="form-check-input" type="radio" name="payment" value="online" id="disability">
+            <label class="form-check-label" for="disability"> Online </label>
+          </div>
         </div>
-      </div> -->
+      </div>
+      <div class="mb-3 row">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+          <label class="form-check-label" for="flexCheckDefault">
+            I agree to the <a href="/terms-and-condition" target="_blank">Terms and Conditions</a> and <a href="/privacy-policy" target="_blank">Privacy Policy</a> of our company.
+          </label>
+        </div>
+      </div>
+      <div class="g-recaptcha" data-sitekey="6LfQqGUeAAAAAKfjHTyFYP2rCRUCvN48SYEUKpm5"></div>
+      <br/>
       <button type="submit" class="btn-sub">Submit</button>
     </form>
   </div>

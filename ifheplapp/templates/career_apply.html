@@ -1,8 +1,6 @@
 {% extends 'extends/base.html' %}
-{% for job in jobs %}
-{% block title %}{{job.title}}{% endblock title %}
-{% block ogtitle %}{{job.title}}{% endblock ogtitle %}
-{% endfor %}
+{% block title %}{{jobs.title}}{% endblock title %}
+{% block ogtitle %}{{jobs.title}}{% endblock ogtitle %}
 {% block ogurl %}{% endblock ogurl %}
 {% block style %}
 <style>
@@ -69,7 +67,7 @@
           <button type="submit" class="btn-sub">Submit</button>
         </div>
         <div class="col-md-4 d-flex align-items-center">
-          <h5> Already applied? <a href="career/{{job.slug}}/apply">	&nbsp; <span style="color: red"> Click Here</span></a></h5>
+          <h5> Already applied? <a href="/login">	&nbsp; <span style="color: red"> Click Here</span></a></h5>
         </div>
       </div>
     </form>

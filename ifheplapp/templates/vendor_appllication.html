@@ -1,10 +1,10 @@
 {% extends 'extends/base.html' %}
-{% block title %}Kisan Card Apply{% endblock title %}
+{% block title %}Vendor Registration{% endblock title %}
 
 
-{% block ogtitle %}Kisan Card Apply{% endblock ogtitle %}
+{% block ogtitle %}Vendor Registration{% endblock ogtitle %}
 
-{% block ogurl %}card/Kisan-Card/apply{% endblock ogurl %}
+{% block ogurl %}vendor-registration{% endblock ogurl %}
 {% block style %}
 <style>
   .btn-sub{
@@ -29,9 +29,9 @@
 <div class="row1" style="background-color: rgb(255, 255, 240);">
   <div class="container" style="max-width: 60%;">
     <div class="my-4 text-center">
-      <h3>Kisan Card Apply</h3>
+      <h3>Vendor Registration</h3>
     </div>
-    <form id="msform" method="POST" action="Confirmation" enctype="multipart/form-data"> {% csrf_token %}
+    <form id="msform" method="POST" action="vendor-registration/Confirmation" enctype="multipart/form-data"> {% csrf_token %}
       <h4 class="my-3">Personal Details </h4>
       <div class="mb-3 row">
         <div class="col-md-3">
@@ -134,7 +134,137 @@
           </div>
         </div>
       </div>
+      <div class="mb-3 row">
+        <div class="col-md-3">
+          <label for="gender" class="form-label">Gender <span style="color: red;">*</span></label>
+        </div>
+        <div class="row col-md-9">
+          <div class="form-check col-md-2">
+            <input class="form-check-input" type="radio" name="gender" value="Male" id="gender">
+            <label class="form-check-label" for="gender"> Male </label>
+          </div>
+          <div class="form-check col-md-2">
+            <input class="form-check-input" type="radio" name="gender" value="Female" id="gender">
+            <label class="form-check-label" for="gender"> Female </label>
+          </div>
+        </div>
+      </div>
       <!-- <div class="row"> -->
+      <div class="mb-3 row">
+        <div class="col-md-3">
+          <label for="religion" class="form-label">Religion <span style="color: red;">*</span></label>
+        </div>
+        <div class="col-md-9">
+          <input type="tel" maxlength="15" minlength="15" name="religion" class="form-control" id="religion"
+            aria-describedby="religion">
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-md-3">
+          <label for="marital" class="form-label">Marital Status <span style="color: red;">*</span></label>
+        </div>
+        <div class="row col-md-9">
+          <div class="form-check col-md-2">
+            <input class="form-check-input" type="radio" name="marital_status" value="Single" id="marital">
+            <label class="form-check-label" for="marital"> Single </label>
+          </div>
+          <div class="form-check col-md-2">
+            <input class="form-check-input" type="radio" name="marital_status" value="Maried" id="marital">
+            <label class="form-check-label" for="marital"> Maried </label>
+          </div>
+          <div class="form-check col-md-2">
+            <input class="form-check-input" type="radio" name="marital_status" value="Widowed" id="marital">
+            <label class="form-check-label" for="marital"> Widowed </label>
+          </div>
+          <div class="form-check col-md-2">
+            <input class="form-check-input" type="radio" name="marital_status" value="Divorced" id="marital">
+            <label class="form-check-label" for="marital"> Divorced </label>
+          </div>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-md-3">
+          <label for="language" class="form-label">Language Known <span style="color: red;">*</span></label>
+        </div>
+        <div class="row col-md-9">
+          <div class="form-check col-md-2">
+            <input class="form-check-input" type="radio" name="language_known" value="Hindi" id="language">
+            <label class="form-check-label" for="language"> Hindi </label>
+          </div>
+          <div class="form-check col-md-2">
+            <input class="form-check-input" type="radio" name="language_known" value="English" id="language">
+            <label class="form-check-label" for="language"> English </label>
+          </div>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-md-3">
+          <label for="occupation" class="form-label">Occupation <span style="color: red;">*</span></label>
+        </div>
+        <div class="col-md-9">
+          <input type="tel" name="occupation" class="form-control" id="occupation" aria-describedby="occupation">
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-md-3">
+          <label for="nominee" class="form-label">Nominee's Name <span style="color: red;">*</span></label>
+        </div>
+        <div class="col-md-9">
+          <input type="tel" name="nominee_name" class="form-control" id="nominee" aria-describedby="nominee">
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-md">
+          <div class="mb-3 row">
+            <div class="col-md-3">
+              <label for="work_area" class="form-label">Work Area</label>
+            </div>
+            <div class="col-md-9">
+              <select class="form-select" name="work_area" aria-label="work_area">
+                <option selected>Open to select Work Area</option>
+                <option value="Araria">Araria</option>
+                <option value="Arwal">Arwal</option>
+                <option value="Aurangabad">Aurangabad</option>
+                <option value="Banka">Banka</option>
+                <option value="Begusarai">Begusarai</option>
+                <option value="Bhabhua">Bhabhua</option>
+                <option value="Bhagalpur">Bhagalpur</option>
+                <option value="Bhojpur">Bhojpur</option>
+                <option value="Buxar">Buxar</option>
+                <option value="Darbhanga">Darbhanga</option>
+                <option value="East Champaran">East Champaran</option>
+                <option value="Gaya">Gaya</option>
+                <option value="Gopalganj">Gopalganj</option>
+                <option value="Jamui">Jamui</option>
+                <option value="Jehanabad">Jehanabad</option>
+                <option value="Katihar">Katihar</option>
+                <option value="Khagaria">Khagaria</option>
+                <option value="Kishanganj">Kishanganj</option>
+                <option value="Lakhisarai">Lakhisarai</option>
+                <option value="Madhepura">Madhepura</option>
+                <option value="Madhubani">Madhubani</option>
+                <option value="Monghyr">Monghyr</option>
+                <option value="Muzaffarpur">Muzaffarpur</option>
+                <option value="Nalanda">Nalanda</option>
+                <option value="Nawada">Nawada</option>
+                <option value="Patna">Patna</option>
+                <option value="Purnea">Purnea</option>
+                <option value="Rohtas">Rohtas</option>
+                <option value="Saharsa">Saharsa</option>
+                <option value="Samastipur">Samastipur</option>
+                <option value="Saran">Saran</option>
+                <option value="Sheikhpura">Sheikhpura</option>
+                <option value="Sheohar">Sheohar</option>
+                <option value="Sitamarhi">Sitamarhi</option>
+                <option value="Siwan">Siwan</option>
+                <option value="Supaul">Supaul</option>
+                <option value="Vaishali">Vaishali</option>
+                <option value="West Champaran">West Champaran</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="mb-3 row">
         <div class="col-md-3">
           <label for="mob" class="form-label">Mobile No. <span style="color: red;">*</span></label>
@@ -301,10 +431,18 @@
       </div>
       <div class="mb-3 row">
         <div class="col-md-3">
-          <label for="imgs" class="form-label">Photo</label>
+          <label for="photo" class="form-label">Photo</label>
         </div>
         <div class="col-md-9">
-          <input type="file" class="form-control" name="imgs" id="imgs" aria-describedby="imgs">
+          <input type="file" class="form-control" name="photo" id="photo" aria-describedby="photo">
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-md-3">
+          <label for="signature" class="form-label">Signature</label>
+        </div>
+        <div class="col-md-9">
+          <input type="file" class="form-control" name="signature" id="signature" aria-describedby="signature">
         </div>
       </div>
       <div class="mb-3 row">
@@ -312,21 +450,15 @@
           <label for="imgs" class="form-label">Payment Mode</label>
         </div>
         <div class="row col-md-9">
-          {% if user.is_authenticated %}
           <div class="form-check col-md-2">
-            <input class="form-check-input" type="radio" name="payment" value="cash" id="disability">
-            <label class="form-check-label" for="disability"> CASH </label>
-          </div>
-          {% endif %}
-          <div class="form-check col-md-2">
-            <input class="form-check-input" type="radio" name="payment" value="online" id="disability">
+            <input class="form-check-input" type="radio" name="payment" value="online" id="disability" required>
             <label class="form-check-label" for="disability"> Online </label>
           </div>
         </div>
       </div>
       <div class="mb-3 row">
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" required>
           <label class="form-check-label" for="flexCheckDefault">
             I agree to the <a href="/terms-and-condition" target="_blank">Terms and Conditions</a> and <a href="/privacy-policy" target="_blank">Privacy Policy</a> of our company.
           </label>

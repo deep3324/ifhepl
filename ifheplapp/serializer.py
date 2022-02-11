@@ -38,7 +38,7 @@ class EmployeeRegistrationSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         profile_data = validated_data.pop('profile')
-        user = User.objects.create_user(username = profile_data['emmloyeeid'], email =profile_data['email'],  password = str(profile_data['dob']).replace("/",""))
+        user = User.objects.create_user(username = profile_data['emmloyeeid'], email =profile_data['email'],  password = str(profile_data['dob']).replace("-",""))
         user.is_active = False
         user.save()
         EmployeeProfile.objects.create(

@@ -31,7 +31,7 @@ class EmployeeProfile(models.Model):
         ('Receptionist', 'Receptionist'),
     )
     designation = models.CharField(max_length=32, choices=JOB_CHOICES)
-    job_location = models.CharField(max_length=100, default="")
+    job_location = models.CharField(max_length=100, default="", blank=True)
     bloodgroup = models.CharField(max_length=10, default="")
     dob = models.DateField()
     Address = models.CharField(max_length=500, default="")
@@ -52,3 +52,6 @@ class EmployeeProfile(models.Model):
         '''
         db_table = "profile"
         verbose_name_plural = "Employee Profiles"
+    
+    def __str__(self):
+        return self.name + " (" + self.emmloyeeid + ")"

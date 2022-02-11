@@ -1,0 +1,26 @@
+{% extends 'extends/base.html' %}
+{% block title %}Merchant Check Out Page{% endblock title %}
+
+{% block body %}
+<div class="container text-center">
+    <h1>Please do not refresh this page...</h1>
+    {% if response %}
+    <form action="/success/" method="POST">
+        <script src="https://checkout.razorpay.com/v1/checkout.js" data-key="rzp_test_iCjKXu3tzNttXV"
+            data-amount={{response.amount}} data-currency={{response.currency}} data-order_id={{response.id}}
+            data-name={{response.id}} data-buttontext="Pay with Razorpay" data-prefill.name="{{card.name}}"
+            data-prefill.email="{{card.email}}" data-prefill.contact="+91{{card.mobile_number}}"
+            data-theme.color="#F37254" data-name="INDIE FEEDER HALENESS & ERUDITION PRIVATE LIMITED"></script>
+        <input type="hidden" custom="Hidden Element" name="hidden">
+    </form>
+    {% endif %}
+</div>
+{% block script %}
+<script>
+    $(document).ready(function (e) {
+        $('.razorpay-payment-button').click()
+        $('.razorpay-payment-button').hide()
+    })
+</script>
+{% endblock script %}
+{% endblock body %}

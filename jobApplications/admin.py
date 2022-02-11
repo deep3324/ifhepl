@@ -1,19 +1,10 @@
 from django.contrib import admin
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
-from jobApplications.models import jobUser, job_application
+from jobApplications.models import job_application
 
 # Register your models here.
 # admin.site.register(jobUser)
-
-class JobUserResource(resources.ModelResource):
-    class Meta:
-        model = jobUser
-
-@admin.register(jobUser)
-class JobApplyAdmin(ImportExportModelAdmin):
-    resource_class = JobUserResource
-    list_display = ("username","email",)
 
 class JobApplyResource(resources.ModelResource):
     class Meta:
@@ -23,10 +14,11 @@ class JobApplyResource(resources.ModelResource):
 class JobApplyAdmin(ImportExportModelAdmin):
     resource_class = JobApplyResource
     list_display = ("name", "mobile_number",
-                    "submitted_on", "reference_number",)
+                    "submitted_on", "reference_number","paid")
+    readonly_fields = ['order_id','razorpay_signature','transaction_date','razorpay_payment_id','payment_status','payment_mode']
     fieldsets = (
         ('Personal Details', {
-            'fields': ('user', ('reference_number', 'name'), ('dob', 'email'), ('aadhar_no','pan_no'), ('father_Husband_name', 'mother_name'), ('category', 'disability'), ('mobile_number', 'alt_mobile_no'),)
+            'fields': ('user', ('reference_number', 'name'), ('dob', 'email'), ('aadhar_no','pan_no'), ('father_Husband_name', 'mother_name'), ('category', 'disability'), ('mobile_number', 'alt_mobile_no'),('applied_for','employee_profile')),
         }),
         ('Address', {
             'classes': ('collapse',),
@@ -34,29 +26,36 @@ class JobApplyAdmin(ImportExportModelAdmin):
         }),
         ('Matriculation (10th)', {
             'classes': ('collapse',),
-            'fields': (('board_10', 'school_10'), ('passing_10', 'roll_10'), ('mark_10', 'percentage_10'),),
+            'fields': (('matriculation_board_university', 'matriculation_school_institute'), ('matriculation_passing_year', 'matriculation_roll_number'), ('matriculation_marks_gpa', 'matriculation_percentage'),),
         }),
-        ('Intermediate (10th)', {
+        ('Intermediate (12th)', {
             'classes': ('collapse',),
-            'fields': (('board_12', 'school_12'), ('passing_12', 'roll_12'), ('mark_12', 'percentage_12'),),
+            'fields': (('intermediate_board_university', 'intermediate_school_institute'), ('intermediate_passing_year', 'intermediate_roll_number'), ('intermediate_marks_gpa', 'intermediate_percentage'),),
         }),
-        ('Graduation Degree', {
+        ('Graduation', {
             'classes': ('collapse',),
-            'fields': (('univ_graduation', 'insti_graduation'), ('passing_graduation', 'roll_graduation'), ('mark_graduation', 'percentage_graduation'),),
+            'fields': (('graduation_board_university', 'graduation_school_institute'), ('graduation_passing_year', 'graduation_roll_number'), ('graduation_marks_gpa', 'graduation_percentage'),),
         }),
-        ('Master Degree', {
+        ('Higher Qualification', {
             'classes': ('collapse',),
-            'fields': (('univ_master', 'insti_master'), ('passing_master', 'roll_master'), ('mark_master', 'percentage_master'),),
+            'fields': (('higher_qualification_board_university', 'higher_qualification_school_institute'), ('higher_qualification_passing_year', 'higher_qualification_roll_number'), ('higher_qualification_marks_gpa', 'higher_qualification_percentage'),),
+        }),
+        ('Extra Qualification', {
+            'classes': ('collapse',),
+            'fields': (('extra_qualification_board_university', 'extra_qualification_school_institute'), ('extra_qualification_passing_year', 'extra_qualification_roll_number'), ('extra_qualification_marks_gpa', 'extra_qualification_percentage'),),
         }),
         ('Document Upload', {
             'classes': ('collapse',),
-            'fields': (('edudoc'), ('imgs', 'sign'),),
+            'fields': (('sign'), ('photo'),),
         }),
         ('Submitted On', {
             'fields': ('submitted_on',)
         }),
         ('Job Update', {
-            'fields': (('submitted','accept', 'reject'),)
+            'fields': (('completed','accept', 'reject'),)
+        }),
+        ('Payment Update', {
+            'fields': (('order_id'),('transaction_date'),('payment_status'),('payment_mode'),('razorpay_signature','razorpay_payment_id'), 'paid')
         }),
 
     )
