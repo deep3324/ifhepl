@@ -51,9 +51,11 @@
     <h3 class="text-center" >Your application has already been submitted.</h3>
     <h4 class="text-center" >Our HR Team will contact you soon</h4>
     <h5 class="text-center" >In case of any Query/Concern reach us at <a href="mailto:hr@ifhepl.in">hr@ifhepl.in</a> </h5>
+    <a href="/print/{{job.order_id}}" class="btn-sub">Print Application</a>
     {% elif job.accept %}
     <h3 class="text-center" >Congratulations !!!</h3>
     <h4 class="text-center" >Welcome to IFHEPL Family</h4>
+    <a href="/print/{{job.order_id}}" class="btn-sub">Print Application</a>
     {% else %}
     <form id="msform" method="POST" action="/complete_profile" enctype="multipart/form-data"> {% csrf_token %}
       <div class="all-steps text-center" id="loanSteps">
@@ -135,6 +137,15 @@
           <div class="col-md-9">
             <input type="text" class="form-control" maxlength="12" minlength="12" value="{{job.bloodgroup}}" name="bloodgroup" id="bg"
               aria-describedby="bg" required>
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <div class="col-md-3">
+            <label for="g" class="form-label">Gender<span style="color: red;">*</span></label>
+          </div>
+          <div class="col-md-9">
+            <input type="text" class="form-control" maxlength="6" minlength="6" value="{{job.gender}}" name="gender" id="g"
+              aria-describedby="g" required>
           </div>
         </div>
         <div class="mb-3 row">

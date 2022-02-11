@@ -1,8 +1,6 @@
 {% extends 'extends/base.html' %}
-{% for job in jobs %}
-{% block title %}{{job.title}}{% endblock title %}
-{% block ogtitle %}{{job.title}}{% endblock ogtitle %}
-{% endfor %}
+{% block title %}{{jobs.title}}{% endblock title %}
+{% block ogtitle %}{{jobs.title}}{% endblock ogtitle %}
 {% block ogurl %}{% endblock ogurl %}
 {% block style %}
 <style>

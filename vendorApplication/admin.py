@@ -18,35 +18,15 @@ class vendorAdmin(ImportExportModelAdmin):
     readonly_fields = ['order_id','razorpay_signature','transaction_date','razorpay_payment_id','payment_status','payment_mode']
     fieldsets = (
         ('Personal Details', {
-            'fields': ('user', ('reference_number', 'name'), ('dob', 'email'), ('aadhar_no','pan_no'), ('father_Husband_name', 'mother_name'), ('category', 'disability'), ('mobile_number', 'alt_mobile_no'),)
+            'fields': ('VendorID', ('reference_number', 'name'), ('dob', 'email'), ('idtype','id_proof'), ('father_Husband_name', 'mother_name'), ('category', 'disability'), ('mobile_number', 'alt_mobile_no'),)
         }),
         ('Address', {
             'classes': ('collapse',),
             'fields': (('village', 'po'), ('ps', 'block'), ('district', 'state'), 'pin_code'),
         }),
-        ('Matriculation (10th)', {
-            'classes': ('collapse',),
-            'fields': (('matriculation_board_university', 'matriculation_school_institute'), ('matriculation_passing_year', 'matriculation_roll_number'), ('matriculation_marks_gpa', 'matriculation_percentage'),),
-        }),
-        ('Intermediate (12th)', {
-            'classes': ('collapse',),
-            'fields': (('intermediate_board_university', 'intermediate_school_institute'), ('intermediate_passing_year', 'intermediate_roll_number'), ('intermediate_marks_gpa', 'intermediate_percentage'),),
-        }),
-        ('Graduation', {
-            'classes': ('collapse',),
-            'fields': (('graduation_board_university', 'graduation_school_institute'), ('graduation_passing_year', 'graduation_roll_number'), ('graduation_marks_gpa', 'graduation_percentage'),),
-        }),
-        ('Higher Qualification', {
-            'classes': ('collapse',),
-            'fields': (('higher_qualification_board_university', 'higher_qualification_school_institute'), ('higher_qualification_passing_year', 'higher_qualification_roll_number'), ('higher_qualification_marks_gpa', 'higher_qualification_percentage'),),
-        }),
-        ('Extra Qualification', {
-            'classes': ('collapse',),
-            'fields': (('extra_qualification_board_university', 'extra_qualification_school_institute'), ('extra_qualification_passing_year', 'extra_qualification_roll_number'), ('extra_qualification_marks_gpa', 'extra_qualification_percentage'),),
-        }),
         ('Document Upload', {
             'classes': ('collapse',),
-            'fields': (('sign'), ('photo'),),
+            'fields': (('id_proof_document'), ('photo'),('signature'),),
         }),
         ('Submitted On', {
             'fields': ('submitted_on',)

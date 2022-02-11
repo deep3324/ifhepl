@@ -9,7 +9,7 @@ class job_application(models.Model):
     # =============== Personal Details =======================
     # =============== Step 1 =======================
     applied_for = models.ForeignKey(Jobs, on_delete=models.CASCADE)
-    employee_profile = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
+    employee_profile = models.OneToOneField(EmployeeProfile, on_delete=models.CASCADE, related_name='job_application', null=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='job_application')
     name = models.CharField(max_length=100, default="")
     dob = models.CharField(max_length=100, default="")
@@ -24,6 +24,7 @@ class job_application(models.Model):
     aadhar_no = models.CharField(max_length=12, default="", blank=True)
     pan_no = models.CharField(max_length=100, default="",blank=True)
     bloodgroup = models.CharField(max_length=100, default="",blank=True)
+    gender = models.CharField(max_length=100, default="",blank=True)
     # =========================== Address ===========================
     village = models.CharField(max_length=100, default="",blank=True)
     po = models.CharField(max_length=100, default="",blank=True)
@@ -76,7 +77,7 @@ class job_application(models.Model):
     accept = models.BooleanField(default=False)
     reject = models.BooleanField(default=False)
     reference_number = models.CharField(
-        max_length=15, default="")
+        max_length=20, default="")
     # =========================== payment Update ===========================
     order_id = models.CharField(max_length=100, default="")
     paid = models.BooleanField(default=False)

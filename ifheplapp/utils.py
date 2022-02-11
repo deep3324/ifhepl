@@ -3,6 +3,9 @@ import razorpay
 from django.conf import settings
 import random
 import string
+
+from jobApplications.models import job_application
+from vendorApplication.models import vendorApplication
 from .models import *
 
 
@@ -37,9 +40,16 @@ def fetch_card(order_id):
         data = HealthCard.objects.get(order_id=order_id)
     elif reference_code == "k":
         data = KisanCard.objects.get(order_id=order_id)
+    elif reference_code == "j":
+        data = job_application.objects.get(order_id=order_id)
+    elif reference_code == "v":
+        data = vendorApplication.objects.get(order_id=order_id)
     return data
 
 
 def regenerate_order_id(card):
-    card.order_id = random_string_generator() + card.reference_number.lower()
-    card.save()
+    if not card.paid:
+        pass
+    else:
+        card.order_id = random_string_generator() + "_" + card.reference_number.lower()
+        card.save()

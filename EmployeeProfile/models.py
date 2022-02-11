@@ -52,3 +52,6 @@ class EmployeeProfile(models.Model):
         '''
         db_table = "profile"
         verbose_name_plural = "Employee Profiles"
+    
+    def __str__(self):
+        return self.name + " (" + self.emmloyeeid + ")"

@@ -1,3 +1,4 @@
+import ifheplapp
 import random
 from django.contrib.auth import authenticate,  login as dj_login, logout
 from django.shortcuts import render
@@ -73,7 +74,7 @@ def complete_profile(request):
         return render(request, "confirmation.html", {'data_ref_job': job_profile, "msg": msg})
     return render(request, "complete_profile.html", {"job": job_profile})
 
-import ifheplapp
+
 def job_submit(request):
     if request.method == 'POST':
         applied_for = Jobs.objects.get(slug=request.POST.get('applied_for'))
@@ -85,13 +86,12 @@ def job_submit(request):
             (name.split(" ")[0].upper())[0:4] + (dob.split("-")
                                                  [0]) + str(int(random.random() * 10000)) + "J"
         subject = render_to_string(
-            'email/confirmation_job.html', {'name': name, 'request_no': reference_number,"email": email, "dob":str(dob).replace("-","")})
+            'email/confirmation_job.html', {'name': name, 'request_no': reference_number, "email": email, "dob": str(dob).replace("-", "")})
         user = User.objects.create_user(
             username=email,
             email=email,
             password=str(dob).replace("-", ""),
             first_name=str(name.split(" ")[0]),
-            last_name=str(name.split(" ")[1:])
         )
         user.save()
         user = authenticate(username=email, password=str(dob).replace("-", ""))
@@ -113,7 +113,8 @@ def job_submit(request):
         else:
             job.save()
             ifheplapp.def_mail("Job Application | IFHEPL", subject, email)
-            ifheplapp.send_sms_job_submission(mobile_number,reference_number,"https://ifhepl.in/login")
+            ifheplapp.send_sms_job_submission(
+                mobile_number, reference_number, "https://ifhepl.in/login")
             data_ref_job = job_application.objects.get(email=job.email)
             return render(request, "confirmation.html", {'data_ref_job': data_ref_job})
     else:

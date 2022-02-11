@@ -41,6 +41,17 @@
     a {
       text-decoration: none !important;
     }
+    .btn-sub{
+      border: 0;
+      background-color: #261C2C;
+      color: white;
+      padding: 10px 20px;
+      font-size: 1.25rem;
+      border-radius: 25px;
+    }
+    .btn-sub:hover {
+      background-color: #381949;
+    }
 
     #loading {
       position: fixed;
@@ -108,10 +119,10 @@
               <li><a href="/verify-membership">Verify Card</a></li>
             </ul>
           </li>
-          <li><a href="javascript:void(0);" class="drop">Vendor Registrator</a>
+          <li><a href="javascript:void(0);" class="drop">Vendor Registration</a>
             <ul>
               <li><a href="/vendor-registration">Join IFHEPL</a></li>
-              <li><a href="/verify-vendor">Verify Card</a></li>
+              <li><a href="/verify-vendor">Verify Vendor</a></li>
             </ul>
           </li>
           <li><a href="javascript:void(0)" class="drop">Cards</a>
@@ -161,10 +172,10 @@
               <li><a href="javascript:void(0);" class="drop">{{user.first_name}}</a>
           {% endif %}
             <ul>
-              {% if user.username|slice:":4" == "IFHE" %}
+              {% if user.username|slice:":8" == "IFHEPLE1" %}
               <li><a href="/profile">My Profile</a></li>
               <li><a href="/attendance">Attendance</a></li>
-              {% elif user.username|slice:":4" != "IFHE" %}
+              {% elif user.username|slice:":8" != "IFHEPLE1" %}
               <li><a href="/complete_profile">Complete Profile</a></li>
               {% endif %}
               <li><a href="/logout">Logout</a></li>
@@ -297,6 +308,9 @@
         alert("Your application has been Submitted Successfully")
       }
       if (msg == "succ-msg-job") {
+        alert("Your application has been Submitted Successfully")
+      }
+      if (msg == "succ-msg-ven") {
         alert("Your application has been Submitted Successfully")
       }
     </script>

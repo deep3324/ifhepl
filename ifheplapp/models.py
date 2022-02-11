@@ -155,6 +155,7 @@ class Membership (models.Model):
     district = models.CharField(max_length=100, default="")
     state = models.CharField(max_length=100, default="")
     pin_code = models.CharField(max_length=100, default="")
+    accept_terms = models.BooleanField(default=False)
     # =========================== Document Upload ===========================
     id_proof_document = models.FileField(upload_to="Membership/ID_Proof/")
     photo = models.FileField(upload_to="Membership/Photo/")
@@ -168,7 +169,7 @@ class Membership (models.Model):
     card_number = models.IntegerField(
         default=membership_card_increase, primary_key=False)
     reference_number = models.CharField(
-        max_length=15, default="")
+        max_length=20, default="")
     # =========================== payment Update ===========================
     order_id = models.CharField(max_length=100, default="")
     paid = models.BooleanField(default=False)
@@ -219,7 +220,7 @@ class KisanCard(models.Model):
     card_number = models.IntegerField(
         default=kisan_card_increase, primary_key=False)
     reference_number = models.CharField(
-        max_length=15, default="")
+        max_length=20, default="")
     # =========================== payment Update ===========================
     order_id = models.CharField(max_length=100, default="")
     paid = models.BooleanField(default=False)
@@ -257,6 +258,7 @@ class HealthCard(models.Model):
     district = models.CharField(max_length=100, default="")
     state = models.CharField(max_length=100, default="")
     pin_code = models.CharField(max_length=100, default="")
+    accept_terms = models.BooleanField(default=False)
     # =========================== Document Upload ===========================
     id_proof_document = models.FileField(upload_to="HealthCard/ID_Proof/")
     photo = models.FileField(upload_to="HealthCard/Photo/")
@@ -269,7 +271,7 @@ class HealthCard(models.Model):
     card_number = models.IntegerField(
         default=health_card_increase, primary_key=False)
     reference_number = models.CharField(
-        max_length=15, default="")
+        max_length=20, default="")
     # =========================== payment Update ===========================
     order_id = models.CharField(max_length=100, default="")
     paid = models.BooleanField(default=False)
