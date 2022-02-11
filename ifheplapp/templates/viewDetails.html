@@ -21,6 +21,8 @@
         <br> <br> <a href="/reach-us" class="my-3" style="color: red; text-decoration: none;" target="__blank">Click
           here</a> to Contact
       </h5>
+      {% elif not membership_reference.paid %}
+      <h5 class="my-2">Membership Application has been submitted but payment not done.<br>Kindly make a payment for complete submission</h5><br> <a href="/pay/{{membership_reference.order_id}}" class="btn btn-primary">Pay online</a>
       {% elif membership_reference.approve %}
       <h5 class="my-2">Membership Application has been Approved.<br>Your Membership Card Number is <span
           style="color: red;">{{membership_reference.card_number}}</span></h5> <br>
@@ -56,6 +58,8 @@
         <br> <br> <a href="/reach-us" class="my-3" style="color: red; text-decoration: none;" target="__blank">Click
           here</a> to Contact
       </h5>
+      {% elif not Health_reference.paid %}
+      <h5 class="my-2">Membership Application has been submitted but payment not done.<br>Kindly make a payment for complete submission</h5><br> <a href="/pay/{{Health_reference.order_id}}" class="btn btn-primary">Pay online</a>
       {% elif Health_reference.approve%}
       <h5 class="my-2">Health Card Application has been Approved.<br>Your Health Card Number is <span
           style="color: red;">{{Health_reference.card_number}}</span></h5>
@@ -90,6 +94,8 @@
         <br> <br> <a href="/reach-us" class="my-3" style="color: red; text-decoration: none;" target="__blank">Click
           here</a> to Contact
       </h5>
+      {% elif not kisan_reference.paid %}
+      <h5 class="my-2">Membership Application has been submitted but payment not done.<br>Kindly make a payment for complete submission</h5><br> <a href="/pay/{{kisan_reference.order_id}}" class="btn btn-primary">Pay online</a>
       {% elif kisan_reference.approve %}
       <h5 class="my-2">Kisan Card Application has been Approved.<br>Your Kisan Card Number is <span
           style="color: red;">{{kisan_reference.card_number}}</span></h5>

@@ -1,16 +1,12 @@
-from django.contrib.auth.models import User
 from django.db import models
-from EmployeeProfile.models import EmployeeProfile
-from ifheplapp.models import Jobs
-
+from django.contrib.auth.models import User
 # Create your models here.
 
-class job_application(models.Model):
+class vendorApplication(models.Model):
     # =============== Personal Details =======================
     # =============== Step 1 =======================
-    applied_for = models.ForeignKey(Jobs, on_delete=models.CASCADE)
-    employee_profile = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='job_application')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='vendorApplication')
+    vendorId = models.CharField(max_length=100, default="")
     name = models.CharField(max_length=100, default="")
     dob = models.CharField(max_length=100, default="")
     mobile_number = models.CharField(max_length=100, default="")

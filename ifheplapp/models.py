@@ -1,3 +1,4 @@
+from email.policy import default
 from http.client import GATEWAY_TIMEOUT
 from inspect import signature
 from django.db import models
@@ -9,6 +10,7 @@ from django.db import models
 from PIL import Image
 from io import BytesIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.forms import BooleanField
 # Create your models here.
 
 
@@ -204,6 +206,7 @@ class KisanCard(models.Model):
     district = models.CharField(max_length=100, default="")
     state = models.CharField(max_length=100, default="")
     pin_code = models.CharField(max_length=100, default="")
+    accept_terms = models.BooleanField(default=False)
     # =========================== Document Upload ===========================
     id_proof_document = models.FileField(upload_to="KisanCard/ID_Proof/")
     photo = models.FileField(upload_to="KisanCard/Photo/")

@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'rest_framework_jwt',
     'import_export',
     'django_q',
-    'jobApplications'
+    'jobApplications',
 ]
 
 MIDDLEWARE = [

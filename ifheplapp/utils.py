@@ -20,6 +20,8 @@ def filter_application_name(order_id):
         params = {"card_name" : "Health Card", "amount": 119.00}
     elif reference_code == "k":
         params = {"card_name" : "Kisan Card", "amount": 119.00}
+    elif reference_code == "v":
+        params = {"card_name" : "Vendor Application", "amount": 500.00}
     else:
         params = {"card_name" : "Job Application", "amount": 300.00}
     return params

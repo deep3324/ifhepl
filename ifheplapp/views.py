@@ -1,7 +1,8 @@
+import random
 import razorpay
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
-from ifheplapp import convert_to_html
+from ifheplapp import convert_to_html, verify_recaptcha
 from datetime import timedelta, datetime
 from django.db.models.query_utils import Q
 import ifheplapp
@@ -15,8 +16,11 @@ from django.contrib.auth import authenticate,  login as dj_login, logout
 from django.contrib import messages
 from geopy.geocoders import Nominatim
 from ifheplapp.utils import filter_application_name, random_string_generator, fetch_card, regenerate_order_id
+import requests
+import json
+from django.template.loader import render_to_string
 
-
+from jobApplications.models import job_application
 def offer_letter(request):
     html = render_to_string('includes/offer_letter.html', {'name': ""})
     convert_to_html(html)
@@ -108,7 +112,7 @@ def handeLogin(request):
             messages.success(request, "Successfully Logged In")
             if loginusername.startswith("IFHE"):
                 return redirect("/profile")
-            elif loginusername == "DIRECTOR" and loginusername == "Director" and loginusername == "Hr" and loginusername == "app_developer" and loginusername == "IFHEPL":
+            elif loginusername == "DIRECTOR" or loginusername == "Director" or loginusername == "Hr" or loginusername == "app_developer" or loginusername == "Administrator":
                 return redirect("/admin")
             else:
                 return redirect("/complete_profile")
@@ -165,6 +169,10 @@ def privacypolicy(request):
     return render(request, "privacypolicy.html")
 
 
+def returnpolicy(request):
+    return render(request, "returnpolicy.html")
+
+
 def termscondition(request):
     return render(request, "termscondition.html")
 
@@ -189,6 +197,20 @@ def searchKisan(request):
 def searchHealth(request):
     return render(request, "seach_health.html")
 
+def searchVendor(request):
+    return render(request, "seach_vendor.html")
+
+
+def viewVendor(request):
+    if request.method == 'GET':
+        query_reference = request.GET.get('query_reference')
+        query_card_dob = request.GET.get('query_card_dob')
+        if query_reference and query_card_dob:
+            vendor = Membership.objects.filter(
+                Q(reference_number=query_reference) & Q(dob=query_card_dob))
+            return render(request, "viewDetails.html", {'vendor': vendor[0] if vendor else ""})
+        else:
+            return render(request, "viewDetails.html", {'vendor_reference': "", "vendor": ""})
 
 def viewMembership(request):
     if request.method == 'GET':
@@ -324,7 +346,8 @@ def membership_submit(request):
         ipdoc = request.FILES['ipdoc']
         photo = request.FILES['imgs']
         reference_number = "IFHE" + \
-            (name.split(" ")[0].upper())[0:4] + (dob.split("-")[0]) + "M"
+            (name.split(" ")[0].upper())[0:4] + (dob.split("-")
+                                                 [0]) + str(int(random.random() * 10000)) + "M"
         subject = render_to_string(
             'email/confirmation.html', {'name': name, 'scheme': 'Membership', 'request_no': reference_number})
         if payment == "cash":
@@ -365,24 +388,25 @@ def membership_submit(request):
                     request, "Your application has been already Submitted")
                 return redirect('/membership')
         else:
-            membership.save()
-            msg = "succ-msg-mem"
-            ifheplapp.def_mail("Membership | IFHEPL", subject, email)
-            data_ref = Membership.objects.filter(id_proof=membership.id_proof)
-            if request.user.is_authenticated:
-                emp = EmployeeProfile.objects.get(user=request.user)
-                emp.total_membership_card_created = len(
-                    Membership.objects.filter(employeeID=empid))
-                curr_month = datetime.now().month
-                emp.current_month_membership_card_created = len(
-                    Membership.objects.filter(employeeID=empid, submitted_on__month=curr_month))
-                prev_month = (datetime.now().replace(
-                    day=1) - timedelta(days=1)).month
-                emp.previous_month_membership_card_created = len(
-                    Membership.objects.filter(employeeID=empid, submitted_on__month=prev_month))
-                emp.save()
-            else:
-                pass
+            verified_recaptcha = verify_recaptcha(request.POST.get('g-recaptcha-response'))
+            if verified_recaptcha:
+                membership.save()
+                msg = "succ-msg-mem"
+                ifheplapp.def_mail("Membership | IFHEPL", subject, email)
+                ifheplapp.send_sms_form_submission(mobile_number,"Membership", membership.reference_number, "https://ifhepl.in/verify_membership")
+                data_ref = Membership.objects.filter(id_proof=membership.id_proof)
+                if request.user.is_authenticated:
+                    emp = EmployeeProfile.objects.get(user=request.user)
+                    emp.total_membership_card_created = len(
+                        Membership.objects.filter(employeeID=empid))
+                    curr_month = datetime.now().month
+                    emp.current_month_membership_card_created = len(
+                        Membership.objects.filter(employeeID=empid, submitted_on__month=curr_month))
+                    prev_month = (datetime.now().replace(
+                        day=1) - timedelta(days=1)).month
+                    emp.previous_month_membership_card_created = len(
+                        Membership.objects.filter(employeeID=empid, submitted_on__month=prev_month))
+                    emp.save()
             return render(request, "confirmation.html", {'data_ref': data_ref, "msg": msg})
 
 
@@ -418,7 +442,8 @@ def kisan_submit(request):
         ipdoc = request.FILES['ipdoc']
         photo = request.FILES['imgs']
         reference_number = "IFHE" + \
-            (name.split(" ")[0].upper())[0:4] + (dob.split("-")[0]) + "K"
+            (name.split(" ")[0].upper())[0:4] + (dob.split("-")
+                                                 [0]) + str(int(random.random() * 10000)) + "K"
         subject = render_to_string(
             'email/confirmation.html', {'name': name, 'scheme': 'Kisan', 'request_no': reference_number})
         if payment == "cash":
@@ -459,25 +484,26 @@ def kisan_submit(request):
                     request, "Your application has been already Submitted")
                 return redirect('/card/Kisan-Card')
         else:
-            kisan.save()
-            msg = "succ-msg-kis"
-            ifheplapp.def_mail("Kisan Card | IFHEPL", subject, email)
-            data_ref = KisanCard.objects.filter(id_proof=kisan.id_proof)
-            if request.user.is_authenticated:
-                emp = EmployeeProfile.objects.get(user=request.user)
-                emp.total_kisan_card_created = len(
-                    KisanCard.objects.filter(employeeID=empid))
-                curr_month = datetime.now().month
-                emp.current_month_kisan_card_created = len(KisanCard.objects.filter(
-                    employeeID=empid, submitted_on__month=curr_month))
-                prev_month = (datetime.now().replace(
-                    day=1) - timedelta(days=1)).month
-                emp.previous_month_kisan_card_created = len(
-                    KisanCard.objects.filter(employeeID=empid, submitted_on__month=prev_month))
-                emp.save()
-            else:
-                pass
-            return render(request, "confirmation.html", {'data_ref_kisan': data_ref, "msg": msg})
+            verified_recaptcha = verify_recaptcha(request.POST.get('g-recaptcha-response'))
+            if verified_recaptcha:
+                kisan.save()
+                msg = "succ-msg-kis"
+                ifheplapp.def_mail("Kisan Card | IFHEPL", subject, email)
+                ifheplapp.send_sms_form_submission(mobile_number,"Kisan", kisan.reference_number, "https://ifhepl.in/verify_kisan")
+                data_ref = KisanCard.objects.filter(id_proof=kisan.id_proof)
+                if request.user.is_authenticated:
+                    emp = EmployeeProfile.objects.get(user=request.user)
+                    emp.total_kisan_card_created = len(
+                        KisanCard.objects.filter(employeeID=empid))
+                    curr_month = datetime.now().month
+                    emp.current_month_kisan_card_created = len(KisanCard.objects.filter(
+                        employeeID=empid, submitted_on__month=curr_month))
+                    prev_month = (datetime.now().replace(
+                        day=1) - timedelta(days=1)).month
+                    emp.previous_month_kisan_card_created = len(
+                        KisanCard.objects.filter(employeeID=empid, submitted_on__month=prev_month))
+                    emp.save()
+            return render(request, "confirmation.html", {'data_ref_kisan': data_ref if data_ref else "", "msg": msg})
 
 
 def health_submit(request):
@@ -512,7 +538,8 @@ def health_submit(request):
         ipdoc = request.FILES['ipdoc']
         photo = request.FILES['imgs']
         reference_number = "IFHE" + \
-            (name.split(" ")[0].upper())[0:4] + (dob.split("-")[0]) + "H"
+            (name.split(" ")[0].upper())[0:4] + (dob.split("-")
+                                                 [0]) + str(int(random.random() * 10000)) + "H"
         subject = render_to_string(
             'email/confirmation.html', {'name': name, 'scheme': 'Health', 'request_no': reference_number})
         if payment == "cash":
@@ -553,24 +580,25 @@ def health_submit(request):
                     request, "Your application has been already Submitted")
                 return redirect('/card/Health-Card')
         else:
-            health.save()
-            msg = "succ-msg-hel"
-            ifheplapp.def_mail("Health Card | IFHEPL", subject, email)
-            data_ref = HealthCard.objects.filter(id_proof=health.id_proof)
-            if request.user.is_authenticated:
-                emp = EmployeeProfile.objects.get(user=request.user)
-                emp.total_health_card_created = len(
-                    HealthCard.objects.filter(employeeID=empid))
-                curr_month = datetime.now().month
-                emp.current_month_health_card_created = len(
-                    HealthCard.objects.filter(employeeID=empid, submitted_on__month=curr_month))
-                prev_month = (datetime.now().replace(
-                    day=1) - timedelta(days=1)).month
-                emp.previous_month_health_card_created = len(
-                    HealthCard.objects.filter(employeeID=empid, submitted_on__month=prev_month))
-                emp.save()
-            else:
-                pass
+            verified_recaptcha = verify_recaptcha(request.POST.get('g-recaptcha-response'))
+            if verified_recaptcha:
+                health.save()
+                msg = "succ-msg-hel"
+                ifheplapp.def_mail("Health Card | IFHEPL", subject, email)
+                ifheplapp.send_sms_form_submission(mobile_number,"Health", health.reference_number, "https://ifhepl.in/verify_health")
+                data_ref = HealthCard.objects.filter(id_proof=health.id_proof)
+                if request.user.is_authenticated:
+                    emp = EmployeeProfile.objects.get(user=request.user)
+                    emp.total_health_card_created = len(
+                        HealthCard.objects.filter(employeeID=empid))
+                    curr_month = datetime.now().month
+                    emp.current_month_health_card_created = len(
+                        HealthCard.objects.filter(employeeID=empid, submitted_on__month=curr_month))
+                    prev_month = (datetime.now().replace(
+                        day=1) - timedelta(days=1)).month
+                    emp.previous_month_health_card_created = len(
+                        HealthCard.objects.filter(employeeID=empid, submitted_on__month=prev_month))
+                    emp.save()
             return render(request, "confirmation.html", {'data_ref_health': data_ref, "msg": msg})
 
 
@@ -592,6 +620,7 @@ def initiate_payment(request, order_id):
     card = fetch_card(order_id)
     return render(request, "payments/redirect.html", {'response': payment, "card": card})
 
+from django.contrib.auth.models import User
 
 @csrf_exempt
 def callback(request):
@@ -612,7 +641,8 @@ def callback(request):
                 razorpay_id=razorpay_order_id)
             card = fetch_card(transaction.order_id)
             if result is None:
-                application_name = filter_application_name(transaction.order_id)
+                application_name = filter_application_name(
+                    transaction.order_id)
                 amount = application_name["amount"] * 100
                 try:
                     transaction.razorpay_payment_id = payment_id
@@ -633,6 +663,36 @@ def callback(request):
                     card.save()
                     payment_details['transaction_date'] = card.transaction_date
                     payment_details['order_id'] = card.order_id
+                    subject = render_to_string(
+                    'email/payment_confirmation.html', {'name': card.name, 'scheme': application_name['card_name'], 'request_no': card.reference_number})
+                    if application_name['card_name'] == "Job Application":
+                        appli = job_application.objects.get(reference_number = card.reference_number)
+                        employee_id = "IFHEPLE1" + str(appli.dob.split("-")[-1])+ str(appli.dob.split("-")[-2])
+                        employee_user = User.objects.create_user(
+                            username=employee_id,
+                            email=appli.email,
+                            password=str(appli.dob).replace("-", ""),
+                            first_name=str(appli.name.split(" ")[0]),
+                            last_name=str(appli.name.split(" ")[1:])
+                        )
+                        employee_user.save()
+                        employee = EmployeeProfile.objects.create(
+                            emmloyeeid = employee_id,
+                            email = appli.email,
+                            user = employee_user,
+                            name = appli.name,
+                            phone_number = appli.phone_number,
+                            gender = appli.gender,
+                            designation = appli.applied_for,
+                            job_location = "",
+                            bloodgroup = appli.bloodgroup,
+                            dob = appli.dob,
+                            Address = appli.village + " "+ appli.bloodgroup + " "+ appli.po + " "+ appli.ps + " "+ appli.district + " "+ appli.block + " "+ appli.state + " "+ appli.pin_code,
+                            image = appli.photo
+                        )
+                        employee.save()
+                        appli.employee_profile = employee
+                        appli.save()
                     return render(request, 'confirmation.html', {"received_data": payment_details})
                 except:
                     regenerate_order_id(card)

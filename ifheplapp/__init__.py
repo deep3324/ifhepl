@@ -1,3 +1,5 @@
+import requests
+import json
 import time
 import os
 import qrcode
@@ -46,7 +48,7 @@ def qr_generator(card_name, data):
     qr = qrcode.QRCode(
         version=5,
         box_size=5,
-        error_correction = qrcode.constants.ERROR_CORRECT_L,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
         border=2
     )
     data = data
@@ -68,6 +70,7 @@ def qr_generator(card_name, data):
     if qr_path:
         img.save(f'{qr_path}/{data["Card Number"]}.png')
 
+
 def card_creation(card_name, data):
     path = settings.MEDIA_ROOT + f"/{card_name}/"
     path_exist = os.path.exists(path)
@@ -83,7 +86,7 @@ def card_creation(card_name, data):
         pass
     """Front image data fill"""
     front_image = Image.open(settings.MEDIA_ROOT +
-                          f"/{card_name}/{card_name}.png")
+                             f"/{card_name}/{card_name}.png")
     text_font = ImageFont.truetype("arial.ttf", 35)
     card_number_font = ImageFont.truetype("arial.ttf", 60)
     front_edit = ImageDraw.Draw(front_image)
@@ -102,7 +105,7 @@ def card_creation(card_name, data):
 
     """Back image data fill"""
     back_image = Image.open(settings.MEDIA_ROOT +
-                          f"/{card_name}/{card_name}_1.png")
+                            f"/{card_name}/{card_name}_1.png")
     back_edit = ImageDraw.Draw(back_image)
     back_edit.text(
         (510, 100), data["village"].title(), (0, 0, 0), font=text_font)
@@ -126,7 +129,40 @@ def card_creation(card_name, data):
 def format_num(strn):
     return strn[0:4] + " " + strn[4:8] + " " + strn[8:]
 
+
 def format_date(date_string):
     date_object = datetime.strptime(date_string, "%Y-%m-%d")
     formated_date = date_object.strftime("%d/%m/%Y")
     return formated_date
+
+
+def verify_recaptcha(recaptha_response):
+    recaptha_response = recaptha_response
+    captaData = {
+        "secret": "6LfQqGUeAAAAAO-GGEGklpMpeYfsxI8S3uCbIWqL",
+        "response":  recaptha_response
+    }
+    r = requests.post(
+        'https://www.google.com/recaptcha/api/siteverify', data=captaData)
+    response = json.loads(r.text)
+    verify = response["success"]
+    return verify
+
+
+def send_sms_form_submission(receiver_name, card_name,reference_number,link):
+    url = "https://www.fast2sms.com/dev/bulkV2?numbers={}&sender_id=IFHEPL&route=dlt&variables_values={}|{}|{}&message=137304".format(card_name,reference_number,link)
+    headers = {
+        "authorization": "GfudeC2NmBDPlpIhXLVv3inyRvgdXiO2sX46r48lGVqAa9lrQJoJlZ87FGMv",
+        "Content-Type": "application/json",
+        'Cache-Control': "no-cache"
+    }
+    requests.request("POST", url, headers=headers)
+
+def send_sms_job_submission(receiver_name ,reference_number,link):
+    url = "https://www.fast2sms.com/dev/bulkV2?numbers={}&sender_id=IFHEPL&route=dlt&variables_values={}|{}&message=137363".format(reference_number,link)
+    headers = {
+        "authorization": "GfudeC2NmBDPlpIhXLVv3inyRvgdXiO2sX46r48lGVqAa9lrQJoJlZ87FGMv",
+        "Content-Type": "application/json",
+        'Cache-Control': "no-cache"
+    }
+    requests.request("POST", url, headers=headers)

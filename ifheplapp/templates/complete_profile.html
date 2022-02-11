@@ -11,9 +11,10 @@
     font-size: 1.25rem;
     border-radius: 25px;
   }
+
   input.invalid {
-  background-color: #ffdddd;
-}
+    background-color: #ffdddd;
+  }
 
   .btn-sub:hover {
     background-color: #381949;
@@ -46,7 +47,15 @@
     <div class="my-4 text-center">
       <h3>Applied for: <strong style="color: red;"> {{job.applied_for}}</strong></h3>
     </div>
-    <form id="msform" method="POST" action="" enctype="multipart/form-data"> {% csrf_token %}
+    {% if job.completed %}
+    <h3 class="text-center" >Your application has already been submitted.</h3>
+    <h4 class="text-center" >Our HR Team will contact you soon</h4>
+    <h5 class="text-center" >In case of any Query/Concern reach us at <a href="mailto:hr@ifhepl.in">hr@ifhepl.in</a> </h5>
+    {% elif job.accept %}
+    <h3 class="text-center" >Congratulations !!!</h3>
+    <h4 class="text-center" >Welcome to IFHEPL Family</h4>
+    {% else %}
+    <form id="msform" method="POST" action="/complete_profile" enctype="multipart/form-data"> {% csrf_token %}
       <div class="all-steps text-center" id="loanSteps">
         <span class="step"><img style="max-width: 30px;" src="{% static 'images/business.png' %}"></span>
         <span class="step"><img style="max-width: 30px;" src="{% static 'images/business.png' %}"></span>
@@ -60,8 +69,13 @@
             <label for="amob" class="form-label">Alternate Mobile No.</label>
           </div>
           <div class="col-md-9">
+            {% if job.alt_mobile_no %}
             <input type="tel" maxlength="10" minlength="10" name="alt_mobile_no" class="form-control" id="amob"
-              aria-describedby="amob">
+              aria-describedby="amob" value="{{job.alt_mobile_no}}">
+              {% else %}
+              <input type="tel" maxlength="10" minlength="10" name="alt_mobile_no" class="form-control" id="amob"
+                aria-describedby="amob" value=" ">
+              {% endif %}
           </div>
         </div>
         <div class="mb-3 row">
@@ -69,7 +83,7 @@
             <label for="fname" class="form-label">Father's/Husband's Name <span style="color: red;">*</span></label>
           </div>
           <div class="col-md-9">
-            <input type="text" class="form-control" name="father_name" id="fname" aria-describedby="name" required>
+            <input type="text" class="form-control" name="father_name" value="{{job.father_Husband_name}}" id="fname" aria-describedby="name" required>
           </div>
         </div>
         <div class="mb-3 row">
@@ -77,7 +91,7 @@
             <label for="mname" class="form-label">Mother's Name <span style="color: red;">*</span></label>
           </div>
           <div class="col-md-9">
-            <input type="text" class="form-control" name="mother_name" id="mname" aria-describedby="name" required>
+            <input type="text" class="form-control" name="mother_name" value="{{job.mother_name}}" id="mname" aria-describedby="name" required>
           </div>
         </div>
         <div class="mb-3 row">
@@ -86,15 +100,15 @@
           </div>
           <div class="col-md-9 row">
             <div class="form-check col-md-2">
-              <input class="form-check-input" type="radio" name="category" value="General" id="category">
+              <input class="form-check-input" type="radio" name="category" value="General" id="category" {% if job.category == "General" %}checked{% endif %}>
               <label class="form-check-label" for="category"> General </label>
             </div>
             <div class="form-check col-md-2">
-              <input class="form-check-input" type="radio" name="category" value="OBC" id="category">
+              <input class="form-check-input" type="radio" name="category" value="OBC" id="category" {% if job.category == "OBC" %}checked{% endif %}>
               <label class="form-check-label" for="category"> OBC </label>
             </div>
             <div class="form-check col-md-2">
-              <input class="form-check-input" type="radio" name="category" value="SC/ST" id="category">
+              <input class="form-check-input" type="radio" name="category" value="SC/ST" id="category" {% if job.category == "SC/ST" %}checked{% endif %}>
               <label class="form-check-label" for="category"> SC/ST </label>
             </div>
           </div>
@@ -105,13 +119,22 @@
           </div>
           <div class="row col-md-9">
             <div class="form-check col-md-2">
-              <input class="form-check-input" type="radio" name="disability" value="General" id="disability">
+              <input class="form-check-input" type="radio" name="disability" value="Yes" id="disability" {% if job.disability == "Yes" %}checked{% endif %}>
               <label class="form-check-label" for="disability"> Yes </label>
             </div>
             <div class="form-check col-md-2">
-              <input class="form-check-input" type="radio" name="disability" value="OBC" id="disability">
+              <input class="form-check-input" type="radio" name="disability" value="No" id="disability" {% if job.disability == "No" %}checked{% endif %}>
               <label class="form-check-label" for="disability"> No </label>
             </div>
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <div class="col-md-3">
+            <label for="bg" class="form-label">Blood Group <span style="color: red;">*</span></label>
+          </div>
+          <div class="col-md-9">
+            <input type="text" class="form-control" maxlength="12" minlength="12" value="{{job.bloodgroup}}" name="bloodgroup" id="bg"
+              aria-describedby="bg" required>
           </div>
         </div>
         <div class="mb-3 row">
@@ -119,51 +142,58 @@
             <label for="fname" class="form-label">Aadhar Number <span style="color: red;">*</span></label>
           </div>
           <div class="col-md-9">
-            <input type="text" class="form-control" name="aadhar_number" id="fname" aria-describedby="name" required>
+            <input type="text" class="form-control" maxlength="12" minlength="12" value="{{job.aadhar_no}}" name="aadhar_number" id="fname"
+              aria-describedby="name" required>
           </div>
         </div>
         <div class="mb-3 row">
           <div class="col-md-3">
-            <label for="mname" class="form-label">Pan Number <span style="color: red;">*</span></label>
+            <label for="mname" class="form-label">Pan Number</label>
           </div>
           <div class="col-md-9">
-            <input type="text" class="form-control" name="pan_number" id="mname" aria-describedby="name" required>
+            {% if job.pan_no %}
+            <input type="text" class="form-control" maxlength="10" minlength="10" value="{{job.pan_no}}" name="pan_number" id="mname"
+              aria-describedby="name">
+              {% else %}
+            <input type="text" class="form-control" maxlength="10" minlength="10" value=" " name="pan_number" id="mname"
+              aria-describedby="name">
+              {% endif %}
           </div>
         </div>
       </div>
       <div class="tab">
         <h3 class="py-3">Address</h3>
-        <div class="col-md-9 row">
-          <div class="col-md">
+        <div class="col-md row">
+          <div class="col-md-6">
             <div class="mb-3 row">
               <div class="col-md-3">
                 <label for="village" class="form-label">Village</label>
               </div>
               <div class="col-md-9">
-                <input type="text" class="form-control" name="village" id="village" aria-describedby="village" required>
+                <input type="text" class="form-control" name="village" value="{{job.village}}" id="village" aria-describedby="village" required>
               </div>
             </div>
           </div>
-          <div class="col-md">
+          <div class="col-md-6">
             <div class="mb-3 row">
               <div class="col-md-3">
                 <label for="po" class="form-label">P.O.</label>
               </div>
               <div class="col-md-9">
-                <input type="text" class="form-control" name="po" id="po" aria-describedby="po" required>
+                <input type="text" class="form-control" name="po" id="po" value="{{job.po}}" aria-describedby="po" required>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-md-3"></div>
-        <div class="col-md-9 row">
+        <div class="col-md"></div>
+        <div class="col-md row">
           <div class="col-md">
             <div class="mb-3 row">
               <div class="col-md-3">
                 <label for="ps" class="form-label">P.S.</label>
               </div>
               <div class="col-md-9">
-                <input type="text" class="form-control" name="ps" id="ps" aria-describedby="ps" required>
+                <input type="text" class="form-control" name="ps" value="{{job.ps}}" id="ps" aria-describedby="ps" required>
               </div>
             </div>
           </div>
@@ -173,13 +203,12 @@
                 <label for="block" class="form-label">Block</label>
               </div>
               <div class="col-md-9">
-                <input type="block" class="form-control" name="block" id="block" aria-describedby="block" required>
+                <input type="block" class="form-control" name="block" value="{{job.block}}" id="block" aria-describedby="block" required>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-md-3"></div>
-        <div class="col-md-9 row">
+        <div class="col-md row">
           <div class="col-md">
             <div class="mb-3 row">
               <div class="col-md-3">
@@ -188,44 +217,44 @@
               <div class="col-md-9">
                 <select class="form-select" name="district" aria-label="District">
                   <option selected>Open to select District</option>
-                  <option value="Araria">Araria</option>
-                  <option value="Arwal">Arwal</option>
-                  <option value="Aurangabad">Aurangabad</option>
-                  <option value="Banka">Banka</option>
-                  <option value="Begusarai">Begusarai</option>
-                  <option value="Bhabhua">Bhabhua</option>
-                  <option value="Bhagalpur">Bhagalpur</option>
-                  <option value="Bhojpur">Bhojpur</option>
-                  <option value="Buxar">Buxar</option>
-                  <option value="Darbhanga">Darbhanga</option>
-                  <option value="East Champaran">East Champaran</option>
-                  <option value="Gaya">Gaya</option>
-                  <option value="Gopalganj">Gopalganj</option>
-                  <option value="Jamui">Jamui</option>
-                  <option value="Jehanabad">Jehanabad</option>
-                  <option value="Katihar">Katihar</option>
-                  <option value="Khagaria">Khagaria</option>
-                  <option value="Kishanganj">Kishanganj</option>
-                  <option value="Lakhisarai">Lakhisarai</option>
-                  <option value="Madhepura">Madhepura</option>
-                  <option value="Madhubani">Madhubani</option>
-                  <option value="Monghyr">Monghyr</option>
-                  <option value="Muzaffarpur">Muzaffarpur</option>
-                  <option value="Nalanda">Nalanda</option>
-                  <option value="Nawada">Nawada</option>
-                  <option value="Patna">Patna</option>
-                  <option value="Purnea">Purnea</option>
-                  <option value="Rohtas">Rohtas</option>
-                  <option value="Saharsa">Saharsa</option>
-                  <option value="Samastipur">Samastipur</option>
-                  <option value="Saran">Saran</option>
-                  <option value="Sheikhpura">Sheikhpura</option>
-                  <option value="Sheohar">Sheohar</option>
-                  <option value="Sitamarhi">Sitamarhi</option>
-                  <option value="Siwan">Siwan</option>
-                  <option value="Supaul">Supaul</option>
-                  <option value="Vaishali">Vaishali</option>
-                  <option value="West Champaran">West Champaran</option>
+                  <option {% if job.dictrict == "Araria" %}selected{% endif %} value="Araria">Araria</option>
+                  <option {% if job.dictrict == "Arwal" %}selected{% endif %} value="Arwal">Arwal</option>
+                  <option {% if job.dictrict == "Aurangabad" %}selected{% endif %} value="Aurangabad">Aurangabad</option>
+                  <option {% if job.dictrict == "Banka" %}selected{% endif %} value="Banka">Banka</option>
+                  <option {% if job.dictrict == "Begusarai" %}selected{% endif %} value="Begusarai">Begusarai</option>
+                  <option {% if job.dictrict == "Bhabhua" %}selected{% endif %} value="Bhabhua">Bhabhua</option>
+                  <option {% if job.dictrict == "Bhagalpur" %}selected{% endif %} value="Bhagalpur">Bhagalpur</option>
+                  <option {% if job.dictrict == "Bhojpur" %}selected{% endif %} value="Bhojpur">Bhojpur</option>
+                  <option {% if job.dictrict == "Buxar" %}selected{% endif %} value="Buxar">Buxar</option>
+                  <option {% if job.dictrict == "Darbhanga" %}selected{% endif %} value="Darbhanga">Darbhanga</option>
+                  <option {% if job.dictrict == "East Champaran" %}selected{% endif %} value="East Champaran">East Champaran</option>
+                  <option {% if job.dictrict == "Gaya" %}selected{% endif %} value="Gaya">Gaya</option>
+                  <option {% if job.dictrict == "Gopalganj" %}selected{% endif %} value="Gopalganj">Gopalganj</option>
+                  <option {% if job.dictrict == "Jamui" %}selected{% endif %} value="Jamui">Jamui</option>
+                  <option {% if job.dictrict == "Jehanabad" %}selected{% endif %} value="Jehanabad">Jehanabad</option>
+                  <option {% if job.dictrict == "Katihar" %}selected{% endif %} value="Katihar">Katihar</option>
+                  <option {% if job.dictrict == "Khagaria" %}selected{% endif %} value="Khagaria">Khagaria</option>
+                  <option {% if job.dictrict == "Kishanganj" %}selected{% endif %} value="Kishanganj">Kishanganj</option>
+                  <option {% if job.dictrict == "Lakhisarai" %}selected{% endif %} value="Lakhisarai">Lakhisarai</option>
+                  <option {% if job.dictrict == "Madhepura" %}selected{% endif %} value="Madhepura">Madhepura</option>
+                  <option {% if job.dictrict == "Madhubani" %}selected{% endif %} value="Madhubani">Madhubani</option>
+                  <option {% if job.dictrict == "Monghyr" %}selected{% endif %} value="Monghyr">Monghyr</option>
+                  <option {% if job.dictrict == "Muzaffarpur" %}selected{% endif %} value="Muzaffarpur">Muzaffarpur</option>
+                  <option {% if job.dictrict == "Nalanda" %}selected{% endif %} value="Nalanda">Nalanda</option>
+                  <option {% if job.dictrict == "Nawada" %}selected{% endif %} value="Nawada">Nawada</option>
+                  <option {% if job.dictrict == "Patna" %}selected{% endif %} value="Patna">Patna</option>
+                  <option {% if job.dictrict == "Purnea" %}selected{% endif %} value="Purnea">Purnea</option>
+                  <option {% if job.dictrict == "Rohtas" %}selected{% endif %} value="Rohtas">Rohtas</option>
+                  <option {% if job.dictrict == "Saharsa" %}selected{% endif %} value="Saharsa">Saharsa</option>
+                  <option {% if job.dictrict == "Samastipur" %}selected{% endif %} value="Samastipur">Samastipur</option>
+                  <option {% if job.dictrict == "Saran" %}selected{% endif %} value="Saran">Saran</option>
+                  <option {% if job.dictrict == "Sheikhpura" %}selected{% endif %} value="Sheikhpura">Sheikhpura</option>
+                  <option {% if job.dictrict == "Sheohar" %}selected{% endif %} value="Sheohar">Sheohar</option>
+                  <option {% if job.dictrict == "Sitamarhi" %}selected{% endif %} value="Sitamarhi">Sitamarhi</option>
+                  <option {% if job.dictrict == "Siwan" %}selected{% endif %} value="Siwan">Siwan</option>
+                  <option {% if job.dictrict == "Supaul" %}selected{% endif %} value="Supaul">Supaul</option>
+                  <option {% if job.dictrict == "Vaishali" %}selected{% endif %} value="Vaishali">Vaishali</option>
+                  <option {% if job.dictrict == "West Champaran" %}selected{% endif %} value="West Champaran">West Champaran</option>
                 </select>
               </div>
             </div>
@@ -243,15 +272,14 @@
             </div>
           </div>
         </div>
-        <div class="col-md-3"></div>
-        <div class="col-md-9 row">
+        <div class="col-md row">
           <div class="col-md-6">
             <div class="mb-3 row">
               <div class="col-md-3">
                 <label for="pinc" class="form-label">Pin Code</label>
               </div>
               <div class="col-md-9">
-                <input type="text" class="form-control" minlength="6" maxlength="6" name="pin_code" id="pinc"
+                <input type="text" class="form-control" value="{{job.pin_code}}" minlength="6" maxlength="6" name="pin_code" id="pinc"
                   aria-describedby="pinc" required>
               </div>
             </div>
@@ -259,22 +287,106 @@
         </div>
       </div>
       <div class="tab">
-        <h3>Education</h3>
+        <h3 class="py-3">Education</h3>
+        <div class="table-responsive">
+
+          <table class="table">
+            <thead class="table-dark">
+              <tr>
+                <th></th>
+                <th>BOARD/UNIVERSITY</th>
+                <th>SCHOOL/INSTITUTE</th>
+                <th>PASSING YR.</th>
+                <th>ROLL NO.</th>
+                <th>MARKS/CGPA</th>
+                <th>PERCENTAGE</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Matriculation (10th) <span style="color: red;">*</span></td>
+                <td><input type="text" class="form-control" value="{{job.matriculation_board_university}}" name="mb" id="matriculation" aria-describedby="matriculation"
+                    required></td>
+                <td><input type="text" class="form-control" value="{{job.matriculation_school_institute}}" name="ms" id="matriculation" aria-describedby="matriculation"
+                    required></td>
+                <td><input type="text" class="form-control" value="{{job.matriculation_passing_year}}" name="mp" id="matriculation" aria-describedby="matriculation"
+                    required></td>
+                <td><input type="text" class="form-control" value="{{job.matriculation_roll_number}}" name="mr" id="matriculation" aria-describedby="matriculation"
+                    required></td>
+                <td><input type="text" class="form-control" value="{{job.matriculation_marks_gpa}}" name="mm" id="matriculation" aria-describedby="matriculation"
+                    required></td>
+                <td><input type="text" class="form-control" value="{{job.matriculation_percentage}}" name="mpe" id="matriculation" aria-describedby="matriculation"
+                    required></td>
+              </tr>
+              <tr>
+                <td>Intermediate (12th)</td>
+                <td><input type="text" class="form-control" {% if job.intermediate_board_university %}value="{{job.intermediate_board_university}}" {% else %}value=" "{% endif %} name="ib" id="Intermediate" aria-describedby="Intermediate"></td>
+                <td><input type="text" class="form-control" {% if job.intermediate_school_institute %}value="{{job.intermediate_school_institute}}" {% else %}value=" "{% endif %} name="is" id="Intermediate" aria-describedby="Intermediate"></td>
+                <td><input type="text" class="form-control" {% if job.intermediate_passing_year %}value="{{job.intermediate_passing_year}}" {% else %}value=" "{% endif %} name="ip" id="Intermediate" aria-describedby="Intermediate"></td>
+                <td><input type="text" class="form-control" {% if job.intermediate_roll_number %}value="{{job.intermediate_roll_number}}" {% else %}value=" "{% endif %} name="ir" id="Intermediate" aria-describedby="Intermediate"></td>
+                <td><input type="text" class="form-control" {% if job.intermediate_marks_gpa %}value="{{job.intermediate_marks_gpa}}" {% else %}value=" "{% endif %} name="im" id="Intermediate" aria-describedby="Intermediate"></td>
+                <td><input type="text" class="form-control" {% if job.intermediate_percentage %}value="{{job.intermediate_percentage}}" {% else %}value=" "{% endif %} name="ipe" id="Intermediate" aria-describedby="Intermediate"></td>
+              </tr>
+              <tr>
+                <td>Graduation</td>
+                <td><input type="text" class="form-control" {% if job.graduation_board_university %}value="{{job.graduation_board_university}}" {% else %}value=" "{% endif %} name="gb" id="Graduation" aria-describedby="Graduation"></td>
+                <td><input type="text" class="form-control" {% if job.graduation_school_institute %}value="{{job.graduation_school_institute}}" {% else %}value=" "{% endif %} name="gs" id="Graduation" aria-describedby="Graduation"></td>
+                <td><input type="text" class="form-control" {% if job.graduation_passing_year %}value="{{job.graduation_passing_year}}" {% else %}value=" "{% endif %} name="gp" id="Graduation" aria-describedby="Graduation"></td>
+                <td><input type="text" class="form-control" {% if job.graduation_roll_number %}value="{{job.graduation_roll_number}}" {% else %}value=" "{% endif %} name="gr" id="Graduation" aria-describedby="Graduation"></td>
+                <td><input type="text" class="form-control" {% if job.graduation_marks_gpa %}value="{{job.graduation_marks_gpa}}" {% else %}value=" "{% endif %} name="gm" id="Graduation" aria-describedby="Graduation"></td>
+                <td><input type="text" class="form-control" {% if job.graduation_percentage %}value="{{job.graduation_percentage}}" {% else %}value=" "{% endif %} name="gpe" id="Graduation" aria-describedby="Graduation"></td>
+              </tr>
+              <tr>
+                <td>Higher Qualification</td>
+                <td><input type="text" class="form-control" {% if job.higher_qualification_board_university %}value="{{job.higher_qualification_board_university}}" {% else %}value=" "{% endif %} name="hb" id="higher-qualification" aria-describedby="higher-qualification"></td>
+                <td><input type="text" class="form-control" {% if job.higher_qualification_school_institute %}value="{{job.higher_qualification_school_institute}}" {% else %}value=" "{% endif %} name="hs" id="higher-qualification" aria-describedby="higher-qualification"></td>
+                <td><input type="text" class="form-control" {% if job.higher_qualification_passing_year %}value="{{job.higher_qualification_passing_year}}" {% else %}value=" "{% endif %} name="hp" id="higher-qualification" aria-describedby="higher-qualification"></td>
+                <td><input type="text" class="form-control" {% if job.higher_qualification_roll_number %}value="{{job.higher_qualification_roll_number}}" {% else %}value=" "{% endif %} name="hr" id="higher-qualification" aria-describedby="higher-qualification"></td>
+                <td><input type="text" class="form-control" {% if job.higher_qualification_marks_gpa %}value="{{job.higher_qualification_marks_gpa}}" {% else %}value=" "{% endif %} name="hm" id="higher-qualification" aria-describedby="higher-qualification"></td>
+                <td><input type="text" class="form-control" {% if job.higher_qualification_percentage %}value="{{job.higher_qualification_percentage}}" {% else %}value=" "{% endif %} name="hpe" id="higher-qualification" aria-describedby="higher-qualification"></td>
+              </tr>
+              <tr>
+                <td>Extra Qualification</td>
+                <td><input type="text" class="form-control" {% if job.extra_qualification_board_university %}value="{{job.extra_qualification_board_university}}" {% else %}value=" "{% endif %} name="eb" id="extra-qualification" aria-describedby="extra-qualification"></td>
+                <td><input type="text" class="form-control" {% if job.extra_qualification_school_institute %}value="{{job.extra_qualification_school_institute}}" {% else %}value=" "{% endif %} name="es" id="extra-qualification" aria-describedby="extra-qualification"></td>
+                <td><input type="text" class="form-control" {% if job.extra_qualification_passing_year %}value="{{job.extra_qualification_passing_year}}" {% else %}value=" "{% endif %} name="ep" id="extra-qualification" aria-describedby="extra-qualification"></td>
+                <td><input type="text" class="form-control" {% if job.extra_qualification_roll_number %}value="{{job.extra_qualification_roll_number}}" {% else %}value=" "{% endif %} name="er" id="extra-qualification" aria-describedby="extra-qualification"></td>
+                <td><input type="text" class="form-control" {% if job.extra_qualification_marks_gpa %}value="{{job.extra_qualification_marks_gpa}}" {% else %}value=" "{% endif %} name="em" id="extra-qualification" aria-describedby="extra-qualification"></td>
+                <td><input type="text" class="form-control" {% if job.extra_qualification_percentage %}value="{{job.extra_qualification_percentage}}" {% else %}value=" "{% endif %} name="epe" id="extra-qualification" aria-describedby="extra-qualification"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
       <div class="tab">
-        <h3>Document Upload</h3>
+        <h3 class="py-3">Document Upload</h3>
+        <div class="mb-3 row">
+          <div class="col-md-3">
+            <label for="ipdoc" class="form-label">Signature</label>
+          </div>
+          <div class="col-md-9">
+            <input type="file" class="form-control" name="sign" id="ipdoc" aria-describedby="ipdoc">
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <div class="col-md-3">
+            <label for="imgs" class="form-label">Photo</label>
+          </div>
+          <div class="col-md-9">
+            <input type="file" class="form-control" name="photo" id="imgs" aria-describedby="imgs">
+          </div>
+        </div>
       </div>
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-3 my-3">
           <button type="button" class="btn-sub" id="prevBtn" onclick="nextPrev(-1)">PREVIOUS</button>
-
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3 my-3">
           <button type="button" class="btn-sub" id="nextBtn" onclick="nextPrev(1)">CONTINUE</button>
-
         </div>
       </div>
-    </form>
+    </form>    
+    {% endif %}
   </div>
 </div>
 {% block script %}

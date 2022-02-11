@@ -7,7 +7,7 @@ class Static_Sitemap(Sitemap):
     changefreq = 'weekly'
 
     def items(self):
-        return ['index', 'membership', 'login', 'kisan_card','kisan_card_apply','health_card','health_card_apply','privacypolicy','reachus','termscondition','cookiepolicy','aboutus','gallery','career','rules_regulation','academic_notice','administrative_notice','requirement_notice','verify_membership','verify_health','verify_kisan','attendance','associate_partner']
+        return ['index', 'membership', 'login', 'kisan_card','kisan_card_apply','health_card','health_card_apply','privacypolicy','reachus','termscondition','cookiepolicy','aboutus','gallery','career','rules_regulation','academic_notice','administrative_notice','requirement_notice','verify_membership','verify_health','verify_kisan','attendance','associate_partner','returnpolicy']
 
     def location(self, item):
         return reverse(item)

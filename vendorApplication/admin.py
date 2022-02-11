@@ -1,24 +1,24 @@
 from django.contrib import admin
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
-from jobApplications.models import job_application
+from vendorApplication.models import vendorApplication
 
 # Register your models here.
 # admin.site.register(jobUser)
 
-class JobApplyResource(resources.ModelResource):
+class vendorResource(resources.ModelResource):
     class Meta:
-        model = job_application
+        model = vendorApplication
 
-@admin.register(job_application)
-class JobApplyAdmin(ImportExportModelAdmin):
-    resource_class = JobApplyResource
+@admin.register(vendorApplication)
+class vendorAdmin(ImportExportModelAdmin):
+    resource_class = vendorResource
     list_display = ("name", "mobile_number",
                     "submitted_on", "reference_number","paid")
     readonly_fields = ['order_id','razorpay_signature','transaction_date','razorpay_payment_id','payment_status','payment_mode']
     fieldsets = (
         ('Personal Details', {
-            'fields': ('user', ('reference_number', 'name'), ('dob', 'email'), ('aadhar_no','pan_no'), ('father_Husband_name', 'mother_name'), ('category', 'disability'), ('mobile_number', 'alt_mobile_no'),('applied_for','employee_profile')),
+            'fields': ('user', ('reference_number', 'name'), ('dob', 'email'), ('aadhar_no','pan_no'), ('father_Husband_name', 'mother_name'), ('category', 'disability'), ('mobile_number', 'alt_mobile_no'),)
         }),
         ('Address', {
             'classes': ('collapse',),
