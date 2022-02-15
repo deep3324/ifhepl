@@ -1,0 +1,51 @@
+{% extends 'extends/base.html' %}
+{% block title %}Pricing{% endblock title %}
+
+
+{% block ogtitle %}Pricing{% endblock ogtitle %}
+
+{% block ogurl %}pricing{% endblock ogurl %}
+{% block style %}
+<style>
+    table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+</style>
+{% endblock style %}
+{% block body %}
+<div class="row1" style="background-color: rgb(255, 255, 240);">
+    <div class="container" style="max-width: 60%;">
+        <div class="my-2 text-center">
+            <h2 style="color: red; font-weight: 900;">Pricing</h2>
+        </div>
+        <div class="my-2">
+            <table>
+                <tr>
+                    <td>Membership Card</td>
+                    <td>Rs. 119.00</td>
+                </tr>
+                <tr>
+                    <td>Kisan Card</td>
+                    <td>Rs. 119.00</td>
+                </tr>
+                <tr>
+                    <td>Kisan Card</td>
+                    <td>Rs. 119.00</td>
+                </tr>
+                <tr>
+                    <td>Career/Job Form Registration</td>
+                    <td>Rs. 300.00</td>
+                </tr>
+                <tr>
+                    <td>Vendor Registration</td>
+                    <td>Rs. 500.00</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+{% block script %}
+
+{% endblock script %}
+{% endblock body %}

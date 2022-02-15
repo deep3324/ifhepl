@@ -177,6 +177,8 @@ def reachus_submit(request):
 
 def privacypolicy(request):
     return render(request, "privacypolicy.html")
+def pricing(request):
+    return render(request, "pricing.html")
 
 
 def vendor(request):

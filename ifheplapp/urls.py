@@ -24,6 +24,7 @@ urlpatterns = [
     path('refund-cancellation-policy', views.returnpolicy, name="returnpolicy"),
     path('about-us', views.aboutus, name="aboutus"),
     path('gallery', views.gallery, name="gallery"),
+    path('pricing', views.pricing, name="pricing"),
     # health
     path('card/Health-Card', views.health_card, name="health_card"),
     path('card/Health-Card/apply', views.health_card_apply, name="health_card_apply"),
