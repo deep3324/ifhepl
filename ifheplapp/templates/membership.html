@@ -57,7 +57,7 @@
           <div class="col-md">
             <div class="mb-3 row">
               <div class="col-md">
-                <select class="form-select" name="idtype" id="idtype" onchange="changeFunc();" aria-label="District">
+                <select class="form-select" name="idtype" id="idtype" onchange="changeFunc();" aria-label="District" required>
                   <option selected>Select Document Proof</option>
                   <option value="Aadhar Card">Aadhar Card</option>
                   <option value="PAN Card">PAN Card</option>
@@ -105,7 +105,7 @@
         </div>
         <div class="col-md-9 row">
           <div class="form-check col-md-2">
-            <input class="form-check-input" type="radio" name="category" value="General" id="category">
+            <input class="form-check-input" type="radio" name="category" value="General" id="category" required>
             <label class="form-check-label" for="category"> General </label>
           </div>
           <div class="form-check col-md-2">
@@ -124,7 +124,7 @@
         </div>
         <div class="row col-md-9">
           <div class="form-check col-md-2">
-            <input class="form-check-input" type="radio" name="disability" value="Yes" id="disability">
+            <input class="form-check-input" type="radio" name="disability" value="Yes" id="disability" required>
             <label class="form-check-label" for="disability"> Yes </label>
           </div>
           <div class="form-check col-md-2">
@@ -140,7 +140,7 @@
         </div>
         <div class="col-md-9">
           <input type="tel" maxlength="10" minlength="10" name="mobile_number" class="form-control" id="mob"
-            aria-describedby="mob">
+            aria-describedby="mob" required>
         </div>
       </div>
       <div class="mb-3 row">
@@ -217,7 +217,7 @@
                 <label for="district" class="form-label">District</label>
               </div>
               <div class="col-md-9">
-                <select class="form-select" name="district" aria-label="District">
+                <select class="form-select" name="district" aria-label="District" required>
                   <option selected>Open to select District</option>
                   <option value="Araria">Araria</option>
                   <option value="Arwal">Arwal</option>
@@ -295,7 +295,7 @@
           <label for="ipdoc" class="form-label">Identity Proof</label>
         </div>
         <div class="col-md-9">
-          <input type="file" class="form-control" name="ipdoc" id="ipdoc" aria-describedby="ipdoc">
+          <input type="file" class="form-control" name="ipdoc" id="ipdoc" aria-describedby="ipdoc" required>
         </div>
       </div>
       <div class="mb-3 row">
@@ -303,7 +303,7 @@
           <label for="imgs" class="form-label">Photo</label>
         </div>
         <div class="col-md-9">
-          <input type="file" class="form-control" name="imgs" id="imgs" aria-describedby="imgs">
+          <input type="file" class="form-control" name="imgs" id="imgs" aria-describedby="imgs" required>
         </div>
       </div>
       <div class="mb-3 row">
@@ -311,11 +311,13 @@
           <label for="imgs" class="form-label">Payment Mode</label>
         </div>
         <div class="row col-md-9">
-          {% if user.is_authenticated %}
+          {% if employee %}
+          {% if employee.can_accept_cash %}
           <div class="form-check col-md-2">
             <input class="form-check-input" type="radio" name="payment" value="cash" id="disability">
             <label class="form-check-label" for="disability"> CASH </label>
           </div>
+          {% endif %}
           {% endif %}
           <div class="form-check col-md-2">
             <input class="form-check-input" type="radio" name="payment" value="online" id="disability">
@@ -351,18 +353,21 @@
     if (selectedValue == "Aadhar Card") {
       $('#pcid').hide();
       $('#acid').show();
+      $('#acid').attr("required", "true");
       $('#dlid').hide();
       $('#viid').hide();
     }
     else if (selectedValue == "PAN Card") {
       $('#acid').hide();
       $('#pcid').show();
+      $('#pcid').attr("required", "true");
       $('#dlid').hide();
       $('#viid').hide();
     }
     else if (selectedValue == "Driving License") {
       $('#acid').hide();
       $('#dlid').show();
+      $('#dlid').attr("required", "true");
       $('#pcid').hide();
       $('#viid').hide();
     }
@@ -371,6 +376,7 @@
       $('#pcid').hide();
       $('#dlid').hide();
       $('#viid').show();
+      $('#viid').attr("required", "true");
     }
     else {
       $('#pcid').hide();

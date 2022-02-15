@@ -88,16 +88,17 @@ def vendor_submit(request):
                 messages.error(
                     request, "Your application has been already Submitted")
                 return redirect('/vendor-registration')
-        else:
-            verified_recaptcha = verify_recaptcha(
-                request.POST.get('g-recaptcha-response'))
-            if verified_recaptcha:
-                vendor.save()
-                msg = "succ-msg-ven"
-                ifheplapp.def_mail(
-                    "Vendor Registration | IFHEPL", subject, email)
-                ifheplapp.send_sms_vendor_submission(
-                    mobile_number, vendor.reference_number, "ifhepl.in/verify-vendor")
-                data_ref = vendorApplication.objects.get(
-                    id_proof=vendor.id_proof)
+        verified_recaptcha = verify_recaptcha(
+            request.POST.get('g-recaptcha-response'))
+        if verified_recaptcha:
+            vendor.save()
+            msg = "succ-msg-ven"
+            ifheplapp.def_mail(
+                "Vendor Registration | IFHEPL", subject, email)
+            ifheplapp.send_sms_vendor_submission(
+                mobile_number, vendor.reference_number, "ifhepl.in/verify-vendor")
+            data_ref = vendorApplication.objects.get(
+                id_proof=vendor.id_proof)
             return render(request, "confirmation.html", {'data_ref_vendor': data_ref if data_ref else "", "msg": msg})
+        else:
+            return render(request, "captcha_error.html")

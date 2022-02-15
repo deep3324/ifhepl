@@ -106,7 +106,7 @@
         </div>
         <div class="col-md-9 row">
           <div class="form-check col-md-2">
-            <input class="form-check-input" type="radio" name="category" value="General" id="category">
+            <input class="form-check-input" type="radio" name="category" value="General" id="category" required>
             <label class="form-check-label" for="category"> General </label>
           </div>
           <div class="form-check col-md-2">
@@ -125,7 +125,7 @@
         </div>
         <div class="row col-md-9">
           <div class="form-check col-md-2">
-            <input class="form-check-input" type="radio" name="disability" value="Yes" id="disability">
+            <input class="form-check-input" type="radio" name="disability" value="Yes" id="disability" required>
             <label class="form-check-label" for="disability"> Yes </label>
           </div>
           <div class="form-check col-md-2">
@@ -140,7 +140,7 @@
         </div>
         <div class="row col-md-9">
           <div class="form-check col-md-2">
-            <input class="form-check-input" type="radio" name="gender" value="Male" id="gender">
+            <input class="form-check-input" type="radio" name="gender" value="Male" id="gender" required>
             <label class="form-check-label" for="gender"> Male </label>
           </div>
           <div class="form-check col-md-2">
@@ -155,7 +155,7 @@
           <label for="religion" class="form-label">Religion <span style="color: red;">*</span></label>
         </div>
         <div class="col-md-9">
-          <input type="tel" maxlength="15" minlength="15" name="religion" class="form-control" id="religion"
+          <input type="tel" maxlength="15" name="religion" class="form-control" id="religion"
             aria-describedby="religion">
         </div>
       </div>
@@ -165,7 +165,7 @@
         </div>
         <div class="row col-md-9">
           <div class="form-check col-md-2">
-            <input class="form-check-input" type="radio" name="marital_status" value="Single" id="marital">
+            <input class="form-check-input" type="radio" name="marital_status" value="Single" id="marital" required>
             <label class="form-check-label" for="marital"> Single </label>
           </div>
           <div class="form-check col-md-2">
@@ -188,7 +188,7 @@
         </div>
         <div class="row col-md-9">
           <div class="form-check col-md-2">
-            <input class="form-check-input" type="radio" name="language_known" value="Hindi" id="language">
+            <input class="form-check-input" type="radio" name="language_known" value="Hindi" id="language" required>
             <label class="form-check-label" for="language"> Hindi </label>
           </div>
           <div class="form-check col-md-2">
@@ -202,7 +202,7 @@
           <label for="occupation" class="form-label">Occupation <span style="color: red;">*</span></label>
         </div>
         <div class="col-md-9">
-          <input type="tel" name="occupation" class="form-control" id="occupation" aria-describedby="occupation">
+          <input type="tel" name="occupation" class="form-control" id="occupation" aria-describedby="occupation" required>
         </div>
       </div>
       <div class="mb-3 row">
@@ -210,7 +210,7 @@
           <label for="nominee" class="form-label">Nominee's Name <span style="color: red;">*</span></label>
         </div>
         <div class="col-md-9">
-          <input type="tel" name="nominee_name" class="form-control" id="nominee" aria-describedby="nominee">
+          <input type="tel" name="nominee_name" class="form-control" id="nominee" aria-describedby="nominee" required>
         </div>
       </div>
       <div class="mb-3 row">
@@ -220,7 +220,7 @@
               <label for="work_area" class="form-label">Work Area</label>
             </div>
             <div class="col-md-9">
-              <select class="form-select" name="work_area" aria-label="work_area">
+              <select class="form-select" name="work_area" aria-label="work_area" required>
                 <option selected>Open to select Work Area</option>
                 <option value="Araria">Araria</option>
                 <option value="Arwal">Arwal</option>
@@ -293,7 +293,7 @@
       </div>
       <div class="mb-3 row">
         <div class="col-md-3">
-          <label for="address" class="form-label">Address <span style="color: red;">*</span></label>
+          <label for="address" class="form-label">Address Details<span style="color: red;">*</span></label>
         </div>
         <div class="col-md-9 row">
           <div class="col-md">
@@ -426,7 +426,7 @@
           <label for="ipdoc" class="form-label">Identity Proof</label>
         </div>
         <div class="col-md-9">
-          <input type="file" class="form-control" name="ipdoc" id="ipdoc" aria-describedby="ipdoc">
+          <input type="file" class="form-control" name="ipdoc" id="ipdoc" aria-describedby="ipdoc" required>
         </div>
       </div>
       <div class="mb-3 row">
@@ -434,7 +434,7 @@
           <label for="photo" class="form-label">Photo</label>
         </div>
         <div class="col-md-9">
-          <input type="file" class="form-control" name="photo" id="photo" aria-describedby="photo">
+          <input type="file" class="form-control" name="photo" id="photo" aria-describedby="photo" required>
         </div>
       </div>
       <div class="mb-3 row">
@@ -442,7 +442,7 @@
           <label for="signature" class="form-label">Signature</label>
         </div>
         <div class="col-md-9">
-          <input type="file" class="form-control" name="signature" id="signature" aria-describedby="signature">
+          <input type="file" class="form-control" name="signature" id="signature" aria-describedby="signature" required>
         </div>
       </div>
       <div class="mb-3 row">
@@ -451,7 +451,7 @@
         </div>
         <div class="row col-md-9">
           <div class="form-check col-md-2">
-            <input class="form-check-input" type="radio" name="payment" value="online" id="disability" required>
+            <input class="form-check-input" type="radio" name="payment" value="online" id="disability" checked required>
             <label class="form-check-label" for="disability"> Online </label>
           </div>
         </div>
@@ -484,18 +484,21 @@
     if (selectedValue == "Aadhar Card") {
       $('#pcid').hide();
       $('#acid').show();
+      $('#acid').attr("required", "true");
       $('#dlid').hide();
       $('#viid').hide();
     }
     else if (selectedValue == "PAN Card") {
       $('#acid').hide();
       $('#pcid').show();
+      $('#pcid').attr("required", "true");
       $('#dlid').hide();
       $('#viid').hide();
     }
     else if (selectedValue == "Driving License") {
       $('#acid').hide();
       $('#dlid').show();
+      $('#dlid').attr("required", "true");
       $('#pcid').hide();
       $('#viid').hide();
     }
@@ -504,6 +507,7 @@
       $('#pcid').hide();
       $('#dlid').hide();
       $('#viid').show();
+      $('#viid').attr("required", "true");
     }
     else {
       $('#pcid').hide();

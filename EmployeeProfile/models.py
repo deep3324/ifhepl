@@ -1,16 +1,18 @@
 from django.db import models
 
 # Create your models here.
-import uuid
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class EmployeeProfile(models.Model):
-    emmloyeeid = models.CharField(max_length=14, default="",unique=True,)
+    emmloyeeid = models.CharField(max_length=14, default="", unique=True,)
     email = models.CharField(max_length=100, unique=True,)
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, related_name='profile')
     name = models.CharField(max_length=50, unique=False)
-    phone_number = models.CharField(max_length=10, unique=True, null=False, blank=False)
+    phone_number = models.CharField(
+        max_length=10, unique=True, null=False, blank=False)
     GENDER_CHOICES = (
         ('Male', 'Male'),
         ('Female', 'Female'),
@@ -34,6 +36,7 @@ class EmployeeProfile(models.Model):
     job_location = models.CharField(max_length=100, default="", blank=True)
     bloodgroup = models.CharField(max_length=10, default="")
     dob = models.DateField()
+    can_accept_cash = models.BooleanField(default=False)
     Address = models.CharField(max_length=500, default="")
     image = models.ImageField(upload_to="Employee", blank=True, null=True)
     total_health_card_created = models.IntegerField(default=0)
@@ -52,6 +55,6 @@ class EmployeeProfile(models.Model):
         '''
         db_table = "profile"
         verbose_name_plural = "Employee Profiles"
-    
+
     def __str__(self):
         return self.name + " (" + self.emmloyeeid + ")"

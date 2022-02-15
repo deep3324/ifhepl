@@ -1,13 +1,14 @@
+from .constants import PaymentStatus
+import json
 from django.contrib.auth.models import User
 import random
 import razorpay
-from django.http import HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
 from ifheplapp import convert_to_html, verify_recaptcha
 from datetime import timedelta, datetime
 from django.db.models.query_utils import Q
 import ifheplapp
-from ifheplapp.models import AssociatePartner, Attendance, Contact, Gallery, HealthCard, KisanCard, Membership, Jobs, Notice, Slider, Transaction
+from ifheplapp.models import AssociatePartner, Attendance, Contact, Gallery, HealthCard, KisanCard, Membership, Jobs, Notice, Order, Slider, Transaction
 from django.conf import settings
 from EmployeeProfile.models import EmployeeProfile
 from django.shortcuts import redirect, render
@@ -133,7 +134,11 @@ def kisan_card(request):
 
 # @login_required(login_url='/login')
 def kisan_card_apply(request):
-    return render(request, "kisan_card_apply.html")
+    if request.user.is_authenticated:
+        employee = EmployeeProfile.objects.get(user=request.user)
+        return render(request, "kisan_card_apply.html", {"employee": employee if employee else ""})
+    else:
+        return render(request, "kisan_card_apply.html")
 
 
 def health_card(request):
@@ -142,7 +147,11 @@ def health_card(request):
 
 # @login_required(login_url='/login')
 def health_card_apply(request):
-    return render(request, "health_card_apply.html")
+    if request.user.is_authenticated:
+        employee = EmployeeProfile.objects.get(user=request.user)
+        return render(request, "health_card_apply.html", {"employee": employee if employee else ""})
+    else:
+        return render(request, "health_card_apply.html")
 
 
 def reachus(request):
@@ -168,6 +177,7 @@ def reachus_submit(request):
 
 def privacypolicy(request):
     return render(request, "privacypolicy.html")
+
 
 def vendor(request):
     return render(request, "vendor_appllication.html")
@@ -303,7 +313,11 @@ def requirement_notice(request):
 
 # @login_required(login_url='/login')
 def membership(request):
-    return render(request, "membership.html")
+    if request.user.is_authenticated:
+        employee = EmployeeProfile.objects.get(user=request.user)
+        return render(request, "membership.html", {"employee": employee if employee else ""})
+    else:
+        return render(request, "membership.html")
 
 
 def print(request, order_id):
@@ -398,30 +412,31 @@ def membership_submit(request):
                 messages.error(
                     request, "Your application has been already Submitted")
                 return redirect('/membership')
-        else:
-            verified_recaptcha = verify_recaptcha(
-                request.POST.get('g-recaptcha-response'))
-            if verified_recaptcha:
-                membership.save()
-                msg = "succ-msg-mem"
-                ifheplapp.def_mail("Membership | IFHEPL", subject, email)
-                ifheplapp.send_sms_form_submission(
-                    mobile_number, "Membership", membership.reference_number, "https://ifhepl.in/verify-membership")
-                data_ref = Membership.objects.filter(
-                    id_proof=membership.id_proof)
-                if request.user.is_authenticated:
-                    emp = EmployeeProfile.objects.get(user=request.user)
-                    emp.total_membership_card_created = len(
-                        Membership.objects.filter(employeeID=empid))
-                    curr_month = datetime.now().month
-                    emp.current_month_membership_card_created = len(
-                        Membership.objects.filter(employeeID=empid, submitted_on__month=curr_month))
-                    prev_month = (datetime.now().replace(
-                        day=1) - timedelta(days=1)).month
-                    emp.previous_month_membership_card_created = len(
-                        Membership.objects.filter(employeeID=empid, submitted_on__month=prev_month))
-                    emp.save()
+        verified_recaptcha = verify_recaptcha(
+            request.POST.get('g-recaptcha-response'))
+        if verified_recaptcha:
+            membership.save()
+            msg = "succ-msg-mem"
+            ifheplapp.def_mail("Membership | IFHEPL", subject, email)
+            ifheplapp.send_sms_form_submission(
+                mobile_number, "Membership", membership.reference_number, "ifhepl.in/verify-membership")
+            data_ref = Membership.objects.filter(
+                id_proof=membership.id_proof)
+            if request.user.is_authenticated:
+                emp = EmployeeProfile.objects.get(user=request.user)
+                emp.total_membership_card_created = len(
+                    Membership.objects.filter(employeeID=empid))
+                curr_month = datetime.now().month
+                emp.current_month_membership_card_created = len(
+                    Membership.objects.filter(employeeID=empid, submitted_on__month=curr_month))
+                prev_month = (datetime.now().replace(
+                    day=1) - timedelta(days=1)).month
+                emp.previous_month_membership_card_created = len(
+                    Membership.objects.filter(employeeID=empid, submitted_on__month=prev_month))
+                emp.save()
             return render(request, "confirmation.html", {'data_ref': data_ref, "msg": msg})
+        else:
+            return render(request, "captcha_error.html")
 
 
 def kisan_submit(request):
@@ -497,29 +512,30 @@ def kisan_submit(request):
                 messages.error(
                     request, "Your application has been already Submitted")
                 return redirect('/card/Kisan-Card')
-        else:
-            verified_recaptcha = verify_recaptcha(
-                request.POST.get('g-recaptcha-response'))
-            if verified_recaptcha:
-                kisan.save()
-                msg = "succ-msg-kis"
-                ifheplapp.def_mail("Kisan Card | IFHEPL", subject, email)
-                ifheplapp.send_sms_form_submission(
-                    mobile_number, "Kisan", kisan.reference_number, "https://ifhepl.in/verify-kisan")
-                data_ref = KisanCard.objects.filter(id_proof=kisan.id_proof)
-                if request.user.is_authenticated:
-                    emp = EmployeeProfile.objects.get(user=request.user)
-                    emp.total_kisan_card_created = len(
-                        KisanCard.objects.filter(employeeID=empid))
-                    curr_month = datetime.now().month
-                    emp.current_month_kisan_card_created = len(KisanCard.objects.filter(
-                        employeeID=empid, submitted_on__month=curr_month))
-                    prev_month = (datetime.now().replace(
-                        day=1) - timedelta(days=1)).month
-                    emp.previous_month_kisan_card_created = len(
-                        KisanCard.objects.filter(employeeID=empid, submitted_on__month=prev_month))
-                    emp.save()
+        verified_recaptcha = verify_recaptcha(
+            request.POST.get('g-recaptcha-response'))
+        if verified_recaptcha:
+            kisan.save()
+            msg = "succ-msg-kis"
+            ifheplapp.def_mail("Kisan Card | IFHEPL", subject, email)
+            ifheplapp.send_sms_form_submission(
+                mobile_number, "Kisan", kisan.reference_number, "https://ifhepl.in/verify-kisan")
+            data_ref = KisanCard.objects.filter(id_proof=kisan.id_proof)
+            if request.user.is_authenticated:
+                emp = EmployeeProfile.objects.get(user=request.user)
+                emp.total_kisan_card_created = len(
+                    KisanCard.objects.filter(employeeID=empid))
+                curr_month = datetime.now().month
+                emp.current_month_kisan_card_created = len(KisanCard.objects.filter(
+                    employeeID=empid, submitted_on__month=curr_month))
+                prev_month = (datetime.now().replace(
+                    day=1) - timedelta(days=1)).month
+                emp.previous_month_kisan_card_created = len(
+                    KisanCard.objects.filter(employeeID=empid, submitted_on__month=prev_month))
+                emp.save()
             return render(request, "confirmation.html", {'data_ref_kisan': data_ref if data_ref else "", "msg": msg})
+        else:
+            return render(request, "captcha_error.html")
 
 
 def health_submit(request):
@@ -595,170 +611,197 @@ def health_submit(request):
                 messages.error(
                     request, "Your application has been already Submitted")
                 return redirect('/card/Health-Card')
-        else:
-            verified_recaptcha = verify_recaptcha(
-                request.POST.get('g-recaptcha-response'))
-            if verified_recaptcha:
-                health.save()
-                msg = "succ-msg-hel"
-                ifheplapp.def_mail("Health Card | IFHEPL", subject, email)
-                ifheplapp.send_sms_form_submission(
-                    mobile_number, "Health", health.reference_number, "https://ifhepl.in/verify-health")
-                data_ref = HealthCard.objects.filter(id_proof=health.id_proof)
-                if request.user.is_authenticated:
-                    emp = EmployeeProfile.objects.get(user=request.user)
-                    emp.total_health_card_created = len(
-                        HealthCard.objects.filter(employeeID=empid))
-                    curr_month = datetime.now().month
-                    emp.current_month_health_card_created = len(
-                        HealthCard.objects.filter(employeeID=empid, submitted_on__month=curr_month))
-                    prev_month = (datetime.now().replace(
-                        day=1) - timedelta(days=1)).month
-                    emp.previous_month_health_card_created = len(
-                        HealthCard.objects.filter(employeeID=empid, submitted_on__month=prev_month))
-                    emp.save()
+        verified_recaptcha = verify_recaptcha(
+            request.POST.get('g-recaptcha-response'))
+        if verified_recaptcha:
+            health.save()
+            msg = "succ-msg-hel"
+            ifheplapp.def_mail("Health Card | IFHEPL", subject, email)
+            ifheplapp.send_sms_form_submission(
+                mobile_number, "Health", health.reference_number, "https://ifhepl.in/verify-health")
+            data_ref = HealthCard.objects.filter(id_proof=health.id_proof)
+            if request.user.is_authenticated:
+                emp = EmployeeProfile.objects.get(user=request.user)
+                emp.total_health_card_created = len(
+                    HealthCard.objects.filter(employeeID=empid))
+                curr_month = datetime.now().month
+                emp.current_month_health_card_created = len(
+                    HealthCard.objects.filter(employeeID=empid, submitted_on__month=curr_month))
+                prev_month = (datetime.now().replace(
+                    day=1) - timedelta(days=1)).month
+                emp.previous_month_health_card_created = len(
+                    HealthCard.objects.filter(employeeID=empid, submitted_on__month=prev_month))
+                emp.save()
             return render(request, "confirmation.html", {'data_ref_health': data_ref, "msg": msg})
-
-
-razorpay_client = razorpay.Client(
-    auth=(str(settings.RAZORPAY_ID), str(settings.RAZORPAY_SECRET)))
+        else:
+            return render(request, "captcha_error.html")
 
 
 def initiate_payment(request, order_id):
     application_name = filter_application_name(order_id)
-    transaction = Transaction.objects.create(
-        made_for=application_name["card_name"], order_id=order_id, amount=application_name["amount"])
-    transaction.save()
-    data = {"amount": application_name["amount"] * 100, "currency": "INR",
-            "receipt": str(order_id), "payment_capture": '0'}
-    payment = razorpay_client.order.create(data=data)
-    transaction.razorpay_id = payment['id']
-    transaction.status = payment['status']
-    transaction.save()
-    card = fetch_card(order_id)
-    return render(request, "payments/redirect.html", {'response': payment, "card": card})
+    if application_name:
+        transaction = Transaction.objects.create(
+            made_for=application_name["card_name"], order_id=order_id, amount=application_name["amount"])
+        transaction.save()
+        data = {"amount": application_name["amount"] * 100, "currency": "INR",
+                "receipt": str(order_id), "payment_capture": '1'}
+        razorpay_client = razorpay.Client(
+            auth=(str(settings.RAZORPAY_ID), str(settings.RAZORPAY_SECRET)))
+        payment = razorpay_client.order.create(data=data)
+        transaction.razorpay_id = payment['id']
+        transaction.status = payment['status']
+        transaction.save()
+        card = fetch_card(order_id)
+        order = Order.objects.create(
+            name=card.name, amount=application_name["amount"], provider_order_id=payment["id"]
+        )
+        order.save()
+        return render(
+            request,
+            "payments/redirect.html",
+            {
+                "callback_url": "https://" + "ifhepl.in" + "/success/",
+                "razorpay_key": settings.RAZORPAY_ID,
+                "order": order,
+                "card": card,
+                "card_name": application_name["card_name"]
+            },
+        )
+    return render(request, "payments/redirect.html")
 
 
 @csrf_exempt
 def callback(request):
     if request.method == 'POST':
-        try:
-            payment_id = request.POST.get('razorpay_payment_id', '')
-            razorpay_order_id = request.POST.get('razorpay_order_id', '')
-            signature = request.POST.get('razorpay_signature', '')
-            params_dict = {
-                'razorpay_order_id': razorpay_order_id,
-                'razorpay_payment_id': payment_id,
-                'razorpay_signature': signature
-            }
-            # verify the payment signature.
-            result = razorpay_client.utility.verify_payment_signature(
-                params_dict)
+        def verify_signature(response_data):
+            client = razorpay.Client(
+                auth=(settings.RAZORPAY_ID, settings.RAZORPAY_SECRET))
+            return client.utility.verify_payment_signature(response_data)
+
+        if "razorpay_signature" in request.POST:
+            payment_id = request.POST.get("razorpay_payment_id", "")
+            provider_order_id = request.POST.get("razorpay_order_id", "")
+            signature_id = request.POST.get("razorpay_signature", "")
+            order = Order.objects.get(provider_order_id=provider_order_id)
+            order.payment_id = payment_id
+            order.signature_id = signature_id
+            order.save()
             transaction = Transaction.objects.get(
-                razorpay_id=razorpay_order_id)
-            card = fetch_card(transaction.order_id)
-            if result is None:
-                application_name = filter_application_name(
-                    transaction.order_id)
-                amount = application_name["amount"] * 100
-                try:
-                    transaction.razorpay_payment_id = payment_id
-                    transaction.signature = signature
-                    transaction.save()
-                    razorpay_client.payment.capture(payment_id, amount)
-                    payment_details = razorpay_client.payment.fetch(payment_id)
-                    card.transaction_date = transaction.made_on
-                    card.razorpay_signature = signature
-                    card.razorpay_payment_id = payment_id
-                    card.payment_mode = payment_details['method']
-                    card.payment_status = payment_details['status']
-                    card.paid = True
-                    if application_name['card_name'] == "Job Application":
-                        card.accept = True
+                razorpay_id=provider_order_id)
+            application_name = filter_application_name(
+                transaction.order_id)
+            if not verify_signature(request.POST):
+                order.status = PaymentStatus.SUCCESS
+                order.save()
+                card = fetch_card(transaction.order_id)
+                transaction.razorpay_payment_id = payment_id
+                transaction.signature = signature_id
+                transaction.save()
+                razorpay_client = razorpay.Client(
+                    auth=(settings.RAZORPAY_ID, settings.RAZORPAY_SECRET))
+                # razorpay_client.payment.capture(payment_id, application_name["amount"] * 100)
+                payment_details = razorpay_client.payment.fetch(payment_id)
+                card.transaction_date = transaction.made_on
+                card.razorpay_signature = signature_id
+                card.razorpay_payment_id = payment_id
+                card.payment_mode = payment_details['method']
+                card.payment_status = payment_details['status']
+                card.paid = True
+                if application_name['card_name'] == "Job Application":
+                    card.accept = True
+                else:
+                    card.approve = True
+                    card.created = False
+                    card.underprocess = False
+                card.reject = False
+                card.save()
+                payment_details['transaction_date'] = card.transaction_date
+                payment_details['order_id'] = card.order_id
+                subject = render_to_string(
+                    'email/payment_confirmation.html', {'name': card.name, 'scheme': application_name['card_name'], 'request_no': card.reference_number})
+                if application_name['card_name'] == "Vendor Application":
+                    vendor = vendorApplication.objects.get(
+                        reference_number=card.reference_number)
+                    vendor_id = "IFHEPLV2" + \
+                        str(vendor.dob.split("-")[0]) + \
+                        str(vendor.dob.split("-")[1])
+                    check_vendor_user = User.objects.filter(
+                        username=vendor_id).exists()
+                    if check_vendor_user:
+                        pass
                     else:
-                        card.approve = True
-                        card.created = False
-                        card.underprocess = False
-                    card.reject = False
-                    card.save()
-                    payment_details['transaction_date'] = card.transaction_date
-                    payment_details['order_id'] = card.order_id
-                    subject = render_to_string(
-                        'email/payment_confirmation.html', {'name': card.name, 'scheme': application_name['card_name'], 'request_no': card.reference_number})
-                    if application_name['card_name'] == "Vendor Application":
-                        vendor = vendorApplication.objects.get(reference_number=card.reference_number)
-                        vendor_id = "IFHEPLV2" + \
-                            str(vendor.dob.split("-")[0]) + \
-                            str(vendor.dob.split("-")[1])
-                        check_vendor_user = User.objects.filter(username=vendor_id).exists()
-                        if check_vendor_user:
-                            pass
-                        else:
-                            vendor_user = User.objects.create_user(
-                                username=vendor_id,
-                                email=vendor.email,
-                                password=str(vendor.dob).replace("-", ""),
-                                first_name=str(vendor.name.split(" ")[0]),
-                            )
-                            vendor_user.save()
-                            vendor.VendorID=vendor_id
-                            vendor.save()
-                    if application_name['card_name'] == "Job Application":
-                        payment_details['type'] = "JOB"
-                        appli = job_application.objects.get(
-                            reference_number=card.reference_number)
-                        employee_id = "IFHEPLE1" + \
-                            str(appli.dob.split("-")[0]) + \
-                            str(appli.dob.split("-")[1])
-                        check_employee_user = User.objects.filter(username=employee_id).exists()
-                        if check_employee_user:
-                            pass
-                        else:
-                            employee_user = User.objects.create_user(
+                        vendor_user = User.objects.create_user(
+                            username=vendor_id,
+                            email=vendor.email,
+                            password=str(vendor.dob).replace("-", ""),
+                            first_name=str(vendor.name.split(" ")[0]),
+                        )
+                        vendor_user.save()
+                        vendor.VendorID = vendor_id
+                        vendor.save()
+                if application_name['card_name'] == "Job Application":
+                    payment_details['type'] = "JOB"
+                    appli = job_application.objects.get(
+                        reference_number=card.reference_number)
+                    employee_id = "IFHEPLE1" + \
+                        str(appli.dob.split("-")[0]) + \
+                        str(appli.dob.split("-")[1])
+                    check_employee_user = User.objects.filter(
+                        username=employee_id).exists()
+                    if check_employee_user:
+                        pass
+                    else:
+                        employee_user = User.objects.create_user(
                             username=employee_id,
                             email=appli.email,
                             password=str(appli.dob).replace("-", ""),
                             first_name=str(appli.name.split(" ")[0]),
-                            )
-                            employee_user.save()
-                        check_employee = EmployeeProfile.objects.filter(emmloyeeid=employee_id).exists()
-                        if check_employee:
-                            pass
-                        else:
-                            employee = EmployeeProfile.objects.create(
-                                emmloyeeid=employee_id,
-                                email=appli.email,
-                                user=employee_user,
-                                name=appli.name,
-                                phone_number=appli.mobile_number,
-                                gender=appli.gender,
-                                job_location = "",
-                                designation=appli.applied_for.title,
-                                bloodgroup=appli.bloodgroup,
-                                dob=appli.dob,
-                                Address=appli.village + " " + appli.bloodgroup + " " + appli.po + " " + appli.ps +
-                                " " + appli.district + " " + appli.block +
-                                " " + appli.state + " " + appli.pin_code,
-                                image=appli.photo
-                            )
-                            employee.save()
-                            appli.employee_profile = employee
-                            appli.save()
-                        return render(request, 'confirmation.html', {"received_data": payment_details})
+                        )
+                        employee_user.save()
+                    check_employee = EmployeeProfile.objects.filter(
+                        emmloyeeid=employee_id).exists()
+                    if check_employee:
+                        pass
                     else:
-                        payment_details['type'] = "CARD"
-                        return render(request, 'confirmation.html', {"received_data": payment_details})
+                        employee = EmployeeProfile.objects.create(
+                            emmloyeeid=employee_id,
+                            email=appli.email,
+                            user=employee_user,
+                            name=appli.name,
+                            phone_number=appli.mobile_number,
+                            gender=appli.gender,
+                            job_location="",
+                            designation=appli.applied_for.title,
+                            bloodgroup=appli.bloodgroup,
+                            dob=appli.dob,
+                            Address=appli.village + " " + appli.bloodgroup + " " + appli.po + " " + appli.ps +
+                            " " + appli.district + " " + appli.block +
+                            " " + appli.state + " " + appli.pin_code,
+                            image=appli.photo
+                        )
+                        employee.save()
+                        appli.employee_profile = employee
+                        appli.save()
 
-                except:
-                    regenerate_order_id(card)
-                    return render(request, 'confirmation.html', {"regenerate": card})
-                    # pass
+                else:
+                    payment_details['type'] = "CARD"
+                ifheplapp.def_mail(
+                    "Payment Confirmation | IFHEPL", subject, card.email)
+                return render(request, "confirmation.html", context={"received_data": payment_details})
             else:
+                order.status = PaymentStatus.FAILURE
+                order.save()
                 regenerate_order_id(card)
-                return render(request, 'confirmation.html', {"regenerate": card})
-        except:
-            # if we don't find the required parameters in POST data
-            return HttpResponseBadRequest()
-    else:
-       # if other than POST request is made.
-        return HttpResponseBadRequest()
+                return render(request, "confirmation.html", context={"regenerate": card})
+        else:
+            payment_id = json.loads(request.POST.get(
+                "error[metadata]")).get("payment_id")
+            provider_order_id = json.loads(request.POST.get("error[metadata]")).get(
+                "order_id"
+            )
+            order = Order.objects.get(provider_order_id=provider_order_id)
+            order.payment_id = payment_id
+            order.status = PaymentStatus.FAILURE
+            order.save()
+            regenerate_order_id(card)
+            return render(request, "confirmation.html", context={"regenerate": card})

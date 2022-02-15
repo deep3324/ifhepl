@@ -1,3 +1,4 @@
+from django.contrib import messages
 import ifheplapp
 import random
 from django.contrib.auth import authenticate,  login as dj_login, logout
@@ -108,7 +109,9 @@ def job_submit(request):
             submitted_on=datetime.today())
         prev_data_job = job_application.objects.all()
         for data_job in prev_data_job:
-            if job.email == data_job.email:
+            if job.id_proof == data_job.id_proof:
+                messages.error(
+                    request, "Your application has been already Submitted")
                 return redirect('/career')
         else:
             job.save()

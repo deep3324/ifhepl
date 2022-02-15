@@ -1,16 +1,17 @@
+from .constants import PaymentStatus
+from django.utils.translation import gettext_lazy as _
+from django.db.models.fields import CharField
 from email.policy import default
 from http.client import GATEWAY_TIMEOUT
 from inspect import signature
 from django.db import models
 from autoslug import AutoSlugField
 from datetime import datetime
-from django.contrib.auth.models import User
 import sys
 from django.db import models
 from PIL import Image
 from io import BytesIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
-from django.forms import BooleanField
 # Create your models here.
 
 
@@ -56,6 +57,31 @@ class Jobs(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Order(models.Model):
+    name = CharField(_("Customer Name"), max_length=254,
+                     blank=False, null=False)
+    amount = models.FloatField(_("Amount"), null=False, blank=False)
+    status = CharField(
+        _("Payment Status"),
+        default=PaymentStatus.PENDING,
+        max_length=254,
+        blank=False,
+        null=False,
+    )
+    provider_order_id = models.CharField(
+        _("Order ID"), max_length=40, null=False, blank=False
+    )
+    payment_id = models.CharField(
+        _("Payment ID"), max_length=36, null=False, blank=False
+    )
+    signature_id = models.CharField(
+        _("Signature ID"), max_length=128, null=False, blank=False
+    )
+
+    def __str__(self):
+        return f"{self.id}-{self.name}-{self.status}"
 
 
 class Attendance(models.Model):
@@ -284,10 +310,12 @@ class HealthCard(models.Model):
     def __str__(self):
         return self.name + " (" + self.reference_number + ")"
 
+
 class Transaction(models.Model):
     made_for = models.CharField(max_length=100, null=True, blank=True)
     razorpay_id = models.CharField(max_length=100, null=True, blank=True)
-    razorpay_payment_id = models.CharField(max_length=100, null=True, blank=True)
+    razorpay_payment_id = models.CharField(
+        max_length=100, null=True, blank=True)
     order_id = models.CharField(max_length=100, null=True, blank=True)
     made_on = models.DateTimeField(auto_now_add=True)
     amount = models.IntegerField()

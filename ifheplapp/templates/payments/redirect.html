@@ -3,24 +3,36 @@
 
 {% block body %}
 <div class="container text-center">
-    <h1>Please do not refresh this page...</h1>
-    {% if response %}
-    <form action="/success/" method="POST">
-        <script src="https://checkout.razorpay.com/v1/checkout.js" data-key="rzp_test_iCjKXu3tzNttXV"
-            data-amount={{response.amount}} data-currency={{response.currency}} data-order_id={{response.id}}
-            data-name={{response.id}} data-buttontext="Pay with Razorpay" data-prefill.name="{{card.name}}"
-            data-prefill.email="{{card.email}}" data-prefill.contact="+91{{card.mobile_number}}"
-            data-theme.color="#F37254" data-name="INDIE FEEDER HALENESS & ERUDITION PRIVATE LIMITED"></script>
-        <input type="hidden" custom="Hidden Element" name="hidden">
-    </form>
-    {% endif %}
+    <h3>Please do not refresh this page...</h3>
 </div>
-{% block script %}
-<script>
-    $(document).ready(function (e) {
-        $('.razorpay-payment-button').click()
-        $('.razorpay-payment-button').hide()
-    })
-</script>
-{% endblock script %}
-{% endblock body %}
+<form method="POST">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+    var options = {
+        key: "{{razorpay_key}}",
+        amount: "{{order.amount}}", 
+        currency: "INR",
+        name: "{{order.name}}",
+        description: "{{card_name}}",
+        image: "https://ifhepl.in/static/images/logo/logo.png",
+        order_id: "{{order.provider_order_id}}",
+        callback_url: "{{callback_url}}",
+        redirect: true,
+        prefill: {
+            "name": "{{card.name}}",
+            "email": "{{card.email}}",
+            "contact": "{{card.mobile_number}}"
+        },
+        notes: {
+            "address": "{{card.district}}, {{card.state}}"
+        },
+        theme: {
+            "color": "#3399cc"
+        }
+    };
+    var rzp1 = new Razorpay(options);
+    rzp1.open();
+    </script>
+    <input type="hidden" custom="Hidden Element" name="hidden">
+</form>
+{% endblock %}

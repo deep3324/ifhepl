@@ -1,4 +1,5 @@
-from ifheplapp.models import AssociatePartner, Attendance, Contact,  Gallery, HealthCard, Jobs, KisanCard, Membership, Notice, Slider, Transaction
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from ifheplapp.models import AssociatePartner, Attendance, Contact,  Gallery, HealthCard, Jobs, KisanCard, Membership, Notice, Order, Slider, Transaction
 from django.contrib import admin
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
@@ -12,8 +13,9 @@ admin.site.register(Jobs)
 admin.site.unregister(User)
 admin.site.register(AssociatePartner)
 admin.site.register(Transaction)
+admin.site.register(Order)
 
-from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
     def get_queryset(self, request):
@@ -27,6 +29,7 @@ class AttendanceResource(resources.ModelResource):
     class Meta:
         model = Attendance
 
+
 @admin.register(Attendance)
 class AttendanceAdmin(ImportExportModelAdmin):
     resource_class = AttendanceResource
@@ -38,11 +41,14 @@ class MembershipResource(resources.ModelResource):
     class Meta:
         model = Membership
 
+
 @admin.register(Membership)
 class MembershipAdmin(ImportExportModelAdmin):
     resource_class = MembershipResource
-    list_display = ("name", "card_number", "reference_number","submitted_on","employeename","created",)
-    readonly_fields = ['order_id','razorpay_signature','transaction_date','razorpay_payment_id','payment_status','payment_mode']
+    list_display = ("name", "card_number", "reference_number",
+                    "submitted_on", "employeename", "created",)
+    readonly_fields = ['order_id', 'razorpay_signature', 'transaction_date',
+                       'razorpay_payment_id', 'payment_status', 'payment_mode']
     fieldsets = (
         ('Employee Details', {
             'fields': (('employeeID', 'employeename'),)
@@ -59,22 +65,26 @@ class MembershipAdmin(ImportExportModelAdmin):
             'fields': (('id_proof_document'), ('photo'),),
         }),
         ('Card Update', {
-            'fields': ('approve', 'reject', 'underprocess', 'created','card_number',)
+            'fields': ('approve', 'reject', 'underprocess', 'created', 'card_number',)
         }),
         ('Payment Update', {
-            'fields': (('order_id'),('transaction_date'),('payment_status'),('payment_mode'),('razorpay_signature','razorpay_payment_id'), 'paid')
+            'fields': (('order_id'), ('transaction_date'), ('payment_status'), ('payment_mode'), ('razorpay_signature', 'razorpay_payment_id'), ('paid', 'order_details'))
         }),
     )
+
 
 class KisanCardResource(resources.ModelResource):
     class Meta:
         model = KisanCard
 
+
 @admin.register(KisanCard)
 class KisanCardAdmin(ImportExportModelAdmin):
     resource_class = KisanCardResource
-    list_display = ("name", "card_number", "reference_number","submitted_on","employeename","created",)
-    readonly_fields = ['order_id','razorpay_signature','transaction_date','razorpay_payment_id','payment_status','payment_mode']
+    list_display = ("name", "card_number", "reference_number",
+                    "submitted_on", "employeename", "created",)
+    readonly_fields = ['order_id', 'razorpay_signature', 'transaction_date',
+                       'razorpay_payment_id', 'payment_status', 'payment_mode']
     fieldsets = (
         ('Employee Details', {
             'fields': (('employeeID', 'employeename'),)
@@ -91,22 +101,26 @@ class KisanCardAdmin(ImportExportModelAdmin):
             'fields': (('id_proof_document'), ('photo'),),
         }),
         ('Card Update', {
-            'fields': ('approve', 'reject', 'underprocess','created', 'card_number',)
+            'fields': ('approve', 'reject', 'underprocess', 'created', 'card_number',)
         }),
         ('Payment Update', {
-            'fields': (('order_id'),('transaction_date'),('payment_status'),('payment_mode'),('razorpay_signature','razorpay_payment_id'), 'paid')
+            'fields': (('order_id'), ('transaction_date'), ('payment_status'), ('payment_mode'), ('razorpay_signature', 'razorpay_payment_id'), ('paid', 'order_details'))
         }),
     )
+
 
 class HealthCardResource(resources.ModelResource):
     class Meta:
         model = HealthCard
 
+
 @admin.register(HealthCard)
 class HealthCardAdmin(ImportExportModelAdmin):
     resource_class = HealthCardResource
-    list_display = ("name", "card_number", "reference_number","submitted_on","employeename","created",)
-    readonly_fields = ['order_id','razorpay_signature','transaction_date','razorpay_payment_id','payment_status','payment_mode']
+    list_display = ("name", "card_number", "reference_number",
+                    "submitted_on", "employeename", "created",)
+    readonly_fields = ['order_id', 'razorpay_signature', 'transaction_date',
+                       'razorpay_payment_id', 'payment_status', 'payment_mode']
     fieldsets = (
         ('Employee Details', {
             'fields': (('employeeID', 'employeename'),)
@@ -123,10 +137,9 @@ class HealthCardAdmin(ImportExportModelAdmin):
             'fields': (('id_proof_document'), ('photo'),),
         }),
         ('Card Update', {
-            'fields': ('approve', 'reject', 'underprocess','created', 'card_number',)
+            'fields': ('approve', 'reject', 'underprocess', 'created', 'card_number',)
         }),
         ('Payment Update', {
-            'fields': (('order_id'),('transaction_date'),('payment_status'),('payment_mode'),('razorpay_signature','razorpay_payment_id'), 'paid')
+            'fields': (('order_id'), ('transaction_date'), ('payment_status'), ('payment_mode'), ('razorpay_signature', 'razorpay_payment_id'), ('paid', 'order_details'))
         }),
     )
-
