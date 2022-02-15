@@ -690,10 +690,10 @@ def callback(request):
                 razorpay_id=provider_order_id)
             application_name = filter_application_name(
                 transaction.order_id)
+            card = fetch_card(transaction.order_id)
             if not verify_signature(request.POST):
                 order.status = PaymentStatus.SUCCESS
                 order.save()
-                card = fetch_card(transaction.order_id)
                 transaction.razorpay_payment_id = payment_id
                 transaction.signature = signature_id
                 transaction.save()
