@@ -68,7 +68,7 @@ class MembershipAdmin(ImportExportModelAdmin):
             'fields': ('approve', 'reject', 'underprocess', 'created', 'card_number',)
         }),
         ('Payment Update', {
-            'fields': (('order_id'), ('transaction_date'), ('payment_status'), ('payment_mode'), ('razorpay_signature', 'razorpay_payment_id'), ('paid', 'order_details'))
+            'fields': (('order_id'), ('transaction_date'), ('payment_status'), ('payment_mode'), ('razorpay_signature', 'razorpay_payment_id'), ('paid',))
         }),
     )
 
@@ -104,7 +104,7 @@ class KisanCardAdmin(ImportExportModelAdmin):
             'fields': ('approve', 'reject', 'underprocess', 'created', 'card_number',)
         }),
         ('Payment Update', {
-            'fields': (('order_id'), ('transaction_date'), ('payment_status'), ('payment_mode'), ('razorpay_signature', 'razorpay_payment_id'), ('paid', 'order_details'))
+            'fields': (('order_id'), ('transaction_date'), ('payment_status'), ('payment_mode'), ('razorpay_signature', 'razorpay_payment_id'), ('paid',))
         }),
     )
 
@@ -140,6 +140,6 @@ class HealthCardAdmin(ImportExportModelAdmin):
             'fields': ('approve', 'reject', 'underprocess', 'created', 'card_number',)
         }),
         ('Payment Update', {
-            'fields': (('order_id'), ('transaction_date'), ('payment_status'), ('payment_mode'), ('razorpay_signature', 'razorpay_payment_id'), ('paid', 'order_details'))
+            'fields': (('order_id'), ('transaction_date'), ('payment_status'), ('payment_mode'), ('razorpay_signature', 'razorpay_payment_id'), ('paid',))
         }),
     )
