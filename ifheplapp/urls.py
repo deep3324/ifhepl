@@ -34,7 +34,7 @@ urlpatterns = [
     path('membership', views.membership, name="membership"),
     path('membership/Confirmation', views.membership_submit, name="membership_submit"),
     path('verify-membership', views.searchMembership, name="verify_membership"),
-    path('verify_membership/viewDetails', views.viewMembership, name="viewMembership"),
+    path('verify-membership/viewDetails', views.viewMembership, name="viewMembership"),
     # kisan
     path('card/Kisan-Card/Confirmation', views.kisan_submit, name="kisan_submit"), 
     path('card/Kisan-Card', views.kisan_card, name="kisan_card"),
