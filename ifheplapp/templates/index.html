@@ -127,7 +127,7 @@
           <marquee direction="up" height="230px" scrollamount="1">
             {% for partner in partners %}
             <div class="info" style="padding-bottom: 8px;">
-              <span class="cat">{{partner.partnerName}}</span>
+              <a href="associate-partner/{{partner.slug}}" target="__blank">{{partner.partnerName}}</a> <br>
             </div>
             <div class="clear"></div>
             {% endfor %}

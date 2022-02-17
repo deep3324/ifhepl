@@ -43,6 +43,7 @@ class AssociatePartner(models.Model):
     partnerName = models.CharField(max_length=300, default="")
     partnerAddress = models.CharField(max_length=600, default="", blank=True)
     partnerImage = models.FileField(upload_to="Associate Partner/")
+    slug = AutoSlugField(populate_from='partnerName')
 
     def __str__(self):
         return self.partnerName
@@ -185,7 +186,6 @@ class Membership (models.Model):
     # =========================== Document Upload ===========================
     id_proof_document = models.FileField(upload_to="Membership/ID_Proof/")
     photo = models.FileField(upload_to="Membership/Photo/")
-    sign = models.FileField(upload_to="Membership/Signature/")
     submitted_on = models.DateField()
     # =========================== Card Update ===========================
     approve = models.BooleanField(default=False)

@@ -15,6 +15,7 @@ urlpatterns = [
     path('kisan_card_generate', cards.kisan_card_generate, name="kisan_card_generate"),
     # headers and footer
     path('associate-partner', views.associate, name="associate_partner"),
+    path('associate-partner/<str:slug>', views.associate_view, name="associate_view"),
     path('comingsoon', views.comingsoon, name="comingsoon"),
     path('privacy-policy', views.privacypolicy, name="privacypolicy"),
     path('reach-us', views.reachus, name="reachus"),

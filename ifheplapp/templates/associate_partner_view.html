@@ -1,0 +1,38 @@
+{% extends 'extends/base.html' %}
+{% block title %}Associate Partners{% endblock title %}
+{% block ogtitle %}Associate Partners{% endblock ogtitle %}
+{% block ogurl %}associate-partner{% endblock ogurl %}
+
+{% block style %}
+<style>
+    @media screen and (max-width: 768px) {
+        .notice_board {
+            max-width: 95% !important;
+        }
+    }
+</style>
+{% endblock style %}
+{% block body %}
+<div class="" style="background-color: rgb(255, 255, 240);">
+
+    <div class="container notice_board" style="max-width: 70%;">
+        <div class="my-4 text-center">
+            <h2 style="color: #092032; font-family: Arial, Helvetica, sans-serif; font-weight: 800;">Our Associate Partner : {{partner.partnerName}}</h2>
+        </div>
+        <div class="d-flex justify-content-center align-items-center mt-5">
+            <div class="par-img">
+                <img src="/media/{{partner.partnerImage}}" style="height: 300px !important;" alt="">
+            </div>
+            <div class="par-text p-5">
+                <strong>
+                    <h3 style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-weight: 600; font-size: 2.5rem;" >{{partner.partnerName}}</h3>
+                </strong>
+                <h4><span style="color: #bc1616;">Address: </span> <br> {{partner.partnerAddress}}</h4>
+            </div>
+        </div>
+    </div>
+</div>
+{% block script %}
+
+{% endblock script %}
+{% endblock body %}

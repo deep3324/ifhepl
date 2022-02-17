@@ -437,6 +437,8 @@ table a, #comments a{background-color:inherit;}
 @media screen and (max-width:978px){
 	.hoc{max-width:90%;}
 
+	.header-title h2{display: none;}
+	.header-logo a img{max-height: 100px !important;}	
 
 
 	#mainav{position:inherit; margin-top:0; padding:30px;}

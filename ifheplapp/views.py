@@ -163,6 +163,11 @@ def associate(request):
     return render(request, "associate.html", {'associate_partners': associate_partners})
 
 
+def associate_view(request, slug):
+    associate_partners = AssociatePartner.objects.get(slug=slug)
+    return render(request, "associate_partner_view.html", {'partner': associate_partners})
+
+
 def reachus_submit(request):
     if request.method == 'POST':
         name = request.POST.get('name')
@@ -177,6 +182,8 @@ def reachus_submit(request):
 
 def privacypolicy(request):
     return render(request, "privacypolicy.html")
+
+
 def pricing(request):
     return render(request, "pricing.html")
 
