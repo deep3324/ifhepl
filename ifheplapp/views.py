@@ -679,18 +679,19 @@ def initiate_payment(request, order_id):
     return render(request, "payments/redirect.html")
 
 
+def verify_signature(response_data):
+    client = razorpay.Client(
+        auth=(settings.RAZORPAY_ID, settings.RAZORPAY_SECRET))
+    return client.utility.verify_payment_signature(response_data)
+
+
 @csrf_exempt
 def callback(request):
     if request.method == 'POST':
-        def verify_signature(response_data):
-            client = razorpay.Client(
-                auth=(settings.RAZORPAY_ID, settings.RAZORPAY_SECRET))
-            return client.utility.verify_payment_signature(response_data)
-
-        if "razorpay_signature" in request.POST:
-            payment_id = request.POST.get("razorpay_payment_id", "")
-            provider_order_id = request.POST.get("razorpay_order_id", "")
-            signature_id = request.POST.get("razorpay_signature", "")
+        payment_id = request.POST.get("razorpay_payment_id", "")
+        provider_order_id = request.POST.get("razorpay_order_id", "")
+        signature_id = request.POST.get("razorpay_signature", "")
+        if signature_id:
             order = Order.objects.get(provider_order_id=provider_order_id)
             order.payment_id = payment_id
             order.signature_id = signature_id
@@ -813,4 +814,4 @@ def callback(request):
             order.status = PaymentStatus.FAILURE
             order.save()
             regenerate_order_id(card)
-            #return render(request, "confirmation.html", context={"regenerate": card})
+            # return render(request, "confirmation.html", context={"regenerate": card})
