@@ -709,7 +709,6 @@ def callback(request):
                 transaction.save()
                 razorpay_client = razorpay.Client(
                     auth=(settings.RAZORPAY_ID, settings.RAZORPAY_SECRET))
-                # razorpay_client.payment.capture(payment_id, application_name["amount"] * 100)
                 payment_details = razorpay_client.payment.fetch(payment_id)
                 card.transaction_date = transaction.made_on
                 card.razorpay_signature = signature_id
@@ -718,6 +717,7 @@ def callback(request):
                 card.payment_status = payment_details['status']
                 card.paid = True
                 if application_name['card_name'] == "Job Application":
+                    card.completed = True
                     card.accept = True
                 else:
                     card.approve = True
@@ -734,7 +734,7 @@ def callback(request):
                         reference_number=card.reference_number)
                     vendor_id = "IFHEPLV2" + \
                         str(vendor.dob.split("-")[0]) + \
-                        str(vendor.dob.split("-")[1])
+                        str(int(random.random() * 100))
                     check_vendor_user = User.objects.filter(
                         username=vendor_id).exists()
                     if check_vendor_user:
@@ -755,7 +755,7 @@ def callback(request):
                         reference_number=card.reference_number)
                     employee_id = "IFHEPLE1" + \
                         str(appli.dob.split("-")[0]) + \
-                        str(appli.dob.split("-")[1])
+                        str(int(random.random() * 100))
                     check_employee_user = User.objects.filter(
                         username=employee_id).exists()
                     if check_employee_user:
@@ -814,4 +814,4 @@ def callback(request):
             order.status = PaymentStatus.FAILURE
             order.save()
             regenerate_order_id(card)
-            # return render(request, "confirmation.html", context={"regenerate": card})
+            return render(request, "confirmation.html", context={"regenerate": card})
