@@ -801,7 +801,7 @@ def callback(request):
                 order.status = PaymentStatus.FAILURE
                 order.save()
                 regenerate_order_id(card)
-                return render(request, "confirmation.html", context={"regenerate": card})
+#                return render(request, "confirmation.html", context={"regenerate": card})
         else:
             payment_id = json.loads(request.POST.get(
                 "error[metadata]")).get("payment_id")
@@ -813,4 +813,4 @@ def callback(request):
             order.status = PaymentStatus.FAILURE
             order.save()
             regenerate_order_id(card)
-            return render(request, "confirmation.html", context={"regenerate": card})
+            #return render(request, "confirmation.html", context={"regenerate": card})
