@@ -112,15 +112,15 @@ def handeLogin(request):
             dj_login(request, user)
             request.session.set_expiry(0)
             messages.success(request, "Successfully Logged In")
-            if loginusername.startswith("IFHE"):
+            if loginusername.startswith("IFHEPLE1"):
                 return redirect("/profile")
-            elif loginusername == "DIRECTOR" or loginusername == "Director" or loginusername == "Hr" or loginusername == "app_developer" or loginusername == "Administrator":
+            elif loginusername == "DIRECTOR" or loginusername == "Director" or loginusername == "Hr" or loginusername == "app_developer" or loginusername == "Administrator" or loginusername == "IFHEPL":
                 return redirect("/admin")
             else:
                 return redirect("/complete_profile")
         else:
-            msg = "err-msg-login"
-            return render(request, "login.html", {"msg": msg})
+            messages.warning(request, "Invalid Credentials, Please try again!")
+            return redirect("/login")
 
 
 def handelLogout(request):
@@ -230,11 +230,12 @@ def viewVendor(request):
         query_reference = request.GET.get('query_reference')
         query_card_dob = request.GET.get('query_card_dob')
         if query_reference and query_card_dob:
-            vendor = Membership.objects.filter(
+            vendor = vendorApplication.objects.filter(
                 Q(reference_number=query_reference) & Q(dob=query_card_dob))
             return render(request, "viewDetails.html", {'vendor': vendor[0] if vendor else ""})
         else:
-            return render(request, "viewDetails.html", {'vendor_reference': "", "vendor": ""})
+            messages.warning(request,"Incorrect data, please try again")
+            return redirect("/verify-vendor")
 
 
 def viewMembership(request):
@@ -251,7 +252,8 @@ def viewMembership(request):
                 Q(card_number=query_card) & Q(dob=query_card_dob))
             return render(request, "viewDetails.html", {'membership_card': membership_card[0] if membership_card else ""})
         else:
-            return render(request, "viewDetails.html", {'membership_reference': "", "membership_card": ""})
+            messages.warning(request,"Incorrect data, please try again")
+            return redirect("/verify-membership")
 
 
 def viewKisanCard(request):
@@ -268,7 +270,8 @@ def viewKisanCard(request):
                 Q(card_number=query_card) & Q(dob=query_card_dob))
             return render(request, "viewDetails.html", {'kisan_card': kisan_card[0] if kisan_card else ""})
         else:
-            return render(request, "viewDetails.html", {'kisan_reference': "", "kisan_card": ""})
+            messages.warning(request,"Incorrect data, please try again")
+            return redirect("/verify-kisan")
 
 
 def viewHealthCard(request):
@@ -285,7 +288,8 @@ def viewHealthCard(request):
                 Q(card_number=query_card) & Q(dob=query_card_dob))
             return render(request, "viewDetails.html", {'Health_card': Health_card[0] if Health_card else ""})
         else:
-            return render(request, "viewDetails.html", {'Health_reference': "", "Health_card": ""})
+            messages.warning(request,"Incorrect data, please try again")
+            return redirect("/verify-health")
 
 
 def maintainance(request):
