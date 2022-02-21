@@ -88,14 +88,18 @@ def job_submit(request):
                                                  [0]) + str(int(random.random() * 10000)) + "J"
         subject = render_to_string(
             'email/confirmation_job.html', {'name': name, 'request_no': reference_number, "email": email, "dob": str(dob).replace("-", "")})
-        user = User.objects.create_user(
+        exist_user = User.objects.filter(username = email).exists()
+        if exist_user:
+            user = authenticate(username=email, password=str(dob).replace("-", ""))
+        else:
+            user = User.objects.create_user(
             username=email,
             email=email,
             password=str(dob).replace("-", ""),
             first_name=str(name.split(" ")[0]),
-        )
-        user.save()
-        user = authenticate(username=email, password=str(dob).replace("-", ""))
+            )
+            user.save()
+            user = authenticate(username=email, password=str(dob).replace("-", ""))
         dj_login(request, user)
         request.session.set_expiry(0)
         job = job_application(
@@ -111,7 +115,7 @@ def job_submit(request):
         for data_job in prev_data_job:
             if job.email == data_job.email:
                 messages.error(
-                    request, "Your application has been already Submitted")
+                    request, "Your application has been already Submitted. Please complete your profile")
                 return redirect('/career')
         else:
             job.save()

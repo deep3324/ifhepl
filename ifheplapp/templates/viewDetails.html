@@ -49,6 +49,22 @@
           <br>
         </div>
       </div>
+      <!-- vendor -->
+      {% elif vendor %}
+      <h5 class="my-2">Vendor Application Reference No.: <span style="color: red;">
+          {{vendor.reference_number}}</span></h5> <br>
+      {% if vendor.reject %}
+      <h5 class="my-2"><br>We are sorry to say that your Vendor Application is Rejected.<br> Call us for more Query
+        <br> <br> <a href="/reach-us" class="my-3" style="color: red; text-decoration: none;" target="__blank">Click
+          here</a> to Contact
+      </h5>
+      {% elif not vendor.paid %}
+      <h5 class="my-2">Vendor Application has been submitted but payment not done.<br>Kindly make a payment for complete
+        submission</h5><br> <a href="/pay/{{vendor.order_id}}" class="btn btn-primary">Pay online</a>
+      {% elif vendor.approve %}
+      <h5 class="my-2">Vendor Application has been Approved.<br>Your Vendor Card Number is <span
+          style="color: red;">{{vendor.card_number}}</span></h5> <br>
+      {% endif %}
       <!-- Health Card-->
       {% elif Health_reference %}
       <h5 class="my-2">Health Card Reference No.: <span style="color: red;">
@@ -59,14 +75,16 @@
           here</a> to Contact
       </h5>
       {% elif not Health_reference.paid %}
-      <h5 class="my-2">Membership Application has been submitted but payment not done.<br>Kindly make a payment for complete submission</h5><br> <a href="/pay/{{Health_reference.order_id}}" class="btn btn-primary">Pay online</a>
+      <h5 class="my-2">Membership Application has been submitted but payment not done.<br>Kindly make a payment for
+        complete submission</h5><br> <a href="/pay/{{Health_reference.order_id}}" class="btn btn-primary">Pay online</a>
       {% elif Health_reference.approve%}
       <h5 class="my-2">Health Card Application has been Approved.<br>Your Health Card Number is <span
           style="color: red;">{{Health_reference.card_number}}</span></h5>
       {% elif Health_reference.created%}
       <h5 class="my-2">Health Card Application has been Created.<br>Your Health Card Number is <span
           style="color: red;">{{Health_reference.card_number}}</span> <br> <br>It will be delivered to you by shortly.
-        <br>You can see your card by provding above card number and your Date of Birth in previous page.</h5>
+        <br>You can see your card by provding above card number and your Date of Birth in previous page.
+      </h5>
       {% elif Health_reference.underprocess %}
       <h5 class="my-5">Your Health Card Application is under Review.<br><small style="color: red"> It takes 2-3 working
           days for further process</small><br>When your application is approved, you will get mail from us.</h5>
@@ -95,14 +113,16 @@
           here</a> to Contact
       </h5>
       {% elif not kisan_reference.paid %}
-      <h5 class="my-2">Membership Application has been submitted but payment not done.<br>Kindly make a payment for complete submission</h5><br> <a href="/pay/{{kisan_reference.order_id}}" class="btn btn-primary">Pay online</a>
+      <h5 class="my-2">Membership Application has been submitted but payment not done.<br>Kindly make a payment for
+        complete submission</h5><br> <a href="/pay/{{kisan_reference.order_id}}" class="btn btn-primary">Pay online</a>
       {% elif kisan_reference.approve %}
       <h5 class="my-2">Kisan Card Application has been Approved.<br>Your Kisan Card Number is <span
           style="color: red;">{{kisan_reference.card_number}}</span></h5>
       {% elif kisan_reference.created %}
       <h5 class="my-2">Kisan Card Application has been Created.<br>Your Kisan Card Number is <span
           style="color: red;">{{kisan_reference.card_number}}</span> <br> <br>It will be delivered to you by shortly.
-        <br>You can see your card by provding above card number and your Date of Birth in previous page.</h5>
+        <br>You can see your card by provding above card number and your Date of Birth in previous page.
+      </h5>
       {% elif kisan_reference.underprocess %}
       <h5 class="my-5">Your Kisan Card Application is under Review.<br><small style="color: red"> It takes 2-3 working
           days for further process</small><br>When your application is approved, you will get mail from us.</h5>
