@@ -109,7 +109,7 @@ def job_submit(request):
             submitted_on=datetime.today())
         prev_data_job = job_application.objects.all()
         for data_job in prev_data_job:
-            if job.id_proof == data_job.id_proof:
+            if job.email == data_job.email:
                 messages.error(
                     request, "Your application has been already Submitted")
                 return redirect('/career')
