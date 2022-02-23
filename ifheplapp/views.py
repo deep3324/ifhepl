@@ -750,6 +750,7 @@ def callback(request):
                             password=str(vendor.dob).replace("-", ""),
                             first_name=str(vendor.name.split(" ")[0]),
                         )
+                        vendor_user.is_active = False
                         vendor_user.save()
                         vendor.VendorID = vendor_id
                         vendor.save()
@@ -771,6 +772,7 @@ def callback(request):
                             password=str(appli.dob).replace("-", ""),
                             first_name=str(appli.name.split(" ")[0]),
                         )
+                        employee_user.is_active = False
                         employee_user.save()
                     check_employee = EmployeeProfile.objects.filter(
                         emmloyeeid=employee_id).exists()
