@@ -48,6 +48,7 @@
       <h3>Job Application for <strong>{{data_ref_job.applied_for}}</strong> has been Submitted</h3>
       <h5 class="my-2">Job Reference No.: <span style="color: red;"> {{data_ref_job.reference_number}}</span></h5>
       {% if data_ref_job.completed and not data_ref_job.paid %}
+      <h4 style="color: red;"><strong>To finish your job application, make a payment.</strong></h4>
       <a class="btn btn-primary" href="/pay/{{data_ref_job.order_id}}">Pay Online</a>
       {% elif not data_ref_job.completed and not user.is_authenticated %}
       <a class="btn btn-primary" href="/login">Login and Complete Profile</a>

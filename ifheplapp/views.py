@@ -112,9 +112,9 @@ def handeLogin(request):
             dj_login(request, user)
             request.session.set_expiry(0)
             messages.success(request, "Successfully Logged In")
-            if loginusername.startswith("IFHEPLE1"):
+            if loginusername.startswith("IFHEPLE1") or loginusername.startswith("IFHEPLV2"):
                 return redirect("/profile")
-            elif loginusername == "DIRECTOR" or loginusername == "Director" or loginusername == "Hr" or loginusername == "app_developer" or loginusername == "Administrator" or loginusername == "IFHEPL":
+            elif user.is_staff:
                 return redirect("/admin")
             else:
                 return redirect("/complete_profile")
@@ -754,6 +754,23 @@ def callback(request):
                         vendor_user.save()
                         vendor.VendorID = vendor_id
                         vendor.save()
+                        employee = EmployeeProfile.objects.create(
+                            emmloyeeid=vendor_id,
+                            email=vendor.email,
+                            user=vendor_user,
+                            name=vendor.name,
+                            phone_number=vendor.mobile_number,
+                            gender=vendor.gender,
+                            job_location="",
+                            designation="Vendor",
+                            bloodgroup=vendor.bloodgroup,
+                            dob=vendor.dob,
+                            Address=vendor.village + " " + vendor.bloodgroup + " " + vendor.po + " " + vendor.ps +
+                            " " + vendor.district + " " + vendor.block +
+                            " " + vendor.state + " " + vendor.pin_code,
+                            image=vendor.photo
+                        )
+                        employee.save()
                 if application_name['card_name'] == "Job Application":
                     payment_details['type'] = "JOB"
                     appli = job_application.objects.get(

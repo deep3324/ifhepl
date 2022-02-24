@@ -31,6 +31,7 @@ class EmployeeProfile(models.Model):
         ('Regional Manager', 'Regional Manager'),
         ('Accountant/Cashier', 'Accountant/Cashier'),
         ('Receptionist', 'Receptionist'),
+        ('Vendor', 'Vendor'),
     )
     designation = models.CharField(max_length=32, choices=JOB_CHOICES)
     job_location = models.CharField(max_length=100, default="", blank=True)
