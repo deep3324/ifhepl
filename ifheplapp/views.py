@@ -134,7 +134,7 @@ def kisan_card(request):
 
 # @login_required(login_url='/login')
 def kisan_card_apply(request):
-    if request.user.is_authenticated and request.user.username.startswith("IFHEPLE1"):
+    if request.user.is_authenticated and (request.user.username.startswith("IFHEPLE1") or request.user.username.startswith("IFHEPLV2")):
         employee = EmployeeProfile.objects.get(user=request.user)
         return render(request, "kisan_card_apply.html", {"employee": employee if employee else ""})
     else:
@@ -147,7 +147,7 @@ def health_card(request):
 
 # @login_required(login_url='/login')
 def health_card_apply(request):
-    if request.user.is_authenticated and request.user.username.startswith("IFHEPLE1"):
+    if request.user.is_authenticated and (request.user.username.startswith("IFHEPLE1") or request.user.username.startswith("IFHEPLV2")):
         employee = EmployeeProfile.objects.get(user=request.user)
         return render(request, "health_card_apply.html", {"employee": employee if employee else ""})
     else:
@@ -326,7 +326,7 @@ def requirement_notice(request):
 
 # @login_required(login_url='/login')
 def membership(request):
-    if request.user.is_authenticated and request.user.username.startswith("IFHEPLE1"):
+    if request.user.is_authenticated and (request.user.username.startswith("IFHEPLE1") or request.user.username.startswith("IFHEPLV2")):
         employee = EmployeeProfile.objects.get(user=request.user)
         return render(request, "membership.html", {"employee": employee if employee else ""})
     else:
