@@ -62,7 +62,7 @@
       <h3>Kisan Card Application has been Submitted</h3>
       {% for data_kisan in data_ref_kisan  %}
       <h5 class="my-2">Kisan Card Reference No.: <span style="color: red;"> {{data_kisan.reference_number}}</span></h5>
-      {% if data.order_id != "CASH" %}
+      {% if data_kisan.order_id != "CASH" %}
       <a class="btn btn-primary" href="/pay/{{data_kisan.order_id}}">Pay Online</a>
       {% endif %}
       {% endfor %}
@@ -73,7 +73,7 @@
       <h3>Health Card Application has been Submitted</h3>
       {% for data_health in data_ref_health  %}
       <h5 class="my-2">Health Card Reference No.: <span style="color: red;"> {{data_health.reference_number}}</span></h5>
-      {% if data.order_id != "CASH" %}
+      {% if data_health.order_id != "CASH" %}
       <a class="btn btn-primary" href="/pay/{{data_health.order_id}}">Pay Online</a>
       {% endif %}
       {% endfor %}
