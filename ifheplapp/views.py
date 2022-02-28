@@ -90,15 +90,7 @@ def login(request):
 @login_required(login_url='/login')
 def profile(request):
     profile = EmployeeProfile.objects.filter(user=request.user)
-    for i in profile:
-        kisan_count = len(KisanCard.objects.filter(employeeID=i.emmloyeeid))
-        kisan_count = kisan_count if kisan_count else 0
-        membership_count = len(
-            Membership.objects.filter(employeeID=i.emmloyeeid))
-        membership_count = membership_count if membership_count else 0
-        health_count = len(HealthCard.objects.filter(employeeID=i.emmloyeeid))
-        health_count = health_count if health_count else 0
-    return render(request, "profile.html", {"profile": profile, "kisan_count": kisan_count, "membership_count": membership_count, "health_count": health_count})
+    return render(request, "profile.html", {"profile": profile})
 
 
 def handeLogin(request):
@@ -446,6 +438,12 @@ def membership_submit(request):
                     day=1) - timedelta(days=1)).month
                 emp.previous_month_membership_card_created = len(
                     Membership.objects.filter(employeeID=empid, submitted_on__month=prev_month))
+                if membership.order_id == "CASH":
+                    emp.cash_mode_total_membership_card_created = len(Membership.objects.filter(employeeID=empid, order_id = "CASH"))
+                    curr_month = datetime.now().month
+                    emp.cash_mode_current_month_membership_card_created = len(Membership.objects.filter(employeeID=empid, submitted_on__month=curr_month, order_id = "CASH"))
+                    prev_month = (datetime.now().replace(day=1) - timedelta(days=1)).month
+                    emp.cash_mode_previous_month_membership_card_created = len(Membership.objects.filter(employeeID=empid, submitted_on__month=prev_month, order_id = "CASH"))
                 emp.save()
             return render(request, "confirmation.html", {'data_ref': data_ref, "msg": msg})
         else:
@@ -545,6 +543,16 @@ def kisan_submit(request):
                     day=1) - timedelta(days=1)).month
                 emp.previous_month_kisan_card_created = len(
                     KisanCard.objects.filter(employeeID=empid, submitted_on__month=prev_month))
+                if kisan.order_id == "CASH":
+                    emp.cash_mode_total_kisan_card_created = len(
+                        KisanCard.objects.filter(employeeID=empid, order_id = "CASH"))
+                    curr_month = datetime.now().month
+                    emp.cash_mode_current_month_kisan_card_created = len(KisanCard.objects.filter(
+                        employeeID=empid, submitted_on__month=curr_month, order_id = "CASH"))
+                    prev_month = (datetime.now().replace(
+                        day=1) - timedelta(days=1)).month
+                    emp.cash_mode_previous_month_kisan_card_created = len(
+                        KisanCard.objects.filter(employeeID=empid, submitted_on__month=prev_month, order_id = "CASH"))
                 emp.save()
             return render(request, "confirmation.html", {'data_ref_kisan': data_ref if data_ref else "", "msg": msg})
         else:
@@ -644,6 +652,16 @@ def health_submit(request):
                     day=1) - timedelta(days=1)).month
                 emp.previous_month_health_card_created = len(
                     HealthCard.objects.filter(employeeID=empid, submitted_on__month=prev_month))
+                if health.order_id == "CASH":
+                    emp.cash_mode_total_health_card_created = len(
+                        HealthCard.objects.filter(employeeID=empid, order_id="CASH"))
+                    curr_month = datetime.now().month
+                    emp.cash_mode_current_month_health_card_created = len(
+                        HealthCard.objects.filter(employeeID=empid, submitted_on__month=curr_month, order_id="CASH"))
+                    prev_month = (datetime.now().replace(
+                        day=1) - timedelta(days=1)).month
+                    emp.cash_mode_previous_month_health_card_created = len(
+                        HealthCard.objects.filter(employeeID=empid, submitted_on__month=prev_month, order_id="CASH"))
                 emp.save()
             return render(request, "confirmation.html", {'data_ref_health': data_ref, "msg": msg})
         else:

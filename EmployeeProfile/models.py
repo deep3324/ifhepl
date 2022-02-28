@@ -49,6 +49,15 @@ class EmployeeProfile(models.Model):
     previous_month_health_card_created = models.IntegerField(default=0)
     previous_month_kisan_card_created = models.IntegerField(default=0)
     previous_month_membership_card_created = models.IntegerField(default=0)
+    cash_mode_total_health_card_created = models.IntegerField(default=0)
+    cash_mode_total_kisan_card_created = models.IntegerField(default=0)
+    cash_mode_total_membership_card_created = models.IntegerField(default=0)
+    cash_mode_current_month_health_card_created = models.IntegerField(default=0)
+    cash_mode_current_month_kisan_card_created = models.IntegerField(default=0)
+    cash_mode_current_month_membership_card_created = models.IntegerField(default=0)
+    cash_mode_previous_month_health_card_created = models.IntegerField(default=0)
+    cash_mode_previous_month_kisan_card_created = models.IntegerField(default=0)
+    cash_mode_previous_month_membership_card_created = models.IntegerField(default=0)
 
     class Meta:
         '''
