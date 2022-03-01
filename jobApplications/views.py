@@ -100,6 +100,8 @@ def job_submit(request):
             )
             user.save()
             user = authenticate(username=email, password=str(dob).replace("-", ""))
+        if request.user.is_authenticated:
+            logout(request)
         dj_login(request, user)
         request.session.set_expiry(0)
         job = job_application(
