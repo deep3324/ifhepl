@@ -76,7 +76,7 @@
           <label for="fname" class="form-label">Father's/Husband's Name <span style="color: red;">*</span></label>
         </div>
         <div class="col-md-9">
-          <input type="text" class="form-control" pattern="^(\w\w+)\s(\w+)$" name="father_name"
+          <input type="text" class="form-control" pattern="^[A-Za-z ]+$" name="father_name"
             value="{{job.father_Husband_name}}" id="fname" aria-describedby="name" placeholder="First_name Last_name" required>
         </div>
       </div>
@@ -85,7 +85,7 @@
           <label for="mname" class="form-label">Mother's Name <span style="color: red;">*</span></label>
         </div>
         <div class="col-md-9">
-          <input type="text" class="form-control" pattern="^(\w\w+)\s(\w+)$" name="mother_name"
+          <input type="text" class="form-control" pattern="^[A-Za-z ]+$" name="mother_name"
             value="{{job.mother_name}}" id="mname" aria-describedby="name" placeholder="First_name Last_name" required>
         </div>
       </div>
