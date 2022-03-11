@@ -33,6 +33,29 @@
 
     gtag('config', 'G-3T1G15R267');
   </script>
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.8/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.8/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyCyT_p2JY8TwC6FnrPw1lFJ7bEIl0VnXFM",
+      authDomain: "ifhepl-3c276.firebaseapp.com",
+      projectId: "ifhepl-3c276",
+      storageBucket: "ifhepl-3c276.appspot.com",
+      messagingSenderId: "945967566890",
+      appId: "1:945967566890:web:6e6402ce167b9df06af353",
+      measurementId: "G-JNTW46NRME"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
   <meta name="author" content="IFHE PVT LTD">
   <link href="/static/styles/layout.css" rel="stylesheet" type="text/css" media="all">
   <link href="/static/styles/owl.carousel.min.css" rel="stylesheet" type="text/css" media="all">
