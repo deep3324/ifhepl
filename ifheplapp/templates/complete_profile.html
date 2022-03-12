@@ -344,12 +344,12 @@
                   aria-describedby="Intermediate"></td>
               <td><input type="text" class="form-control" {% if job.intermediate_school_institute  %}value="{{job.intermediate_school_institute}}" {% endif %} name="is" id="Intermediate"
                   aria-describedby="Intermediate"></td>
-              <td><input type="text" maxlength="4" minlength="4" class="form-control" {% if job.intermediate_passing_year %} pattern="[0-9]{4}" value="{{job.intermediate_passing_year}}" {% endif %} name="ip" id="Intermediate" aria-describedby="Intermediate"></td>
-              <td><input type="text" class="form-control" {% if job.intermediate_roll_number  %}value="{{job.intermediate_roll_number}}" {% endif %} pattern="[0-9]" name="ir" id="Intermediate"
+              <td><input type="text" maxlength="4" minlength="4" class="form-control" pattern="[0-9]{4}" {% if job.intermediate_passing_year %} value="{{job.intermediate_passing_year}}" {% endif %} name="ip" id="Intermediate" aria-describedby="Intermediate"></td>
+              <td><input type="text" class="form-control" {% if job.intermediate_roll_number  %}value="{{job.intermediate_roll_number}}" {% endif %} pattern="[0-9]+" name="ir" id="Intermediate"
                   aria-describedby="Intermediate"></td>
-              <td><input type="text" class="form-control" {% if job.intermediate_marks_gpa  %}value="{{job.intermediate_marks_gpa}}" {% endif %} pattern="[0-9]" minlength="2" maxlength="3"
+              <td><input type="text" class="form-control" {% if job.intermediate_marks_gpa  %}value="{{job.intermediate_marks_gpa}}" {% endif %} pattern="[0-9]+" minlength="2" maxlength="3"
                   name="im" id="Intermediate" aria-describedby="Intermediate"></td>
-              <td><input type="text" class="form-control" {% if job.intermediate_percentage  %}value="{{job.intermediate_percentage}}" {% endif %} pattern="[0-9]" name="ipe" maxlength="5"
+              <td><input type="text" class="form-control" {% if job.intermediate_percentage  %}value="{{job.intermediate_percentage}}" {% endif %} pattern="[0-9]+" name="ipe" maxlength="5"
                   id="Intermediate" aria-describedby="Intermediate"></td>
             </tr>
             <tr>
@@ -358,13 +358,13 @@
                   aria-describedby="Graduation"></td>
               <td><input type="text" class="form-control" {% if job.graduation_school_institute %}value="{{job.graduation_school_institute}}" {% endif %} name="gs" id="Graduation"
                   aria-describedby="Graduation"></td>
-              <td><input type="text" maxlength="4" minlength="4" class="form-control" {% if job.graduation_passing_year %} pattern="[0-9]{4}" value="{{job.graduation_passing_year}}" {% endif %} name="gp" id="Graduation"
+              <td><input type="text" maxlength="4" minlength="4" class="form-control" pattern="[0-9]{4}" {% if job.graduation_passing_year %} value="{{job.graduation_passing_year}}" {% endif %} name="gp" id="Graduation"
                   aria-describedby="Graduation"></td>
-              <td><input type="text" class="form-control" {% if job.graduation_roll_number %}value="{{job.graduation_roll_number}}" {% endif %} pattern="[0-9]" name="gr" id="Graduation"
+              <td><input type="text" class="form-control" {% if job.graduation_roll_number %}value="{{job.graduation_roll_number}}" {% endif %} pattern="[0-9]+" name="gr" id="Graduation"
                   aria-describedby="Graduation"></td>
-              <td><input type="text" class="form-control" {% if job.graduation_marks_gpa %}value="{{job.graduation_marks_gpa}}" {% endif %} pattern="[0-9]" minlength="2" maxlength="3"
+              <td><input type="text" class="form-control" {% if job.graduation_marks_gpa %}value="{{job.graduation_marks_gpa}}" {% endif %} pattern="[0-9]+" minlength="2" maxlength="3"
                   name="gm" id="Graduation" aria-describedby="Graduation"></td>
-              <td><input type="text" class="form-control" {% if job.graduation_percentage %}value="{{job.graduation_percentage}}" {% endif %} pattern="[0-9]" name="gpe" maxlength="5"
+              <td><input type="text" class="form-control" {% if job.graduation_percentage %}value="{{job.graduation_percentage}}" {% endif %} pattern="[0-9]+" name="gpe" maxlength="5"
                   id="Graduation" aria-describedby="Graduation"></td>
             </tr>
             <tr>
@@ -373,14 +373,14 @@
                   id="higher-qualification" aria-describedby="higher-qualification"></td>
               <td><input type="text" class="form-control" {% if job.higher_qualification_school_institute %}value="{{job.higher_qualification_school_institute}}" {% endif %} name="hs"
                   id="higher-qualification" aria-describedby="higher-qualification"></td>
-              <td><input type="text" maxlength="4" minlength="4" class="form-control" {% if job.higher_qualification_passing_year %} pattern="[0-9]{4}"
+              <td><input type="text" maxlength="4" minlength="4" class="form-control" pattern="[0-9]{4}" {% if job.higher_qualification_passing_year %} 
                   value="{{job.higher_qualification_passing_year}}" {% endif %} name="hp" id="higher-qualification"
                   aria-describedby="higher-qualification"></td>
-              <td><input type="text" class="form-control" {% if job.higher_qualification_roll_number %}value="{{job.higher_qualification_roll_number}}" {% endif %} pattern="[0-9]" name="hr"
+              <td><input type="text" class="form-control" {% if job.higher_qualification_roll_number %}value="{{job.higher_qualification_roll_number}}" {% endif %} pattern="[0-9]+" name="hr"
                   id="higher-qualification" aria-describedby="higher-qualification"></td>
-              <td><input type="text" class="form-control" {% if job.higher_qualification_marks_gpa %}value="{{job.higher_qualification_marks_gpa}}" {% endif %} pattern="[0-9]" minlength="2"
+              <td><input type="text" class="form-control" {% if job.higher_qualification_marks_gpa %}value="{{job.higher_qualification_marks_gpa}}" {% endif %} pattern="[0-9]+" minlength="2"
                   maxlength="3" name="hm" id="higher-qualification" aria-describedby="higher-qualification"></td>
-              <td><input type="text" class="form-control" {% if job.higher_qualification_percentage %}value="{{job.higher_qualification_percentage}}" {% endif %} pattern="[0-9]" maxlength="5" name="hpe"
+              <td><input type="text" class="form-control" {% if job.higher_qualification_percentage %}value="{{job.higher_qualification_percentage}}" {% endif %} pattern="[0-9]+" maxlength="5" name="hpe"
                   id="higher-qualification" aria-describedby="higher-qualification"></td>
             </tr>
             <tr>
@@ -389,14 +389,14 @@
                   aria-describedby="extra-qualification"></td>
               <td><input type="text" class="form-control" {% if job.extra_qualification_school_institute %}value="{{job.extra_qualification_school_institute}}" {% endif %} name="es" id="extra-qualification"
                   aria-describedby="extra-qualification"></td>
-              <td><input type="text" maxlength="4" minlength="4" class="form-control" {% if job.extra_qualification_passing_year %} pattern="[0-9]{4}"
+              <td><input type="text" maxlength="4" minlength="4" class="form-control" pattern="[0-9]{4}" {% if job.extra_qualification_passing_year %} 
                   value="{{job.extra_qualification_passing_year}}" {% endif %} name="ep" id="extra-qualification"
                   aria-describedby="extra-qualification"></td>
-              <td><input type="text" class="form-control" {% if job.extra_qualification_roll_number %}value="{{job.extra_qualification_roll_number}}" {% endif %} pattern="[0-9]" name="er"
+              <td><input type="text" class="form-control" {% if job.extra_qualification_roll_number %}value="{{job.extra_qualification_roll_number}}" {% endif %} pattern="[0-9]+" name="er"
                   id="extra-qualification" aria-describedby="extra-qualification"></td>
-              <td><input type="text" class="form-control" {% if job.extra_qualification_marks_gpa %}value="{{job.extra_qualification_marks_gpa}}" {% endif %} pattern="[0-9]" minlength="2"
+              <td><input type="text" class="form-control" {% if job.extra_qualification_marks_gpa %}value="{{job.extra_qualification_marks_gpa}}" {% endif %} pattern="[0-9]+" minlength="2"
                   maxlength="3" name="em" id="extra-qualification" aria-describedby="extra-qualification"></td>
-              <td><input type="text" class="form-control" {% if job.extra_qualification_percentage %}value="{{job.extra_qualification_percentage}}" {% endif %} pattern="[0-9]" maxlength="5" name="epe"
+              <td><input type="text" class="form-control" {% if job.extra_qualification_percentage %}value="{{job.extra_qualification_percentage}}" {% endif %} pattern="[0-9]+" maxlength="5" name="epe"
                   id="extra-qualification" aria-describedby="extra-qualification"></td>
             </tr>
           </tbody>
@@ -405,18 +405,18 @@
       <h3 class="py-3">Document Upload</h3>
       <div class="mb-3 row">
         <div class="col-md-3">
-          <label for="ipdoc" class="form-label">Signature</label>
-        </div>
-        <div class="col-md-9">
-          <input type="file" class="form-control" name="sign" id="ipdoc" aria-describedby="ipdoc" required>
-        </div>
-      </div>
-      <div class="mb-3 row">
-        <div class="col-md-3">
           <label for="imgs" class="form-label">Photo</label>
         </div>
         <div class="col-md-9">
           <input type="file" class="form-control" name="photo" id="imgs" aria-describedby="imgs" required>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-md-3">
+          <label for="ipdoc" class="form-label">Signature</label>
+        </div>
+        <div class="col-md-9">
+          <input type="file" class="form-control" name="sign" id="ipdoc" aria-describedby="ipdoc" required>
         </div>
       </div>
   </div>
