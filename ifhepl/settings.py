@@ -29,9 +29,9 @@ environ.Env.read_env()
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ["ifhepl.in", "www.ifhepl.in","*"]
+ALLOWED_HOSTS = ["ifhepl.in", "www.ifhepl.in"]
 
 # Application definition
 
@@ -218,9 +218,9 @@ Q_CLUSTER = {
     "orm": "default",  # Use Django's ORM + database for broker
 }
 
-CSRF_COOKIE_SECURE = False
-SESSION_COOKIE_SECURE = False
-SECURE_SSL_REDIRECT = False
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = True
 SECURE_HSTS_SECONDS = 31536000
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_HSTS_PRELOAD = True
