@@ -139,7 +139,7 @@
           <label for="mob" class="form-label">Mobile No. <span style="color: red;">*</span></label>
         </div>
         <div class="col-md-9">
-          <input type="tel" maxlength="10" minlength="10" name="mobile_number" class="form-control" id="mob"
+          <input type="tel" maxlength="10" minlength="10" name="mobile_number" pattern="[6-9]{1}[0-9]{9}" class="form-control" id="mob"
             aria-describedby="mob" required>
         </div>
       </div>
@@ -333,7 +333,7 @@
           </label>
         </div>
       </div>
-      <div class="g-recaptcha" data-sitekey="6LfQqGUeAAAAAKfjHTyFYP2rCRUCvN48SYEUKpm5"></div>
+      <!-- <div class="g-recaptcha" data-sitekey="6LfQqGUeAAAAAKfjHTyFYP2rCRUCvN48SYEUKpm5"></div> -->
       <br/>
       <button type="submit" class="btn-sub">Submit</button>
     </form>

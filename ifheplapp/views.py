@@ -417,37 +417,37 @@ def membership_submit(request):
                 messages.error(
                     request, "Your application has been already Submitted")
                 return redirect('/membership')
-        verified_recaptcha = verify_recaptcha(
-            request.POST.get('g-recaptcha-response'))
-        if verified_recaptcha:
-            membership.save()
-            msg = "succ-msg-mem"
-            ifheplapp.def_mail("Membership | IFHEPL", subject, email)
-            ifheplapp.send_sms_form_submission(
-                mobile_number, "Membership", membership.reference_number, "ifhepl.in/verify-membership")
-            data_ref = Membership.objects.filter(
-                id_proof=membership.id_proof)
-            if request.user.is_authenticated:
-                emp = EmployeeProfile.objects.get(user=request.user)
-                emp.total_membership_card_created = len(
-                    Membership.objects.filter(employeeID=empid))
+        # verified_recaptcha = verify_recaptcha(
+        #     request.POST.get('g-recaptcha-response'))
+        # if verified_recaptcha:
+        membership.save()
+        msg = "succ-msg-mem"
+        ifheplapp.def_mail("Membership | IFHEPL", subject, email)
+        ifheplapp.send_sms_form_submission(
+            mobile_number, "Membership", membership.reference_number, "ifhepl.in/verify-membership")
+        data_ref = Membership.objects.filter(
+            id_proof=membership.id_proof)
+        if request.user.is_authenticated:
+            emp = EmployeeProfile.objects.get(user=request.user)
+            emp.total_membership_card_created = len(
+                Membership.objects.filter(employeeID=empid))
+            curr_month = datetime.now().month
+            emp.current_month_membership_card_created = len(
+                Membership.objects.filter(employeeID=empid, submitted_on__month=curr_month))
+            prev_month = (datetime.now().replace(
+                day=1) - timedelta(days=1)).month
+            emp.previous_month_membership_card_created = len(
+                Membership.objects.filter(employeeID=empid, submitted_on__month=prev_month))
+            if membership.order_id == "CASH":
+                emp.cash_mode_total_membership_card_created = len(Membership.objects.filter(employeeID=empid, order_id = "CASH"))
                 curr_month = datetime.now().month
-                emp.current_month_membership_card_created = len(
-                    Membership.objects.filter(employeeID=empid, submitted_on__month=curr_month))
-                prev_month = (datetime.now().replace(
-                    day=1) - timedelta(days=1)).month
-                emp.previous_month_membership_card_created = len(
-                    Membership.objects.filter(employeeID=empid, submitted_on__month=prev_month))
-                if membership.order_id == "CASH":
-                    emp.cash_mode_total_membership_card_created = len(Membership.objects.filter(employeeID=empid, order_id = "CASH"))
-                    curr_month = datetime.now().month
-                    emp.cash_mode_current_month_membership_card_created = len(Membership.objects.filter(employeeID=empid, submitted_on__month=curr_month, order_id = "CASH"))
-                    prev_month = (datetime.now().replace(day=1) - timedelta(days=1)).month
-                    emp.cash_mode_previous_month_membership_card_created = len(Membership.objects.filter(employeeID=empid, submitted_on__month=prev_month, order_id = "CASH"))
-                emp.save()
-            return render(request, "confirmation.html", {'data_ref': data_ref, "msg": msg})
-        else:
-            return render(request, "captcha_error.html")
+                emp.cash_mode_current_month_membership_card_created = len(Membership.objects.filter(employeeID=empid, submitted_on__month=curr_month, order_id = "CASH"))
+                prev_month = (datetime.now().replace(day=1) - timedelta(days=1)).month
+                emp.cash_mode_previous_month_membership_card_created = len(Membership.objects.filter(employeeID=empid, submitted_on__month=prev_month, order_id = "CASH"))
+            emp.save()
+        return render(request, "confirmation.html", {'data_ref': data_ref, "msg": msg})
+        # else:
+        #     return render(request, "captcha_error.html")
 
 
 def kisan_submit(request):
@@ -523,40 +523,40 @@ def kisan_submit(request):
                 messages.error(
                     request, "Your application has been already Submitted")
                 return redirect('/card/Kisan-Card')
-        verified_recaptcha = verify_recaptcha(
-            request.POST.get('g-recaptcha-response'))
-        if verified_recaptcha:
-            kisan.save()
-            msg = "succ-msg-kis"
-            ifheplapp.def_mail("Kisan Card | IFHEPL", subject, email)
-            ifheplapp.send_sms_form_submission(
-                mobile_number, "Kisan", kisan.reference_number, "https://ifhepl.in/verify-kisan")
-            data_ref = KisanCard.objects.filter(id_proof=kisan.id_proof)
-            if request.user.is_authenticated:
-                emp = EmployeeProfile.objects.get(user=request.user)
-                emp.total_kisan_card_created = len(
-                    KisanCard.objects.filter(employeeID=empid))
+        # verified_recaptcha = verify_recaptcha(
+        #     request.POST.get('g-recaptcha-response'))
+        # if verified_recaptcha:
+        kisan.save()
+        msg = "succ-msg-kis"
+        ifheplapp.def_mail("Kisan Card | IFHEPL", subject, email)
+        ifheplapp.send_sms_form_submission(
+            mobile_number, "Kisan", kisan.reference_number, "https://ifhepl.in/verify-kisan")
+        data_ref = KisanCard.objects.filter(id_proof=kisan.id_proof)
+        if request.user.is_authenticated:
+            emp = EmployeeProfile.objects.get(user=request.user)
+            emp.total_kisan_card_created = len(
+                KisanCard.objects.filter(employeeID=empid))
+            curr_month = datetime.now().month
+            emp.current_month_kisan_card_created = len(KisanCard.objects.filter(
+                employeeID=empid, submitted_on__month=curr_month))
+            prev_month = (datetime.now().replace(
+                day=1) - timedelta(days=1)).month
+            emp.previous_month_kisan_card_created = len(
+                KisanCard.objects.filter(employeeID=empid, submitted_on__month=prev_month))
+            if kisan.order_id == "CASH":
+                emp.cash_mode_total_kisan_card_created = len(
+                    KisanCard.objects.filter(employeeID=empid, order_id = "CASH"))
                 curr_month = datetime.now().month
-                emp.current_month_kisan_card_created = len(KisanCard.objects.filter(
-                    employeeID=empid, submitted_on__month=curr_month))
+                emp.cash_mode_current_month_kisan_card_created = len(KisanCard.objects.filter(
+                    employeeID=empid, submitted_on__month=curr_month, order_id = "CASH"))
                 prev_month = (datetime.now().replace(
                     day=1) - timedelta(days=1)).month
-                emp.previous_month_kisan_card_created = len(
-                    KisanCard.objects.filter(employeeID=empid, submitted_on__month=prev_month))
-                if kisan.order_id == "CASH":
-                    emp.cash_mode_total_kisan_card_created = len(
-                        KisanCard.objects.filter(employeeID=empid, order_id = "CASH"))
-                    curr_month = datetime.now().month
-                    emp.cash_mode_current_month_kisan_card_created = len(KisanCard.objects.filter(
-                        employeeID=empid, submitted_on__month=curr_month, order_id = "CASH"))
-                    prev_month = (datetime.now().replace(
-                        day=1) - timedelta(days=1)).month
-                    emp.cash_mode_previous_month_kisan_card_created = len(
-                        KisanCard.objects.filter(employeeID=empid, submitted_on__month=prev_month, order_id = "CASH"))
-                emp.save()
-            return render(request, "confirmation.html", {'data_ref_kisan': data_ref if data_ref else "", "msg": msg})
-        else:
-            return render(request, "captcha_error.html")
+                emp.cash_mode_previous_month_kisan_card_created = len(
+                    KisanCard.objects.filter(employeeID=empid, submitted_on__month=prev_month, order_id = "CASH"))
+            emp.save()
+        return render(request, "confirmation.html", {'data_ref_kisan': data_ref if data_ref else "", "msg": msg})
+        # else:
+        #     return render(request, "captcha_error.html")
 
 
 def health_submit(request):
@@ -632,40 +632,40 @@ def health_submit(request):
                 messages.error(
                     request, "Your application has been already Submitted")
                 return redirect('/card/Health-Card')
-        verified_recaptcha = verify_recaptcha(
-            request.POST.get('g-recaptcha-response'))
-        if verified_recaptcha:
-            health.save()
-            msg = "succ-msg-hel"
-            ifheplapp.def_mail("Health Card | IFHEPL", subject, email)
-            ifheplapp.send_sms_form_submission(
-                mobile_number, "Health", health.reference_number, "https://ifhepl.in/verify-health")
-            data_ref = HealthCard.objects.filter(id_proof=health.id_proof)
-            if request.user.is_authenticated:
-                emp = EmployeeProfile.objects.get(user=request.user)
-                emp.total_health_card_created = len(
-                    HealthCard.objects.filter(employeeID=empid))
+        # verified_recaptcha = verify_recaptcha(
+        #     request.POST.get('g-recaptcha-response'))
+        # if verified_recaptcha:
+        health.save()
+        msg = "succ-msg-hel"
+        ifheplapp.def_mail("Health Card | IFHEPL", subject, email)
+        ifheplapp.send_sms_form_submission(
+            mobile_number, "Health", health.reference_number, "https://ifhepl.in/verify-health")
+        data_ref = HealthCard.objects.filter(id_proof=health.id_proof)
+        if request.user.is_authenticated:
+            emp = EmployeeProfile.objects.get(user=request.user)
+            emp.total_health_card_created = len(
+                HealthCard.objects.filter(employeeID=empid))
+            curr_month = datetime.now().month
+            emp.current_month_health_card_created = len(
+                HealthCard.objects.filter(employeeID=empid, submitted_on__month=curr_month))
+            prev_month = (datetime.now().replace(
+                day=1) - timedelta(days=1)).month
+            emp.previous_month_health_card_created = len(
+                HealthCard.objects.filter(employeeID=empid, submitted_on__month=prev_month))
+            if health.order_id == "CASH":
+                emp.cash_mode_total_health_card_created = len(
+                    HealthCard.objects.filter(employeeID=empid, order_id="CASH"))
                 curr_month = datetime.now().month
-                emp.current_month_health_card_created = len(
-                    HealthCard.objects.filter(employeeID=empid, submitted_on__month=curr_month))
+                emp.cash_mode_current_month_health_card_created = len(
+                    HealthCard.objects.filter(employeeID=empid, submitted_on__month=curr_month, order_id="CASH"))
                 prev_month = (datetime.now().replace(
                     day=1) - timedelta(days=1)).month
-                emp.previous_month_health_card_created = len(
-                    HealthCard.objects.filter(employeeID=empid, submitted_on__month=prev_month))
-                if health.order_id == "CASH":
-                    emp.cash_mode_total_health_card_created = len(
-                        HealthCard.objects.filter(employeeID=empid, order_id="CASH"))
-                    curr_month = datetime.now().month
-                    emp.cash_mode_current_month_health_card_created = len(
-                        HealthCard.objects.filter(employeeID=empid, submitted_on__month=curr_month, order_id="CASH"))
-                    prev_month = (datetime.now().replace(
-                        day=1) - timedelta(days=1)).month
-                    emp.cash_mode_previous_month_health_card_created = len(
-                        HealthCard.objects.filter(employeeID=empid, submitted_on__month=prev_month, order_id="CASH"))
-                emp.save()
-            return render(request, "confirmation.html", {'data_ref_health': data_ref, "msg": msg})
-        else:
-            return render(request, "captcha_error.html")
+                emp.cash_mode_previous_month_health_card_created = len(
+                    HealthCard.objects.filter(employeeID=empid, submitted_on__month=prev_month, order_id="CASH"))
+            emp.save()
+        return render(request, "confirmation.html", {'data_ref_health': data_ref, "msg": msg})
+        # else:
+        #     return render(request, "captcha_error.html")
 
 
 def initiate_payment(request, order_id):
