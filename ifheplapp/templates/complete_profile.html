@@ -336,7 +336,7 @@
                   id="matriculation" aria-describedby="matriculation" pattern="[0-9]+" minlength="2" maxlength="3"
                   required></td>
               <td><input type="text" class="form-control" value="{{job.matriculation_percentage}}" name="mpe"
-                  id="matriculation" aria-describedby="matriculation" pattern="[0-9]+" maxlength="5" required></td>
+                  id="matriculation" aria-describedby="matriculation" pattern="[0-9]+(\.[0-9]{1,2})?%?" maxlength="5" required></td>
             </tr>
             <tr>
               <td>Intermediate (12th)</td>
@@ -349,7 +349,7 @@
                   aria-describedby="Intermediate"></td>
               <td><input type="text" class="form-control" {% if job.intermediate_marks_gpa  %}value="{{job.intermediate_marks_gpa}}" {% endif %} pattern="[0-9]+" minlength="2" maxlength="3"
                   name="im" id="Intermediate" aria-describedby="Intermediate"></td>
-              <td><input type="text" class="form-control" {% if job.intermediate_percentage  %}value="{{job.intermediate_percentage}}" {% endif %} pattern="[0-9]+" name="ipe" maxlength="5"
+              <td><input type="text" class="form-control" {% if job.intermediate_percentage  %}value="{{job.intermediate_percentage}}" {% endif %} pattern="[0-9]+(\.[0-9]{1,2})?%?" name="ipe" maxlength="5"
                   id="Intermediate" aria-describedby="Intermediate"></td>
             </tr>
             <tr>
@@ -364,7 +364,7 @@
                   aria-describedby="Graduation"></td>
               <td><input type="text" class="form-control" {% if job.graduation_marks_gpa %}value="{{job.graduation_marks_gpa}}" {% endif %} pattern="[0-9]+" minlength="2" maxlength="3"
                   name="gm" id="Graduation" aria-describedby="Graduation"></td>
-              <td><input type="text" class="form-control" {% if job.graduation_percentage %}value="{{job.graduation_percentage}}" {% endif %} pattern="[0-9]+" name="gpe" maxlength="5"
+              <td><input type="text" class="form-control" {% if job.graduation_percentage %}value="{{job.graduation_percentage}}" {% endif %} pattern="[0-9]+(\.[0-9]{1,2})?%?" name="gpe" maxlength="5"
                   id="Graduation" aria-describedby="Graduation"></td>
             </tr>
             <tr>
@@ -380,7 +380,7 @@
                   id="higher-qualification" aria-describedby="higher-qualification"></td>
               <td><input type="text" class="form-control" {% if job.higher_qualification_marks_gpa %}value="{{job.higher_qualification_marks_gpa}}" {% endif %} pattern="[0-9]+" minlength="2"
                   maxlength="3" name="hm" id="higher-qualification" aria-describedby="higher-qualification"></td>
-              <td><input type="text" class="form-control" {% if job.higher_qualification_percentage %}value="{{job.higher_qualification_percentage}}" {% endif %} pattern="[0-9]+" maxlength="5" name="hpe"
+              <td><input type="text" class="form-control" {% if job.higher_qualification_percentage %}value="{{job.higher_qualification_percentage}}" {% endif %} pattern="[0-9]+(\.[0-9]{1,2})?%?" maxlength="5" name="hpe"
                   id="higher-qualification" aria-describedby="higher-qualification"></td>
             </tr>
             <tr>
@@ -396,7 +396,7 @@
                   id="extra-qualification" aria-describedby="extra-qualification"></td>
               <td><input type="text" class="form-control" {% if job.extra_qualification_marks_gpa %}value="{{job.extra_qualification_marks_gpa}}" {% endif %} pattern="[0-9]+" minlength="2"
                   maxlength="3" name="em" id="extra-qualification" aria-describedby="extra-qualification"></td>
-              <td><input type="text" class="form-control" {% if job.extra_qualification_percentage %}value="{{job.extra_qualification_percentage}}" {% endif %} pattern="[0-9]+" maxlength="5" name="epe"
+              <td><input type="text" class="form-control" {% if job.extra_qualification_percentage %}value="{{job.extra_qualification_percentage}}" {% endif %} pattern="[0-9]+(\.[0-9]{1,2})?%?" maxlength="5" name="epe"
                   id="extra-qualification" aria-describedby="extra-qualification"></td>
             </tr>
           </tbody>
