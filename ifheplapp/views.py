@@ -833,7 +833,7 @@ def callback(request):
                         employee.save()
                         appli.employee_profile = employee
                         appli.save()
-
+                    ifheplapp.send_sms_employee_username(appli.mobile_number, employee_id,str(appli.dob).replace("-", ""))
                 else:
                     payment_details['type'] = "CARD"
                 ifheplapp.def_mail(

@@ -176,8 +176,8 @@ def send_sms_vendor_submission(receiver_name ,reference_number,link):
     }
     requests.request("POST", url, headers=headers)
 
-def send_sms_vendor_username(receiver_name ,reference_number,link):
-    url = "https://www.fast2sms.com/dev/bulkV2?numbers={}&sender_id=IFHEPL&route=dlt&variables_values={}|{}&message=137364".format(receiver_name,reference_number,link)
+def send_sms_employee_username(receiver_name ,username,password):
+    url = "https://www.fast2sms.com/dev/bulkV2?numbers={}&sender_id=IFHEPL&route=dlt&variables_values={}|{}&message=139034".format(receiver_name,username,password)
     headers = {
         "authorization": "GfudeC2NmBDPlpIhXLVv3inyRvgdXiO2sX46r48lGVqAa9lrQJoJlZ87FGMv",
         "Content-Type": "application/json",
