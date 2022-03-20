@@ -104,6 +104,7 @@
 #cta > :last-child{margin-bottom:0;}/* Used when elements stack in smaller viewports */
 #cta footer{text-align:center;}
 #cta footer a{display:block;}
+#cta {display: flex; justify-content: center;}
 
 
 /* Team
@@ -438,10 +439,11 @@ table a, #comments a{background-color:inherit;}
 	.hoc{max-width:90%;}
 
 	.header-title h2{display: none;}
-	.header-logo a img{max-height: 100px !important;}
+	.header-logo a img{max-height: 100px !important;}	
+
 
 	#mainav{position:inherit; margin-top:0; padding:30px;}
-	#mainav ul{display:none;}
+	#mainav ul{display:none !important;}
 	#mainav form{display:block;}
 
 
@@ -487,4 +489,5 @@ table a, #comments a{background-color:inherit;}
 
 	.font-x2{font-size:1.6rem;}
 	.font-x3{font-size:1.8rem;}
+	#cta {display: block;}
 }
